@@ -1,0 +1,85 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/cpp-trick-03>http://ryan-daily.diandian.com/cpp-trick-03</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   C++技巧系列03 - 利用define
+  </a>
+ </h3>
+ <p class="date ">
+  26th of January 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+  <a href="/?tag=trick" target="_blank">
+   trick
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  在很多规范中，
+  <code>
+   define
+  </code>
+  的使用是不被鼓励的，可能很多太过随意的使用造成了大量的问题。但任何事物存在都是有价值的，正确的使用
+  <code>
+   define
+  </code>
+  可以帮助清晰代码、减少冗余。
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+#define make_name(name) _##name##_name
+#define print_name(x) cout &lt;&lt; #x &lt;&lt; ' ' &lt;&lt; x &lt;&lt; endl;
+
+int main() {
+    int make_name(li) = 1;
+    print_name(_li_name);
+
+    return 0;
+}
+</pre>
+ <p>
+  这段代码演示了
+  <code>
+   #
+  </code>
+  与
+  <code>
+   ##
+  </code>
+  的功能：前者表示宏传入的内容，后者用这个内容内嵌到字符串中。
+ </p>
+ <p>
+  Yes, find that? 如果这里有一大串重复且规则相同的名字（因为变量名都是自己取的，这种情况非常常见），这个宏是不是很有意义？
+ </p>
+ <p>
+  如果要对着一大串相同规则的名字做一些操作，是不是可以抽象出一些范式？
+ </p>
+ <p>
+  计算机的核心就在于数据抽象和逻辑抽象，永远不要忘了。
+ </p>
+ <p>
+  dian网点dianwang点
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=af680e50-a526-11e4-af31-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

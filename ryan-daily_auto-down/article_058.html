@@ -1,0 +1,256 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/SICP-reading-note-2>http://ryan-daily.diandian.com/SICP-reading-note-2</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   计算机程序的构造与解释 读书笔记 2
+  </a>
+ </h3>
+ <p class="date ">
+  3th of October 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=SCIP" target="_blank">
+   SCIP
+  </a>
+  <a href="/?tag=reading-note" target="_blank">
+   reading-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <h4>
+  1.2 过程和他们所产生的计算
+ </h4>
+ <p>
+  这一小节主要围绕
+  <strong>
+   迭代
+  </strong>
+  和
+  <strong>
+   递归
+  </strong>
+  。并介绍了一些典型的例子，例如快速幂和素数检测。
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   递归利用了解释器来维护当前状态和调用栈（大多数会重新处理调用结果）
+  </li>
+  <li>
+   迭代则保存了当前状态，不依赖状态维护
+  </li>
+  <li>
+   树形递归的开销是指数型增长的，最好改造成迭代
+  </li>
+ </ul>
+ <p>
+  部分习题：
+ </p>
+ <p>
+  1.9 对于程序
+ </p>
+ <pre>(define (+ a b)
+  (if (= a 0)
+      b
+      (inc (+ (dec a) b))))
+
+(define (+ a b)
+   (if (= a 0)
+       b
+       (+ (dec a) (inc b))))
+</pre>
+ <p>
+  计算过程区别何在？
+ </p>
+ <p>
+  程序1的调用顺序是
+  <code>
+   (+ a b) -&gt; (inc (+ (dec a) b))
+  </code>
+  ，这是一个嵌套的调用，即递归。
+ </p>
+ <p>
+  程序2的调用顺序是
+  <code>
+   (+ a b) -&gt; (+ (dec a) (inc b))
+  </code>
+  ，当前的状态变相的保存在了b中，是一个迭代过程。
+ </p>
+ <p>
+  1.15 在x足够小时，可以近似
+  <code>
+   sin(x) = x
+  </code>
+  。同时
+  <code>
+   sin(x) = 3sin(x/3)-4sin^2(x/3)
+  </code>
+  又能不断缩小x到“足够小”的范围。即
+ </p>
+ <pre>(define (sine angle)
+   (if (not (&gt; (abs angle) 0.1))
+       angle
+       (f (sine (/ angle 3.0)))))
+</pre>
+ <p>
+  那么对于
+  <code>
+   (sine a)
+  </code>
+  ，计算过程步数增长的阶是多少？
+ </p>
+ <p>
+  对于
+  <code>
+   (sine a)
+  </code>
+  ，它将递归调用
+  <code>
+   (sine (/ a 3))
+  </code>
+  直到0.1，即
+  <code>
+   3^T(a) = (10 * a)
+  </code>
+  ，则增长的阶为
+  <code>
+   O(log_3(a))
+  </code>
+  。
+ </p>
+ <p>
+  1.16 快速幂的迭代版本。
+ </p>
+ <pre>(define (fast_expt ret a n)
+  (cond ((= n 0) ret)
+        ((even? n) (fast_expt ret (square a) (halve n)))
+        (else (fast_expt (* ret a) (square a) (halve (- n 1))))))
+</pre>
+ <p>
+  1.19 设计fib(n)的一个O(logn)算法。记录当前的
+  <code>
+   (a b p q)
+  </code>
+  状态，变换T_pq对于(a b)按照规则
+  <code>
+   a &lt;- b*q + a*q + a*p
+  </code>
+  和
+  <code>
+   b &lt;- b*p + a*q
+  </code>
+  。
+ </p>
+ <p>
+  当变换次数折半时，需要重新计算p和q。这时，
+  <code>
+   b_2 = q*a_1 + p*b_1 = (b*q + a*q + a*p)*q + (b*p + a*q)*p = (2*p*q + q^2)*a + (p^2 + q^2)*b
+  </code>
+  ，那么
+  <code>
+   p_1 = p^2 + q^2 and q_1 = 2*p*q + q^2
+  </code>
+  。程序：
+ </p>
+ <pre>(define (fib_iter a b p q n)
+  (cond ((= n 0) b)
+        ((even? n) 
+         (fib_iter a b 
+                   (+ (square p) (square q))
+                   (+ (* 2 p q) (square q))
+                   (halve n)))
+        (else 
+         (fib_iter (+ (* b q) (* a q) (* a p))
+                   (+ (* b p) (* a q))
+                   p q (- n 1)))))
+
+(define (fast_fib n)
+  (fib_iter 1 0 0 1 n))
+</pre>
+ <p>
+  1.26 解释程序
+ </p>
+ <pre>(define (fast_expmod a exp mod)
+  (cond ((= exp 0) 1)
+        ((= 0 (remainder exp 2)) 
+         (remainder (* (fast_expmod a (/ exp 2) mod)
+                       (fast_expmod a (/ exp 2) mod)) mod))
+        (else
+         (remainder (* a (fast_expmod a (- exp 1) mod)) mod))))
+</pre>
+ <p>
+  为何不是期望的O(logN)。
+ </p>
+ <p>
+  在折半时，
+  <code>
+   (fast_expmod a exp mod)
+  </code>
+  调用了两次
+  <code>
+   (fast_expmod a (/ exp 2) mod)
+  </code>
+  ，于是由
+  <code>
+   T(n) = T(n/2) + 1
+  </code>
+  变成了
+  <code>
+   T(n) = 2 * T(n/2)
+  </code>
+  。前者是O(logN)的，而后者是O(N)的。
+ </p>
+ <p>
+  1.28 实现Miller-Rabin素数检测。在快速幂的过程中判断是否遇到了“1(mod n)的非平凡平凡根”。对于素数，不存在不等以1或n-1的数，mod n为1。
+ </p>
+ <pre>; miller_rabin
+
+(define (miller_fast_expmod a exp mod)
+  (cond ((= exp 0) 1)
+        ((= 0 (remainder exp 2)) 
+         (let ((halfexp_mod (miller_fast_expmod a (/ exp 2) mod)))
+           (let ((ret (remainder (square halfexp_mod) mod)))
+             (if (and (= ret 1) (not (= halfexp_mod 1)) (not (= halfexp_mod (- mod 1)))) 0 ret))))
+        (else
+         (remainder (* a (miller_fast_expmod a (- exp 1) mod)) mod))))
+
+(define (miller_test x)
+  (define (miller_test_imp a)
+    (= (miller_fast_expmod a (- x 1) x) 1))
+  (miller_test_imp (+ 1 (random (- x 1)))))
+
+(define (miller_prime_test x times)
+  (cond ((= times 0) true)
+        ((miller_test x) (miller_prime_test x (- times 1)))
+        (else false)))
+
+(define (miller_prime? x)
+  (miller_prime_test x 10))
+</pre>
+ <p>
+  可以用
+  <code>
+   (miller_prime? 1105)
+  </code>
+  这样可以欺骗过费马检测的Carminael数来检测程序的正确性。
+ </p>
+ <p>
+  点eHLx点APwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=7fe95bf0-4b0f-11e4-a010-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

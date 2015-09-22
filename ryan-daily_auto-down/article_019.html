@@ -1,0 +1,258 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/linux-shell-features>http://ryan-daily.diandian.com/linux-shell-features</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Linux Shell Features
+  </a>
+ </h3>
+ <p class="date ">
+  26th of February 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=linux" target="_blank">
+   linux
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  <strong>
+   1.Wildcards &amp; Brace expansions
+  </strong>
+ </p>
+ <p>
+  Linux的命令都可以支持通配符匹配。比如这两个命令：
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+$ ls a*
+$ ls [^a]*
+</pre>
+ <p>
+  就等价于
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+$ ls a apple ability
+$ ls b beauty curiosity
+</pre>
+ <p>
+  也就是将文件夹类的所有文件匹配这个模式。支持
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+*
+?
+[set]
+[^set]
+</pre>
+ <p>
+  Linux命令也支持括号表达式。
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+$ echo {a,b}{a,b}
+aa ab ba bb
+$ ls {test_,ex_}[ab]*
+test_a.h ex_b.cpp
+</pre>
+ <p>
+  <strong>
+   2.Shell variables
+  </strong>
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+$ TEST=2
+$ echo $TEST
+2
+</pre>
+ <p>
+  基本的使用方法是这样的。有一些是系统环境变量，可以通过
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+$ printenv
+</pre>
+ <p>
+  查看。如果需要修改环境变量，比如加入到
+  <code>
+   PATH
+  </code>
+  中
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+$ export PATH=~/prog/bin:$PATH
+</pre>
+ <p>
+  <strong>
+   3.Aliases
+  </strong>
+ </p>
+ <p>
+  命令别名可以使用
+  <code>
+   alias
+  </code>
+  实现：
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+$ alias ll='ls -l'
+</pre>
+ <p>
+  将这些缩写添加到
+  <code>
+   .bashrc
+  </code>
+  中，就可以直接使用了。
+ </p>
+ <p>
+  <strong>
+   4.Input/output redirection &amp; Pipes &amp; Combining commands
+  </strong>
+ </p>
+ <p>
+  输入输出流使用
+  <code>
+   &lt;
+  </code>
+  和
+  <code>
+   &gt;
+  </code>
+  重定向。
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+$ prog &lt; in &gt; out 2&gt; error
+$ prog &gt;&amp; out
+</pre>
+ <p>
+  第二个命令表示error信息也输出到out中。
+ </p>
+ <p>
+  管道就是将前一个的输出当做后一个命令的输入。
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+$ who | sort | awk '{print $1}'
+</pre>
+ <p>
+  使用
+  <code>
+   ;
+  </code>
+  连接命令就是顺序执行，使用
+  <code>
+   &amp;
+  </code>
+  一个失败就停止，使用
+  <code>
+   |
+  </code>
+  一个成功就停止。这和高级语言的语义是一致的。
+ </p>
+ <p>
+  <strong>
+   5.Quoting &amp; Escaping
+  </strong>
+ </p>
+ <p>
+  Linux有三种引用：
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+$ echo 'The variable HOME has value $HOME'
+The variable HOME has value $HOME
+$ echo "The variable HOME has value $HOME"
+The variable HOME has value /home/smith
+$ echo My name is `whoami`
+My name is smith
+</pre>
+ <p>
+  简单来说，第一种不转义，第二中替换变量内容，第三种内容是shell命令的输出。
+ </p>
+ <p>
+  如果前面就一个
+  <code>
+   \
+  </code>
+  ，则字符不转义。包括前面说的Wildcards等等。
+ </p>
+ <p>
+  <strong>
+   6.Command history
+  </strong>
+ </p>
+ <p>
+  命令历史的常用方法为：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   <code>
+    history
+   </code>
+   print your history
+  </li>
+  <li>
+   <code>
+    !!
+   </code>
+   Re-run previous command
+  </li>
+  <li>
+   <code>
+    !comm
+   </code>
+   Re-run previous command begin with
+   <code>
+    comm
+   </code>
+  </li>
+  <li>
+   <code>
+    !N
+   </code>
+   Re-run N-th command in history
+  </li>
+  <li>
+   <code>
+    !-N
+   </code>
+   Re-run current-N-th command in history
+  </li>
+  <li>
+   <code>
+    !$
+   </code>
+   last parameter of the last command
+  </li>
+  <li>
+   <code>
+    !*
+   </code>
+   all parameters of the last command
+  </li>
+ </ul>
+ <p>
+  <strong>
+   7.Filename completion
+  </strong>
+ </p>
+ <p>
+  按会自动补全文件名。（我会说我工作以前都不知道吗）
+ </p>
+ <p>
+  点点dian网dianwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=f1cbe4a0-bd8c-11e4-bd8b-782bcb383994&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

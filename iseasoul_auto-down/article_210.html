@@ -1,0 +1,485 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-03-02/17681004>http://iseasoul.diandian.com/post/2010-03-02/17681004</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   基本的最小生成树算法 （二）
+  </a>
+ </h3>
+ <p class="date ">
+  2th of March 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  题目分析：POJ 2784 Buy or Build
+ </p>
+ <p>
+  大意：给出一些点，现要建起一个生成树网络，两点间的代价是其距离的平方，同时有些（小于8个）已建好的网络，可以使用一定代价直接买到，求最小的代价。
+ </p>
+ <p>
+  先求出无网络的最小生成树的边集，再枚举选取的网络(2^8)，在这个边集中再求最小生成树，这样可以把复杂度控制在 O(1000 * 2 ^ 8) 内。
+ </p>
+ <p>
+  //Description: kruskal enumerate
+  <br>
+   //Result: medium
+  </br>
+ </p>
+ <p>
+  #include &lt;iostream&gt;
+  <br>
+   #include &lt;algorithm&gt;
+   <br>
+    #include &lt;stack&gt;
+    <br>
+     #include &lt;queue&gt;
+     <br>
+      #include &lt;list&gt;
+      <br>
+       #include &lt;vector&gt;
+       <br>
+        #include &lt;map&gt;
+        <br>
+         #include &lt;set&gt;
+         <br>
+          #include &lt;string&gt;
+          <br>
+           #include &lt;cmath&gt;
+           <br>
+            #include &lt;cstring&gt;
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  using namespace std;
+ </p>
+ <p>
+  const int maxn = 1000 + 10;
+  <br>
+   const int maxm = 8 + 2;
+   <br>
+    const int inf = (-1u) &gt;&gt; 1;
+   </br>
+  </br>
+ </p>
+ <p>
+  struct disjoint_set {
+  <br>
+   int p[maxn];
+   <br>
+    void clear() {
+    <br>
+     for (int i = 0; i &lt; maxn; ++i)
+     <br>
+      p[i] = i;
+      <br>
+       }
+       <br>
+        int find(int x) {
+        <br>
+         return p[x] == x? x : p[x] = find(p[x]);
+         <br>
+          }
+          <br>
+           void unions(int x, int y) {
+           <br>
+            p[find(y)] = find(x);
+            <br>
+             }
+             <br>
+              };
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  struct point {
+  <br>
+   int x, y;
+   <br>
+    point(int _x = 0, int _y = 0): x(_x), y(_y) {
+    <br>
+     }
+     <br>
+      point operator-(const point&amp; p) const {
+      <br>
+       return point(x - p.x, y - p.y);
+       <br>
+        }
+        <br>
+         int len() const {
+         <br>
+          return x * x + y * y;
+          <br>
+           }
+           <br>
+            void input() {
+            <br>
+             scanf ("%d%d", &amp;x, &amp;y);
+             <br>
+              }
+              <br>
+               };
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  struct edge {
+  <br>
+   int u, v, w;
+   <br>
+    edge(int _u = 0, int _v = 0, int _w = 0): v(_v), u(_u), w(_w) {
+    <br>
+     }
+     <br>
+      bool operator&lt;(const edge&amp; e) const{
+      <br>
+       return w &lt; e.w;
+       <br>
+        }
+        <br>
+         };
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  struct net {
+  <br>
+   int num, cost;
+   <br>
+    vector &lt;int&gt; id;
+    <br>
+     net() {
+     <br>
+      }
+      <br>
+       void input() {
+       <br>
+        scanf ("%d%d", &amp;num, &amp;cost);
+        <br>
+         id.clear();
+         <br>
+          for (int i = 0, t; i &lt; num; ++i) {
+          <br>
+           scanf ("%d", &amp;t);
+           <br>
+            id.push_back(--t);
+            <br>
+             }
+             <br>
+              }
+              <br>
+               };
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  net b[maxm];
+  <br>
+   disjoint_set ds;
+   <br>
+    point p[maxn];
+    <br>
+     vector &lt;edge&gt; e, MST;
+     <br>
+      int n, m;
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void init()
+  <br>
+   {
+   <br>
+    scanf ("%d%d", &amp;n, &amp;m);
+    <br>
+     for (int i = 0; i &lt; m; ++i)
+     <br>
+      b[i].input();
+      <br>
+       for (int i = 0; i &lt; n; ++i)
+       <br>
+        p[i].input();
+        <br>
+         }
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void make_edge()
+  <br>
+   {
+   <br>
+    e.clear(), MST.clear();
+    <br>
+     <br>
+      for (int i = 0; i &lt; n; ++i)
+      <br>
+       for (int j = i + 1; j &lt; n; ++j)
+       <br>
+        e.push_back(edge(i, j, (p[i] - p[j]).len()));
+        <br>
+         <br>
+          sort(e.begin(), e.end());
+          <br>
+           }
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  int kruskal()
+  <br>
+   {
+   <br>
+    int nume = 0, cost = 0;
+    <br>
+     ds.clear();
+     <br>
+      for (vector &lt;edge&gt; :: iterator it = e.begin(); it != e.end(); ++it) {
+      <br>
+       if (ds.find(it-&gt;u) != ds.find(it-&gt;v)) {
+       <br>
+        ds.unions(it-&gt;u, it-&gt;v);
+        <br>
+         MST.push_back(*it);
+         <br>
+          cost += it-&gt;w;
+          <br>
+           ++nume;
+           <br>
+            }
+            <br>
+             if (nume == n - 1)
+             <br>
+              return cost;
+              <br>
+               }
+               <br>
+                }
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void MSTkruskal(int nume, int&amp; cost)
+  <br>
+   {
+   <br>
+    for (vector &lt;edge&gt; :: iterator it = MST.begin(); it != MST.end(); ++it) {
+    <br>
+     if (ds.find(it-&gt;u) != ds.find(it-&gt;v)) {
+     <br>
+      ds.unions(it-&gt;u, it-&gt;v);
+      <br>
+       cost += it-&gt;w;
+       <br>
+        ++nume;
+        <br>
+         }
+         <br>
+          if (nume == n - 1)
+          <br>
+           return ;
+           <br>
+            }
+            <br>
+             }
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void solve()
+  <br>
+   {
+   <br>
+    make_edge();
+    <br>
+     int ans = kruskal();
+     <br>
+      int goal = (1 &lt;&lt; m) - 1;
+      <br>
+       for (int k = 1; k &lt;= goal; ++k) {
+       <br>
+        ds.clear();
+        <br>
+         int nowcost = 0, nume = 0;
+         <br>
+          for (int i = 0; i &lt; m; ++i)
+          <br>
+           if ((k &gt;&gt; i) &amp; 1) {
+           <br>
+            nowcost += b[i].cost;
+            <br>
+             for (int j = 1; j &lt; b[i].num; ++j) {
+             <br>
+              if (ds.find(b[i].id[j]) != ds.find(b[i].id[0])) {
+              <br>
+               ds.unions(b[i].id[j], b[i].id[0]);
+               <br>
+                ++nume;
+                <br>
+                 }
+                 <br>
+                  }
+                  <br>
+                   }
+                   <br>
+                    <br>
+                     MSTkruskal(nume, nowcost);
+                     <br>
+                      ans = min(ans, nowcost);
+                      <br>
+                       }
+                       <br>
+                        <br>
+                         printf ("%d\n", ans);
+                         <br>
+                          }
+                         </br>
+                        </br>
+                       </br>
+                      </br>
+                     </br>
+                    </br>
+                   </br>
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  int main()
+  <br>
+   {
+   <br>
+    init();
+    <br>
+     solve();
+     <br>
+      <br>
+       return 0;
+       <br>
+        }
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  点T点eHCaS网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b8a32f00-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

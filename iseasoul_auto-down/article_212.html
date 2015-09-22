@@ -1,0 +1,288 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-03-02/14741291>http://iseasoul.diandian.com/post/2010-03-02/14741291</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Floyd：DP在图论中（二）
+  </a>
+ </h3>
+ <p class="date ">
+  2th of March 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  题目分析 HDOJ 2290 Find the Path
+ </p>
+ <p>
+  大意：给出一张无向图，每个顶点有一个cop值，现在有一些询问，问从s到t的途中（不包括s和t）经过的顶点cop值不超过c时的s与t的最短路，不存在则输出-1。
+ </p>
+ <p>
+  floyd的第三维即表示通过前1~k个顶点时的最短路，稍微更改下这一维的含义变为仅通过前1~k小的cop值的顶点时的最短路，这样对给定的c二分出能通过的满足要求的顶点个数，就可以在O(N^3)的预处理后O(logc)的得到答案。
+ </p>
+ <p>
+  //Description: floyd's DP
+  <br>
+   //Result: medium, to make floyd's algorithm clear
+  </br>
+ </p>
+ <p>
+  #include &lt;iostream&gt;
+  <br>
+   #include &lt;algorithm&gt;
+   <br>
+    #include &lt;stack&gt;
+    <br>
+     #include &lt;queue&gt;
+     <br>
+      #include &lt;list&gt;
+      <br>
+       #include &lt;vector&gt;
+       <br>
+        #include &lt;map&gt;
+        <br>
+         #include &lt;set&gt;
+         <br>
+          #include &lt;string&gt;
+          <br>
+           #include &lt;cstdio&gt;
+           <br>
+            #include &lt;cstdlib&gt;
+            <br>
+             #include &lt;cmath&gt;
+             <br>
+              #include &lt;cstring&gt;
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  using namespace std;
+ </p>
+ <p>
+  const int maxn = 200 + 10;
+  <br>
+   const int inf = (-1u) &gt;&gt; 1;
+  </br>
+ </p>
+ <p>
+  int g[maxn][maxn], n, m, cop[maxn];
+  <br>
+   int dis[maxn][maxn][maxn], id[maxn];
+  </br>
+ </p>
+ <p>
+  bool comp(int x, int y)
+  <br>
+   {
+   <br>
+    return cop[x] &lt; cop[y];
+    <br>
+     }
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void init()
+  <br>
+   {
+   <br>
+    scanf ("%d%d", &amp;n, &amp;m);
+    <br>
+     for (int i = 0; i &lt; n; ++i) {
+     <br>
+      scanf ("%d", &amp;cop[i]);
+      <br>
+       id[i] = i;
+       <br>
+        g[i][i] = 0;
+        <br>
+         for (int j = 0; j &lt; i; ++j)
+         <br>
+          g[i][j] = g[j][i] = inf;
+          <br>
+           }
+           <br>
+            for (int i = 0, a, b, d; i &lt; m; ++i) {
+            <br>
+             scanf ("%d%d%d", &amp;a, &amp;b, &amp;d);
+             <br>
+              g[a][b] = g[b][a] = d;
+              <br>
+               }
+               <br>
+                }
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void floyd()
+  <br>
+   {
+   <br>
+    sort(id, id + n, comp);
+    <br>
+     for (int i = 0; i &lt; n; ++i)
+     <br>
+      for (int j = 0; j &lt; n; ++j)
+      <br>
+       dis[0][i][j] = g[i][j];
+       <br>
+        for (int k = 1; k &lt;= n; ++k) {
+        <br>
+         int p = id[k - 1];
+         <br>
+          for (int i = 0; i &lt; n; ++i) {
+          <br>
+           for (int j = 0; j &lt; n; ++j) {
+           <br>
+            dis[k][i][j] = dis[k - 1][i][j];
+            <br>
+             if (dis[k - 1][i][p] != inf &amp;&amp; dis[k - 1][p][j] != inf
+             <br>
+              &amp;&amp; dis[k - 1][i][p] + dis[k - 1][p][j] &lt; dis[k][i][j])
+              <br>
+               dis[k][i][j] = dis[k - 1][i][p] + dis[k - 1][p][j];
+               <br>
+                }
+                <br>
+                 }
+                 <br>
+                  }
+                  <br>
+                   }
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void solve()
+  <br>
+   {
+   <br>
+    floyd();
+    <br>
+     sort(cop, cop + n);
+     <br>
+      <br>
+       scanf ("%d", &amp;m);
+       <br>
+        for (int i = 0, k, s, t, c; i &lt; m; ++i) {
+        <br>
+         scanf ("%d%d%d", &amp;s, &amp;t, &amp;c);
+         <br>
+          k = upper_bound(cop, cop + n, c) - cop;
+          <br>
+           c = dis[k][s][t] == inf? -1 : dis[k][s][t];
+           <br>
+            printf ("%d\n", c);
+            <br>
+             }
+             <br>
+              printf ("\n");
+              <br>
+               }
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  int main()
+  <br>
+   {
+   <br>
+    int t;
+    <br>
+     scanf ("%d", &amp;t);
+     <br>
+      while (t--) {
+      <br>
+       init();
+       <br>
+        solve();
+        <br>
+         }
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  return 0;
+  <br>
+   }
+  </br>
+ </p>
+ <p>
+  点TTiHA点jdXyATwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b8efc860-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

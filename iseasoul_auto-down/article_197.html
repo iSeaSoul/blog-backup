@@ -1,0 +1,125 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-07-10/18093086>http://iseasoul.diandian.com/post/2010-07-10/18093086</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Codeforces Beta Round #23
+  </a>
+ </h3>
+ <p class="date ">
+  10th of July 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  A 长度只有100 暴力
+  <br>
+   如果长度达到10000或更大，后缀数组可以解决
+  </br>
+ </p>
+ <p>
+  B 可以证明 N - 2 即为答案
+  <br>
+   N - 2为上限，显然
+   <br>
+    N 不可能 N - 1时只有一个点的度最小，也不会出现
+    <br>
+     N - 2的构造：
+     <br>
+      完全图 任选两点 去掉之间的边
+      <br>
+       因此 这两点的度为 N - 2 其他点的度为N - 1
+       <br>
+        而去掉这两个点后 其他点的度变为 N - 3 安全
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  C 按a排序 对每两个，选取方法：
+  <br>
+   如果p(i).b &lt; p(i + 1).b 选取后一个 这个很明显
+   <br>
+    否则 选取前一个
+    <br>
+     证明：对第二种选取方式 sum(a) 和 sum(b) 都比未选取部分的和大
+     <br>
+      sum(a) 有p(2 * n - 1).a &gt;= p(2 * n - 2).a ... p(3).a &gt;= p(2).a 因此加上p(1).a后，一定大于
+      <br>
+       sum(b) 每次选取都保证p(i).b &gt;= p(i + 1).b 加上p(2 * n - 1).b后，一定大于
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  ps. C代码
+ </p>
+ <pre><span>/*
+ * Author: iSea
+ * Created Time:  2010/7/10 9:23:09
+ * File Name: codeC.cpp
+ */</span><span>
+#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstring&gt;
+#include &lt;cmath&gt;
+#include &lt;queue&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
+</span><span>
+using namespace</span> std<span><strong>;</strong></span><span>
+
+const</span><span> int</span> maxn<span><strong> =</strong></span><span> 200000</span><span><strong> +</strong></span><span> 10</span><span><strong>;</strong></span><span>
+const</span><span> int</span> inf<span><strong> = (-</strong></span><span>1u</span><span><strong>) &gt;&gt;</strong></span><span> 1</span><span><strong>;</strong></span><span>
+
+struct</span> item<span><strong> {</strong></span><span>
+    int</span> a<span><strong>,</strong></span> b<span><strong>,</strong></span> d<span><strong>;</strong></span><span>
+    bool</span><span> operator</span><span><strong>&lt;(</strong></span><span>const</span> item<span><strong>&amp;</strong></span> t<span><strong>)</strong></span><span> const</span><span><strong> {</strong></span><span>
+        return</span> a<span><strong> &lt;</strong></span> t<span><strong>.</strong></span>a<span><strong>; } };</strong></span>
+
+item p<span><strong>[</strong></span>maxn<span><strong>];</strong></span><span>
+
+int</span><span> main</span><span><strong>() {</strong></span><span>
+    int</span> t<span><strong>,</strong></span> n<span><strong>;</strong></span>
+    scanf<span><strong> (</strong></span><span>"%d"</span><span><strong>, &amp;</strong></span>t<span><strong>);</strong></span><span>
+    while</span><span><strong> (</strong></span>t<span><strong>--) {</strong></span>
+        scanf<span><strong> (</strong></span><span>"%d"</span><span><strong>, &amp;</strong></span>n<span><strong>);</strong></span>
+        n<span><strong> = (</strong></span>n<span><strong> &lt;&lt;</strong></span><span> 1</span><span><strong>) -</strong></span><span> 1</span><span><strong>;</strong></span><span>
+        for</span><span><strong> (</strong></span><span>int</span> i<span><strong> =</strong></span><span> 0</span><span><strong>;</strong></span> i<span><strong> &lt;</strong></span> n<span><strong>; ++</strong></span>i<span><strong>) {</strong></span>
+            scanf<span><strong> (</strong></span><span>"%d%d"</span><span><strong>, &amp;</strong></span>p<span><strong>[</strong></span>i<span><strong>].</strong></span>a<span><strong>, &amp;</strong></span>p<span><strong>[</strong></span>i<span><strong>].</strong></span>b<span><strong>);</strong></span>
+            p<span><strong>[</strong></span>i<span><strong>].</strong></span>d<span><strong> =</strong></span> i<span><strong> +</strong></span><span> 1</span><span><strong>; }</strong></span>
+        sort<span><strong> (</strong></span>p<span><strong>,</strong></span> p<span><strong> +</strong></span> n<span><strong>);</strong></span>
+        puts<span><strong> (</strong></span><span>"YES"</span><span><strong>);</strong></span><span>
+        for</span><span><strong> (</strong></span><span>int</span> i<span><strong> =</strong></span><span> 0</span><span><strong>;</strong></span> i<span><strong> &lt;</strong></span> n<span><strong> -</strong></span><span> 1</span><span><strong>;</strong></span> i<span><strong> +=</strong></span><span> 2</span><span><strong>)</strong></span> 
+            printf<span><strong> (</strong></span><span>"%d "</span><span><strong>,</strong></span> p<span><strong>[</strong></span>p<span><strong>[</strong></span>i<span><strong>].</strong></span>b<span><strong> &lt;</strong></span> p<span><strong>[</strong></span>i<span><strong> +</strong></span><span> 1</span><span><strong>].</strong></span>b<span><strong>?</strong></span> i<span><strong> +</strong></span><span> 1</span><span><strong> :</strong></span> i<span><strong>].</strong></span>d<span><strong>);</strong></span>
+        printf<span><strong> (</strong></span><span>"%d\n"</span><span><strong>,</strong></span> p<span><strong>[</strong></span>n<span><strong> -</strong></span><span> 1</span><span><strong>].</strong></span>d<span><strong>); }</strong></span><span>
+    return</span><span> 0</span><span><strong>; }</strong></span></pre>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b7c1f6c0-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

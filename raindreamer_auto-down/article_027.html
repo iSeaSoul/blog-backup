@@ -1,0 +1,135 @@
+<h3>Original Link: <a href=http://raindreamer.diandian.com/SRM-scarps-mar-14>http://raindreamer.diandian.com/SRM-scarps-mar-14</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   SRM志·三月
+  </a>
+ </h3>
+ <p class="date ">
+  1th of March 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+  <a href="/?tag=algo" target="_blank">
+   algo
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  一日 （SRM 391）
+ </p>
+ <p>
+  今日返。手生。
+ </p>
+ <p>
+  250 判斷字符串同構，暴力對應記錄。
+ </p>
+ <p>
+  500 N的排列循環節不超過M的個數。殘念又暴力DFS了。
+ </p>
+ <p>
+  簡單思考，每次DP一定帶上最小的數，即選擇減一就可以了。這個技巧可以用於其他類似的循環節相關的DP之中。
+ </p>
+ <p>
+  1000 N個數(&lt;10^18)，求一個長度為N的數組，對應位置可以整除，且所有數的LCM相等。要求字典序最小。
+ </p>
+ <p>
+  不考慮範圍，找出所有質因子，求出其最大冪。保留最後一個與最大冪相等的，其他皆捨弃。這裡可以選擇
+  <a href="https://www.google.com.hk/search?newwindow=1&amp;safe=strict&amp;rlz=1C1CHSB_enCN507CN507&amp;espv=210&amp;es_sm=122&amp;q=pollard+rho&amp;spell=1&amp;sa=X&amp;ei=sNgRU469HMm4iAedx4H4Cw&amp;ved=0CCUQvwUoAA">
+   pollard rho
+  </a>
+  來分解大數。也可以分析題目特殊性來更簡單解決。
+ </p>
+ <p>
+  每倆個數的gcd作為一個特殊的“質因子”整體，然後求出IDX較小的數里是否存在更高的部份因子冪，即將GCD分解為兩個部份：purified_GCD, left_GCD。通過不停的與IDX較小的數的剩餘部份求GCD直到1來獲得purified_GCD。IDX較大的保留前者，較小的保留後者。
+ </p>
+ <p>
+ </p>
+ <p>
+  八日 （SRM 397）
+  <br/>
+ </p>
+ <p>
+  小學生錯誤精彩紛呈，盛宴。
+ </p>
+ <p>
+  250 暴力BFS，用了
+  <a href="https://www.google.com.hk/search?q=%E5%BA%B7%E6%89%98%E5%B1%95%E9%96%8B&amp;rlz=1C1CHSB_enCN507CN507&amp;oq=%E5%BA%B7%E6%89%98%E5%B1%95%E9%96%8B&amp;aqs=chrome..69i57.433j0j9&amp;sourceid=chrome&amp;espv=210&amp;es_sm=122&amp;ie=UTF-8" target="_blank">
+   康托展開
+  </a>
+  ，其實直接map對應也無妨。
+ </p>
+ <p>
+  500 經典的 sigma(n^k)。公式：sigma(n^k) = (n ^ (k + 1) - sigma((-1)^(k - i) * com[k + 1][i] * sigma(n ^ i))) / k + 1
+ </p>
+ <p>
+  展開(i+1)^k來遞推，轉化為矩陣也是一個不錯的方法。
+ </p>
+ <p>
+  1000 很圡的最大獨立集。枚舉半徑（必定是某兩個點的距離決定的），建圖，二分匹配。
+ </p>
+ <p>
+  這種題目放現在也就250水平吧，除了代碼長一點。
+ </p>
+ <p>
+  小學生錯誤：com[i][j] = com[i - 1][j] + com[i - 1][j]；double傳值為int。
+ </p>
+ <p>
+ </p>
+ <p>
+  廿二日（SRM 406）
+ </p>
+ <p>
+  上週Codechef未做（其實就是懶玩過了 = =）。
+ </p>
+ <p>
+  250 next_permutation 暴力。枚舉所有的除2即是。
+ </p>
+ <p>
+  500 也是暴力。行與列是獨立的。用bitmask表示被折叠到一起的數狀態，BFS找到所有合法折叠狀態集合。判重直接set暴力，N=12也最有只有1400+狀態數目。
+ </p>
+ <p>
+  這個時候不要枚舉fold之後的bitmask集合來累加出所有折叠數。每個格子是無關的，只要記錄所有集合中的不同的bitmask枚舉，這樣就降低了倆維內層枚舉的複雜度。
+ </p>
+ <p>
+  1000 （未完成）每個點最多只在一個環上的有向圖K短路。
+  <a href="http://community.topcoder.com/tc?module=Static&amp;d1=match_editorials&amp;d2=srm406" target="_blank">
+   官方題解
+  </a>
+  寫的相當之贊。
+ </p>
+ <p>
+  簡要說明一下。首先SCC求出所有的環，這樣問題就轉化為 sigma(Ci * Len_Circle_i) 的第K大值了。K的範圍為10^12，這個值可能有多大呢？
+ </p>
+ <p>
+  i=1的時候不用說。i=2的時候，考慮X+Y時X,Y範圍是[1,N]的所有可能組合為N^2，而答案最大為2*N，那麼這個第K大值的大小應該為sqrt(K)*avg(len)左右，也就是10^6級別。二分答案然後枚舉是足夠的。
+ </p>
+ <p>
+  然後，i&gt;=3時呢？這個值應該是開i次方，已經小到可以DP了。
+ </p>
+ <p>
+  這套題目水平已經很有SRM范兒了，比前兩套好太多了。
+ </p>
+ <p>
+  『咖啡苦与甜，不在于怎么搅拌，而在于是否放糖；一段伤痛，不在于怎么忘记，而在于是否有勇气重新开始。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=97395530-a141-11e3-a873-782bcb383994&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

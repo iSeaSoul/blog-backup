@@ -1,0 +1,219 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/12cc-info>http://iseasoul.diandian.com/12cc-info</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   2012 ACM Central China Invitational Contest
+  </a>
+ </h3>
+ <p class="date ">
+  14th of April 2012
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  Unofficial Information Page by iSea
+ </p>
+ <p>
+ </p>
+ <p>
+  Problem Link:
+  <a href="http://bbs.whu.edu.cn/wForum/bbscon.php?bid=160&amp;id=1105534997&amp;ap=260" target="_blank">
+   here
+  </a>
+ </p>
+ <p>
+  <span class="edui-filter-line-through">
+   (Code will be published in 12:00 at April 15th)
+  </span>
+ </p>
+ <p>
+  Code:
+ </p>
+ <p>
+  YouShouldN'tTrustMeTooMuch:)_GL_HF_CC2O12Pre_iSea
+  <br/>
+ </p>
+ <p>
+ </p>
+ <p>
+  <strong>
+   UPD @ Apr 16th, 2012
+  </strong>
+ </p>
+ <p>
+  Rank Link:
+  <a href="http://acm.hust.edu.cn:8080/judge/contest/view.action?cid=7514#rank" target="_blank">
+   here
+  </a>
+ </p>
+ <p>
+  Problem I has an O(N logN) solution actually and not to hard to think.
+ </p>
+ <p>
+  Sort all partical sum, the mimimum adjacent difference shouble be the potential answer.
+ </p>
+ <p>
+  All problems are solved in HDOJ by at least one accout now, great!
+ </p>
+ <p>
+ </p>
+ <p>
+  Some Record:
+ </p>
+ <p>
+  12:11 C is killed in second. It's not a good news. C asks some data structure background, a little hard for newbies. Though I allow an easy-implemented sqrt(n) solution.
+ </p>
+ <p>
+  12:40 It's a battle for *_* and *_____*.
+ </p>
+ <p>
+  13:57 Someone pass B with random shuffle and wrong greedy algorithm. But I love this kind of watering skills. And it's also really hard to genetrate testcase to hold back this.
+ </p>
+ <p>
+  15:08 hust_Zzz with 8, great. All easier was solved by one team now.
+ </p>
+ <p>
+  15:34 H is passed in fact, so I try to give them a hint : )
+ </p>
+ <p>
+  16:37 It's very funny to see the F code of *_* :
+ </p>
+ <blockquote>
+  <pre config="color:#000000; font-size:12px; background-color:#f4fbff; font-family:'courier new'                    edui-filter-align-left                    "><strong>int</strong><strong>main</strong><strong>(){</strong><strong>int</strong> T<strong>;</strong>cin<strong>&gt;&gt;</strong>T<strong>;</strong><strong>while</strong><strong>(</strong>T<strong>--){</strong><strong>int</strong> n<strong>,</strong>m<strong>,</strong>K<strong>;</strong>cin<strong>&gt;&gt;</strong>n<strong>&gt;&gt;</strong>m<strong>&gt;&gt;</strong>K<strong>;</strong><strong>for</strong><strong>(</strong><strong>int</strong> i<strong>=</strong>0<strong>;</strong>i<strong>&lt;</strong>n<strong>;</strong>i<strong>++)</strong>cin<strong>&gt;&gt;</strong>s<strong>;</strong><strong>int</strong> x<strong>,</strong>y<strong>;</strong><strong>while</strong><strong>(</strong>K<strong>--)</strong>cin<strong>&gt;&gt;</strong>x<strong>&gt;&gt;</strong>y<strong>;</strong><strong>if</strong><strong>(</strong>n<strong>&gt;</strong>20<strong>&amp;&amp;</strong> m<strong>&gt;</strong>20<strong>)</strong><strong>while</strong><strong>(</strong>1<strong>);}</strong><strong>return</strong>0<strong>;}</strong></pre>
+ </blockquote>
+ <p>
+  16:58 The only K code only with a few bugs, pitiful.
+ </p>
+ <p>
+ </p>
+ <p>
+  Solution:
+ </p>
+ <p>
+  This is the unofficial solution of ACM Central China Invitational Contest (preliminary), 2012. Though I’m the only one to write all the problems, I can’t guarantee this article will answer all your questions.
+ </p>
+ <p>
+  But I do hope it’ll help you somehow.
+ </p>
+ <p>
+  First, I wish you all have fun in this contest, or at least while you are reading this article.
+ </p>
+ <p>
+  Interesting titles and some interesting problems, right?
+ </p>
+ <p>
+  And, second, I should remind you first, I hate the ACMers who paste the key code or key idea without figuring out why, irresponsible or for showing their superiority to solve a problem. So, I write this just to record the viewpoint as a problem setter, and maybe inspire you to solve some problems or find some undetected bugs. If there are some simple or non-mentioned issues, please, use your intelligence first.
+ </p>
+ <p>
+  The solution will be showed by the order of the difficulty I estimate right now.
+ </p>
+ <p>
+  The first level include four problems, D &lt; I &lt; J &lt; G.
+ </p>
+ <p>
+  D is a quite straightforward problems, the code are already described in the problem. But I play a little trick at there, the loss of precision while storing a long floating number. If you just copy the number in your program, some compiler will output a different result by comparison to the sample.
+ </p>
+ <p>
+  A little KUSO : ) If you are familiar enough with sqrt(3), let it go.
+ </p>
+ <p>
+  I is NOT a dynamic programming problem though I try to seduce you to think in this way. One of a good example is -4 -1 2 3. I think there isn’t an O(n) algorithm to solve this problem, or even O(nlogn)? For N &lt;= 1000, too easy.
+ </p>
+ <p>
+  J is a little hard to understand, maybe. Understand the probability for distributing, and you should realize 0.5 is the bound. If there is one coin bigger than the bound and one coin smaller than the bound, yes of course. One trick, all equal to 0.5.
+ </p>
+ <p>
+  G is a really greedy problem, a minority that didn’t cheat at you. Binary search is very straight idea, but once the order to do this work is fixed, it is no need. Eh, what’s the order? List some inequality as the condition, you’ll get it.
+ </p>
+ <p>
+  Then the second level, the order is A &lt; C &lt; B &lt; E.
+ </p>
+ <p>
+  A involves a little number theory, you can use the most brute force way to get a number’s E(N) and F(N), decomposition of prime factor, or even an enumeration. Because E(N) increases much quicker than F(N), the solution will disappear very soon, actually, 30 is the bound.
+ </p>
+ <p>
+  C can be solved with Segment Tree, similar to the Divide Tree. But also there is an easy and primitive way, divide all the number to sqrt(N) groups, for each query, find where the number exists, then scan the sqrt(N) numbers to find it. The average time is feasible for that.
+ </p>
+ <p>
+  B isn’t a geometry problem, unless you insist on calculating the distance is about geometry. You can easily discover the order doesn’t make sense for the final answer. Then the standard method is DP, as the range of coordinates is small. To get the maximum distance, we only need to record the maximum Y and minimum Y, using X for a dimension. Then for each vector, the left is just enumerating.
+ </p>
+ <p>
+  What? You solve E with Randomization? You are really the god of lucky. It’s a tree DP, and what’s more, it’s a probability DP, which can easily confuse an unclear mind. Using DP[i as the current root][j as current maximum distance to i] stand for probability, for each new son vertex, we combine it if the sum of maximum distance doesn’t exceed S, and keep the bigger distance for current distance value. Finally, sum up the value of the root, get the answer.
+ </p>
+ <p>
+  The third lever comes, and the teams of solving those problems in this level are only the top five, I think. And I can’t believe if one team can solve all the three in the contest. For the top teams, the difficulty is floating cloud, no list any more.
+ </p>
+ <p>
+  F asks more deliberation than code. You must figure out the property of total equation set first.
+ </p>
+ <p>
+  H isn’t a typical Graph Theory, too. More mathematical, I suggest.
+ </p>
+ <p>
+  K is only a simple complier, some tricks are present.
+ </p>
+ <p>
+  I won’t post the particular solutions of the three at here, except some simple summary, so you can reflect on the three hard problems more. Any questions, contact me.
+ </p>
+ <p>
+  OK, my work is almost done right now, costing me about one week to prepare it. Big thanks to Xay and Dumbear for writing standard codes and fixing many problems’ bugs for me.
+ </p>
+ <p>
+  Looking forward to your performance.
+ </p>
+ <p class="edui-filter-align-right">
+  iSea 2012-4-13 0:30
+ </p>
+ <p class="edui-filter-align-left">
+  Data and Standrad solution:
+  <br/>
+ </p>
+ <p class="edui-filter-align-left">
+  <span class="edui-filter-line-through">
+   It's left in the computer in my company, I'll publish tomorrow.
+  </span>
+ </p>
+ <p class="edui-filter-align-left">
+  Link:
+  <a href="http://acm.whu.edu.cn/12cc/attachments/CC%202012%20Pre%20(Public%20Ver).rar" target="_blank">
+   here
+  </a>
+  (F, H, K STD not included)
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <style>
+     .cmt-inline-415a76c0-8632-11e1-8abf-782bcb383994-1440653919681 {display:none;}
+    </style>
+    <ul class="cmt-inline-415a76c0-8632-11e1-8abf-782bcb383994-1440653919681">
+     <li>
+      <a href="http://dodosprinkler.diandian.com">
+       dodosprinkler
+      </a>
+      碉堡了
+     </li>
+     <li>
+      <a href="http://tangcong.diandian.com">
+       逐梦
+      </a>
+      神奇的sqrt(n)算法。。
+     </li>
+    </ul>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=415a76c0-8632-11e1-8abf-782bcb383994&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

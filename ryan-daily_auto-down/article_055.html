@@ -1,0 +1,118 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/SCIP-reading-note-5>http://ryan-daily.diandian.com/SCIP-reading-note-5</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   计算机程序的构造与解释 读书笔记 5
+  </a>
+ </h3>
+ <p class="date ">
+  7th of October 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=SCIP" target="_blank">
+   SCIP
+  </a>
+  <a href="/?tag=reading-note" target="_blank">
+   reading-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <h4>
+  2.2 层次性数据和闭包性质
+ </h4>
+ <p>
+  <code>
+   pair
+  </code>
+  是Scheme中唯一的（非标准意义上的）数据结构，利用
+  <code>
+   pair
+  </code>
+  ，可以递归生成出不同种类的结构。
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   闭包在这里的涵义是：集合元素在某种
+   <code>
+    operation
+   </code>
+   下封闭，产生出的仍然是集合中的元素。
+  </li>
+  <li>
+   序列是最简单的数据结构之一，
+   <code>
+    (list &lt;a1&gt; &lt;a2&gt; ...) -&gt; (cons a1 (cons a2 ... null))
+   </code>
+  </li>
+  <li>
+   序列常用的三种操作
+   <ul class="edui-filter-disc">
+    <li>
+     <code>
+      (map procedure items)
+     </code>
+    </li>
+    <li>
+     <code>
+      (filter procedure items)
+     </code>
+    </li>
+    <li>
+     <code>
+      (for-each procedure items)
+     </code>
+    </li>
+   </ul>
+  </li>
+  <li>
+   层次性结构也可以叫做
+   <strong>
+    树
+   </strong>
+   ，它也是一种序列，不同的是序列的元素本身也可以是序列，即
+   <code>
+    tree-st ::-&gt; (list val | tree-st...)
+   </code>
+   。可以理解每个
+   <code>
+    list
+   </code>
+   都是一个非叶子节点
+  </li>
+  <li>
+   将程序表示为一些针对序列的操作，可以帮助得到模块化的程序设计
+  </li>
+  <li>
+   <strong>
+    分层设计
+   </strong>
+   ：一个复杂的系统应该通过一系列的层次构造出来，为了描述这些层次，需要使用一系列的语言
+  </li>
+ </ul>
+ <p>
+  （习题部分略）
+ </p>
+ <p>
+  （习题部分实际上已经写完，由于一些脑残原因被删掉了。习题总结主要目的是过一遍代码，也算是翻了一遍，就不再重写了）
+ </p>
+ <p>
+  点点网diandianwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=98383290-4e1f-11e4-a010-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

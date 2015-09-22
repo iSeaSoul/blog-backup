@@ -1,0 +1,332 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/SICP-reading-note-4>http://ryan-daily.diandian.com/SICP-reading-note-4</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   计算机程序的构造与解释 读书笔记 4
+  </a>
+ </h3>
+ <p class="date ">
+  5th of October 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=SCIP" target="_blank">
+   SCIP
+  </a>
+  <a href="/?tag=reading-note" target="_blank">
+   reading-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <h3>
+  第二章 构造数据抽象
+ </h3>
+ <p>
+  本章在第一章过程抽象的基础上，再进一步，在分析数据抽象的实质的基础上，探讨了实现数据抽象的方法。
+ </p>
+ <p>
+  引用篇首的一句话就是：
+ </p>
+ <blockquote>
+  <p>
+   现在到了数据抽象最关键的一步，让我们忘记这些符号所表示的对象。...有许多操作可以应用于这些符号，而根本不需要考虑他们代表什么东西。
+  </p>
+ </blockquote>
+ <h4>
+  2.1 数据抽象导引
+ </h4>
+ <p>
+  抽象是克服问题复杂性的一种技术，可以在不同的程序模块之间建立起
+  <strong>
+   抽象屏障
+  </strong>
+  。
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   数据抽象表现在实践中，即先定义数据需求的操作，再定义数据的表示
+  </li>
+  <li>
+   一个好的抽象模型可以隔离系统的不同层次，使程序容易维护和修改，并保留了程序不同实现的灵活性
+  </li>
+  <li>
+   完全不用数据结构，只用过程一样可以实现数据表示
+  </li>
+ </ul>
+ <p>
+  部分习题：
+ </p>
+ <p>
+  2.1 make-rat的构造过程加入规范化。
+ </p>
+ <pre>(define (make-rat n d)
+  (if (&lt; d 0)
+      (make-rat (- 0 n) (- 0 d))
+      (let ((G (gcd n d)))
+        (cons (/ n G) (/ d G)))))
+</pre>
+ <p>
+  2.2 设计point和segment。
+ </p>
+ <p>
+  首先设计点对，用
+  <code>
+   cons
+  </code>
+  直接构造。
+ </p>
+ <pre>(define (make-point x y)
+  (cons x y))
+
+(define (point-x p) (car p))
+(define (point-y p) (cdr p))
+</pre>
+ <p>
+  然后用这个point来
+  <code>
+   cons
+  </code>
+  更高阶的segment。过程类似。
+ </p>
+ <pre>(define (make-segment p1 p2)
+  (cons p1 p2))
+
+(define (start-segment s) (car s))
+(define (end-segment s) (cdr s))
+</pre>
+ <p>
+  可以发现，甚至构造过程和取值过程，都可以单独抽象出来。
+ </p>
+ <p>
+  2.3 用上面的point和segment来构造rectangle，并提供
+  <code>
+   get-area
+  </code>
+  过程，在其中建立起适当的抽象屏蔽，使得对于不同的rectangle表示方法，该过程不受影响。
+ </p>
+ <p>
+  这里考虑两种方法表示rectangle：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   bottom-point, width and height
+  </li>
+  <li>
+   two orthogonal segments
+  </li>
+ </ul>
+ <p>
+  为了使
+  <code>
+   get-area
+  </code>
+  过程不受表示方法影响，先为rectangle提供两个统一的过程
+  <code>
+   get-width
+  </code>
+  和
+  <code>
+   get-height
+  </code>
+  ，那么
+ </p>
+ <pre>(define (get-area R)
+  (* (get-width R) (get-height R)))
+</pre>
+ <p>
+  就可以统一使用了。需要修改的只是在不同的表示方法时重写这两个过程。
+ </p>
+ <p>
+  另一种思路是使用一个统一的表示方法，提供不同的构造接口，在构造过程中进行转化。
+ </p>
+ <p>
+  2.4
+  <code>
+   cons
+  </code>
+  、
+  <code>
+   car
+  </code>
+  与
+  <code>
+   cdr
+  </code>
+  的
+  <code>
+   lambda
+  </code>
+  实现与理解。
+ </p>
+ <pre>; cons : double lambda
+
+(define (cons x y)
+  (lambda (m) (m x y)))
+
+(define (car z)
+  (z (lambda (p q) p)))
+
+(define (cdr z)
+  (z (lambda (p q) q)))
+</pre>
+ <p>
+  这里可以代换
+  <code>
+   (car (cons x y)) -&gt; ((cons x y) (lambda (p q) p)) -&gt; ((lambda (p q) p) x y) -&gt; x
+  </code>
+  ，这里通过非常巧妙的两次lambda代换，不用任何数据结构，只通过过程就表示了数据。
+ </p>
+ <p>
+  在
+  <code>
+   (cons x y)
+  </code>
+  的
+  <code>
+   lambda
+  </code>
+  中，虽然不知道数据是什么，但是已经提供了一个过程接口，使得这个数据在使用某个过程时，将x和y最为参数传递给这个过程。这就是开篇引用的“有许多操作可以应用于这些符号，而根本不需要考虑他们代表什么东西“。
+ </p>
+ <p>
+  2.6
+  <strong>
+   <em>
+    注意：这将你改造对于数据本身的认识
+   </em>
+  </strong>
+ </p>
+ <p>
+  考虑一个没有操作数、对过程做各种操作的语言，定义
+ </p>
+ <pre>(define zero (lambda (f) (lambda (x) x)))
+
+(define (add-1 n)
+  (lambda (f) (lambda (x) (f ((n f) x)))))
+</pre>
+ <p>
+  这些“数”是在过程意义上定义的，
+  <code>
+   zero
+  </code>
+  这里就表示归零化一个过程。
+ </p>
+ <p>
+  那么，对应的
+  <code>
+   one &lt;- (add-1 zero)
+  </code>
+  可以表示为
+ </p>
+ <pre>(define one (lambda (f) (lambda (x) (f x))))
+</pre>
+ <p>
+  这也符合自然语义上的理解：
+  <code>
+   one
+  </code>
+  表示这个过程本身。类似的，定义
+  <code>
+   two
+  </code>
+ </p>
+ <pre>(define two (lambda (f) (lambda (x) (f (f x)))))
+</pre>
+ <p>
+  即这个过程应用在了自身一次。
+  <code>
+   zero, one, two
+  </code>
+  分别就是泛函意义上的
+  <code>
+   x, f(x), f(f(x))
+  </code>
+  。那该如何定义
+  <code>
+   (add n m)
+  </code>
+  呢？
+ </p>
+ <p>
+  依然类似
+  <code>
+   (add-1 n)
+  </code>
+  的定义，自增1是在自身上使用了1次，那么增加m就是在自身使用了m次。
+ </p>
+ <pre>(define (add n m)
+  (lambda (f) (lambda (x) ((m f) ((n f) x)))))
+</pre>
+ <p>
+  定义了这么多，这些表示过程的“数”具体涵义又是什么样的呢？这里定义一个
+ </p>
+ <pre>(define (test-func x)
+  (+ x x))
+</pre>
+ <p>
+  先来考察
+  <code>
+   (zero test-func)
+  </code>
+  ，这个过程就是元过程，参数与返回值相同。
+ </p>
+ <p>
+  那
+  <code>
+   (one test-func)
+  </code>
+  就是
+  <code>
+   test-func
+  </code>
+  本身了，
+  <code>
+   (two test-func)
+  </code>
+  代换一下就是
+  <code>
+   (test-func (test-func lambda_x))
+  </code>
+  ，即
+  <code>
+   4*x
+  </code>
+  。每多一层叠加，具体到
+  <code>
+   test-func
+  </code>
+  ，就是多一个外层，即多乘以一个2。
+ </p>
+ <p>
+  2.15 区间运算的误差叠加。具有非确定性的变量不重复出现，生成的区间界限会更紧一些。
+ </p>
+ <p>
+  如果使用
+  <code>
+   R1*R2/(R1+R2)
+  </code>
+  ，那么R1与R2的误差叠加了多次，这个过程精度损失会厉害一些。所以，采用
+  <code>
+   1/(1/R1+1/R2)
+  </code>
+  的界限会更紧一些。注意所有的区间运算都是有误差产生的。
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=284f7bd0-4ca5-11e4-981b-782bcb42b082&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

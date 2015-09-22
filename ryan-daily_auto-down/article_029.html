@@ -1,0 +1,181 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/reflection-in-cplusplus-plus>http://ryan-daily.diandian.com/reflection-in-cplusplus-plus</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   利用模板和虚函数实现C++反射 - 進階版
+  </a>
+ </h3>
+ <p class="date ">
+  22th of January 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  在
+  <a href="http://ryan-daily.diandian.com/reflection-in-cplusplus">
+   利用模板和虚函数实现C++反射
+  </a>
+  中，利用类型注册和虚函数返回了一个模板子类的指针，实现了C++中一个简单的反射。
+ </p>
+ <p>
+  这里更进一步，添加了
+  <code>
+   get_value
+  </code>
+  函数，在虚函数中利用
+  <code>
+   void
+  </code>
+  指针，返回了正确的子类值。更多的，可以自定义子类类型变量，在调用程序中得到反射类的语义。
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+#include &lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+class BasicTerm {
+public:
+    virtual BasicTerm* create(const char*);
+    virtual BasicTerm* create(const std::string&amp; name);
+
+    virtual void get_value(void *val) {
+        char *ival = (char *)val;
+        strcpy(ival, "No val");
+    }
+
+    void register_term_type(const std::string&amp; name, BasicTerm* term) {
+        _term_map[name] = term;
+    }
+
+private:
+    map&lt;std::string, BasicTerm*&gt; _term_map;
+};
+
+template &lt;typename T&gt;
+class Term : public BasicTerm {
+public:
+    virtual void get_value(void *val) {
+        T *ival = (T *)val;
+        *ival = _val;
+    }
+
+private:
+    T _val;
+};
+
+BasicTerm* BasicTerm::create(const char* ch) {
+    return create(std::string(ch));
+}
+
+BasicTerm* BasicTerm::create(const std::string&amp; name) {
+    if (_term_map.find(name) == _term_map.end()) {
+        return new BasicTerm;
+    }
+    return _term_map[name];
+}
+
+struct MyType {
+    char val[20];
+    int ival;
+
+    MyType() {
+        strcpy(val, "Mytype val");
+        ival = 20;
+    }
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const MyType&amp; obj) {
+    os &lt;&lt; obj.val &lt;&lt; '-' &lt;&lt; obj.ival;
+    return os;
+}
+
+int main() {
+    BasicTerm* term_creater = new BasicTerm;
+    term_creater-&gt;register_term_type("int", new Term&lt;int&gt;);
+    term_creater-&gt;register_term_type("double", new Term&lt;double&gt;);
+    term_creater-&gt;register_term_type("mytype", new Term&lt;MyType&gt;);
+
+    BasicTerm* bt = term_creater-&gt;create("test");
+    char sret[20];
+    bt-&gt;get_value(sret);
+    cout &lt;&lt; "get_value: " &lt;&lt; sret &lt;&lt; endl;
+
+    bt = term_creater-&gt;create("int");
+    int iret;
+    bt-&gt;get_value(&amp;iret);
+    cout &lt;&lt; "get_value: " &lt;&lt; iret &lt;&lt; endl;
+
+    bt = term_creater-&gt;create("double");
+    double dret;
+    bt-&gt;get_value(&amp;dret);
+    cout &lt;&lt; "get_value: " &lt;&lt; dret &lt;&lt; endl;
+
+    bt = term_creater-&gt;create("mytype");
+    MyType mret;
+    bt-&gt;get_value(&amp;mret);
+    cout &lt;&lt; "get_value: " &lt;&lt; mret &lt;&lt; endl;
+
+    return 0;
+}
+</pre>
+ <p>
+  顺便说说
+  <code>
+   void*
+  </code>
+  指针的一些性质：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   没有类型，可以指向任何指针，但只获得地址
+  </li>
+  <li>
+   如果希望获取值，需要先转换为具体类型，同理不能直接运算
+  </li>
+ </ul>
+ <p>
+  所以这里赋值时进行了转换，传递时则直接进行了类型到
+  <code>
+   void*
+  </code>
+  的隐式转化。
+ </p>
+ <p>
+  UPD：又学习了一下
+  <code>
+   dynamic_cast
+  </code>
+  ，可以实现自上而下，即从基类指针向子类指针的转化，那么就不需要利用虚函数接口了，我们可以得到子类的指针直接操作啦！
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+bt = term_creater-&gt;create("int");
+Term&lt;int&gt;* term_i = dynamic_cast&lt;Term&lt;int&gt;* &gt;(bt);
+</pre>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=eac94fa0-a1e2-11e4-af31-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

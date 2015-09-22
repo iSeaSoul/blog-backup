@@ -1,0 +1,505 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-03-15/18121448>http://iseasoul.diandian.com/post/2010-03-15/18121448</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   ZOJ 8th Anniversary Contest (A &amp; B &amp; C)
+  </a>
+ </h3>
+ <p class="date ">
+  15th of March 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  三道没过的水题... 静下心想一想就好了...
+ </p>
+ <p>
+  再赞Dumbear神奇的做出了H ~~ 绝杀还是蛮有意思的
+ </p>
+ <p>
+  ——————————————————————————————————————
+ </p>
+ <p>
+  A题：一句话的力量有多大？for (int j = state; ; j = (j - 1) &amp; state)
+ </p>
+ <p>
+  #include &lt;cstdio&gt;
+  <br>
+   #include &lt;algorithm&gt;
+  </br>
+ </p>
+ <p>
+  using namespace std;
+ </p>
+ <p>
+  const int maxn = 50000 + 10;
+  <br>
+   const int maxm = (1 &lt;&lt; 16) + 10;
+  </br>
+ </p>
+ <p>
+  int a[maxn], n, m, dp[maxm];
+ </p>
+ <p>
+  void init()
+  <br>
+   {
+   <br>
+    for (int i = 0, t; i &lt; m; ++i) {
+    <br>
+     scanf ("%d", &amp;t);
+     <br>
+      a[i] = 0;
+      <br>
+       for (int j = 0, p; j &lt; t; ++j) {
+       <br>
+        scanf ("%d", &amp;p);
+        <br>
+         a[i] |= (1 &lt;&lt; (p - 1));
+         <br>
+          }
+          <br>
+           }
+           <br>
+            }
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void solve()
+  <br>
+   {
+   <br>
+    int target = (1 &lt;&lt; n) - 1;
+    <br>
+     fill (dp, dp + (1 &lt;&lt; n), 0);
+     <br>
+      for (int i = 0; i &lt; m; ++i) {
+      <br>
+       int state = (target ^ a[i]);
+       <br>
+        for (int j = state; ; j = (j - 1) &amp; state) {
+        <br>
+         dp[a[i] | j] = max(dp[a[i] | j], dp[j] + 1);
+         <br>
+          if (j == 0)
+          <br>
+           break;
+           <br>
+            }
+            <br>
+             }
+             <br>
+              printf ("%d\n", dp[target]);
+              <br>
+               }
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  int main()
+  <br>
+   {
+   <br>
+    while (scanf ("%d%d", &amp;n, &amp;m) != EOF) {
+    <br>
+     init();
+     <br>
+      solve();
+      <br>
+       }
+       <br>
+        <br>
+         return 0;
+         <br>
+          }
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  ——————————————————————————————————————
+ </p>
+ <p>
+  B题：为什么这么像图论... 其实还是暴力...
+ </p>
+ <p>
+  #include &lt;cstdio&gt;
+  <br>
+   #include &lt;algorithm&gt;
+  </br>
+ </p>
+ <p>
+  using namespace std;
+ </p>
+ <p>
+  const int goal = (1 &lt;&lt; 20);
+ </p>
+ <p>
+  char m[22][22];
+  <br>
+   int n, state[goal], col[22], t[22];
+  </br>
+ </p>
+ <p>
+  void premake()
+  <br>
+   {
+   <br>
+    for (int i = 0; i &lt; goal; ++i) {
+    <br>
+     state[i] = 0;
+     <br>
+      for (int j = 0; j &lt; 20; ++j)
+      <br>
+       if ((i &gt;&gt; j) &amp; 1)
+       <br>
+        ++state[i];
+        <br>
+         }
+         <br>
+          }
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void init()
+  <br>
+   {
+   <br>
+    for (int i = 0; i &lt; 20; ++i)
+    <br>
+     scanf ("%s", m[i]);
+     <br>
+      for (int j = 0; j &lt; 20; ++j) {
+      <br>
+       col[j] = 0;
+       <br>
+        for (int i = 0; i &lt; 20; ++i)
+        <br>
+         if (m[i][j] == '#')
+         <br>
+          col[j] |= (1 &lt;&lt; i);
+          <br>
+           }
+           <br>
+            }
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void solve()
+  <br>
+   {
+   <br>
+    int ans = 0;
+    <br>
+     for (int i = 0; i &lt; goal; ++i) {
+     <br>
+      if (state[i] &lt; n) {
+      <br>
+       for (int j = 0; j &lt; 20; ++j)
+       <br>
+        t[j] = state[col[j] &amp; i];
+        <br>
+         sort (t, t + 20);
+         <br>
+          int now = 0;
+          <br>
+           for (int k = max(0, 20 - (n - state[i])); k &lt; 20; ++k)
+           <br>
+            now += t[k];
+            <br>
+             ans = max(ans, now);
+             <br>
+              }
+              <br>
+               }
+               <br>
+                printf ("%d\n", ans);
+                <br>
+                 }
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  int main()
+  <br>
+   {
+   <br>
+    premake();
+    <br>
+     while (scanf ("%d", &amp;n), n) {
+     <br>
+      init();
+      <br>
+       solve();
+       <br>
+        }
+        <br>
+         <br>
+          return 0;
+          <br>
+           }
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  ——————————————————————————————————————
+ </p>
+ <p>
+  C题：要是没有前两题，这道题特定被板刷...
+ </p>
+ <p>
+  #include &lt;cstdio&gt;
+  <br>
+   #include &lt;algorithm&gt;
+  </br>
+ </p>
+ <p>
+  using namespace std;
+ </p>
+ <p>
+  const int maxn = 200 + 10;
+ </p>
+ <p>
+  int c[maxn], d[maxn], n, k;
+  <br>
+   double a, b, dp[maxn][maxn], res[maxn];
+  </br>
+ </p>
+ <p>
+  void cal(int l, int r)
+  <br>
+   {
+   <br>
+    double per = dp[l][r];
+    <br>
+     int num = r - l + 1;
+     <br>
+      for (int i = l; i &lt;= r; ++i) {
+      <br>
+       res[i] += per * a / num;
+       <br>
+        if (i - 1 &gt;= 0)
+        <br>
+         dp[l][i - 1] += per * b / num;
+         <br>
+          if (i + 1 &lt; n)
+          <br>
+           dp[i + 1][r] += per * (1 - a - b) / num;
+           <br>
+            }
+            <br>
+             }
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void init()
+  <br>
+   {
+   <br>
+    for (int i = 0; i &lt; n; ++i)
+    <br>
+     scanf ("%d", &amp;c[i]);
+     <br>
+      scanf ("%d%lf%lf", &amp;k, &amp;a, &amp;b);
+      <br>
+       }
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void solve()
+  <br>
+   {
+   <br>
+    fill (res, res + n, 0.0);
+    <br>
+     for (int i = 0; i &lt; n; ++i)
+     <br>
+      fill (dp[i], dp[i] + n, 0.0);
+      <br>
+       dp[0][n - 1] = 1.0;
+       <br>
+        for (int len = n - 1; len &gt;= 0; --len) {
+        <br>
+         for (int j = 0; j + len &lt; n; ++j)
+         <br>
+          cal(j, j + len);
+          <br>
+           }
+           <br>
+            copy (c, c + n, d);
+            <br>
+             sort (d, d + n);
+             <br>
+              int newn = unique(d, d + n) - d;
+              <br>
+               if (k &gt; newn) {
+               <br>
+                printf ("%.3lf\n", 0.0);
+                <br>
+                 return ;
+                 <br>
+                  }
+                  <br>
+                   double ans = 0.0;
+                   <br>
+                    for (int i = 0; i &lt; n; ++i)
+                    <br>
+                     if (c[i] == d[k - 1])
+                     <br>
+                      ans += res[i];
+                      <br>
+                       printf ("%.3lf\n", ans);
+                       <br>
+                        }
+                       </br>
+                      </br>
+                     </br>
+                    </br>
+                   </br>
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  int main()
+  <br>
+   {
+   <br>
+    while (scanf ("%d", &amp;n), n &gt; 0) {
+    <br>
+     init();
+     <br>
+      solve();
+      <br>
+       }
+       <br>
+        <br>
+         return 0;
+         <br>
+          }
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  ——————————————————————————————————————
+ </p>
+ <p>
+  『知一切法无我，得成于忍。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b8bc3540-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

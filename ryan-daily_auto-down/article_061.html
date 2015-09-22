@@ -1,0 +1,91 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/mac-sublime-settings>http://ryan-daily.diandian.com/mac-sublime-settings</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Mac Sublime 配置
+  </a>
+ </h3>
+ <p class="date ">
+  1th of October 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=mac" target="_blank">
+   mac
+  </a>
+  <a href="/?tag=settings" target="_blank">
+   settings
+  </a>
+  <a href="/?tag=sublime" target="_blank">
+   sublime
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  虽然git pull过来了放在GitHub上的sublime-setting仓库，但所有sublime-build都不能用，原因是
+  <code>
+   "cmd": ["g++ -std=c++11", "${file}", "-o", "${file_base_name}", "&amp;&amp;", "start", "launch", "${file_base_name}.exe"]
+  </code>
+  这种带有&amp;&amp;的cmd在command+B时候都执行不了。
+ </p>
+ <p>
+  最后只能替换回去了系统默认的build，然后用Terminal来搞算了。
+ </p>
+ <p>
+  简单说说要做的事情和未完成的项：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   <p>
+    如何打开任意一个文件夹，由于mac系统默认普通玩家只会使用Favorites里面的Folders，并且在Finder中没有提供路径，让人很迷惑如何打开任意一个文件夹。方法也挺简单：shift+command+G就可以了。或者点击Finder里面的Go选项，找到Go to Folder...
+   </p>
+  </li>
+  <li>
+   <p>
+    然后git add remote并且pull过来repo：
+    <a href="https://github.com/iSeaSoul/sublime-settings">
+     Sublime Setting Repository
+    </a>
+   </p>
+  </li>
+  <li>
+   <p>
+    这个时候基本的setting已经有了，剩下是平台之间的差异问题：首先重新生成了一下launch，并且加入到$PATH中。但是依然存在文章最开始说的问题。
+    <strong>
+     （待解决）
+    </strong>
+   </p>
+  </li>
+  <li>
+   <p>
+    装些插件
+   </p>
+  </li>
+  <li>
+   <p>
+    <a href="http://www.cnblogs.com/figure9/p/sublime-text-complete-guide.html">
+     更多介绍
+    </a>
+   </p>
+  </li>
+ </ul>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=4e1de080-4936-11e4-981b-782bcb42b082&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

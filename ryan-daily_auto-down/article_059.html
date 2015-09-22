@@ -1,0 +1,163 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/SICP-reading-note-1>http://ryan-daily.diandian.com/SICP-reading-note-1</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   计算机程序的构造与解释 读书笔记 1
+  </a>
+ </h3>
+ <p class="date ">
+  2th of October 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=SICP" target="_blank">
+   SICP
+  </a>
+  <a href="/?tag=reading-note" target="_blank">
+   reading-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <h3>
+  第一章 构造过程抽象
+ </h3>
+ <p>
+  本章主要介绍了一些基础概念，包括程序设计（主要是Lisp语言）的基本元素、计算过程以及抽象方法。
+ </p>
+ <p>
+  环境配置：
+  <a href="http://download.racket-lang.org/">
+   Download Racket
+  </a>
+ </p>
+ <h4>
+  1.1 程序设计的基本元素（Lisp/Scheme语言简介）
+ </h4>
+ <p>
+  Lisp语言的核心是
+  <strong>
+   过程-&gt;数据
+  </strong>
+  。
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   前缀表达式：
+   <code>
+    (+ 2 3 4)
+   </code>
+  </li>
+  <li>
+   define定义变量（variable）和过程（method）
+  </li>
+  <li>
+   嵌套的过程定义：`expression ::= (method
+   <em>
+    name expression
+   </em>
+   1... expression_n) | variable
+  </li>
+  <li>
+   解释器用值替换表达式中的形式参数来完成过程调用
+  </li>
+  <li>
+   正则序：先完全展开后求值 VS 应用序：先求值再展开（Lisp用后者）
+  </li>
+  <li>
+   <code>
+    (cond (&lt;pi&gt; &lt;ei&gt;) (else &lt;ej&gt;))
+   </code>
+  </li>
+  <li>
+   <code>
+    if &lt;predicate&gt; &lt;consequent&gt; &lt;alternative&gt;
+   </code>
+  </li>
+  <li>
+   过程的形式参数是约束变量，是过程内的局部名字
+  </li>
+ </ul>
+ <p>
+  部分习题：
+ </p>
+ <p>
+  1.3 定义一个过程，以三个数为参数，返回其中两个较大数之和。
+ </p>
+ <pre>(define (max_number_sum x y z)
+  (cond ((&lt; x y) (if (&lt; x z) (+ y z) (+ x y)))
+        (else (if (&lt; y z) (+ x z) (+ x y)))))
+</pre>
+ <p>
+  1.5 对于程序
+ </p>
+ <pre>(define (p) (p))
+
+(define (test x y) (if (= x 0) 0 y))
+</pre>
+ <p>
+  执行
+  <code>
+   (test 0 (p))
+  </code>
+  。正则序和应用序有什么区别？
+ </p>
+ <p>
+  正则序会先展开：
+  <code>
+   (if (= x 0) 0 (p))
+  </code>
+  而没有求值，if判断成功，返回0。 而应用序会先尝试求值，(p)会直接报错，或者没有结果。（DrRacket里面没有执行结果）
+ </p>
+ <p>
+  1.6 如果定义
+ </p>
+ <pre>(define (new-if predicate then-clause else-clause)
+  (cond (predicate then-clause)
+     (else else-clause)))
+</pre>
+ <p>
+  new-if和if的区别在哪里？
+ </p>
+ <p>
+  if是短路的；而这里的new-if是需要展开的。如果是应用序（Lisp/Scheme的确是），可能有一些不受控制的死循环产生。
+ </p>
+ <p>
+  1.7 迭代法求sqrt直到新的guess值差距很小时停止。
+ </p>
+ <pre>(define (sqrt x)
+  (sqrt-iter 1.0 x))
+
+(define (sqrt-iter guess x)
+  (if (good_enough? (improve guess x) guess) 
+      guess
+      (sqrt-iter (improve guess x) x)))
+
+(define (improve guess x)
+  (average guess (/ x guess)))
+
+(define (average x y)
+  (/ (+ x y) 2))
+
+(define (good_enough? new_guess guess)
+  (&lt; (/ (abs (- new_guess guess)) guess) 0.0000001))
+</pre>
+ <p>
+  『吵架时为什么会大声？原因是，当两个人相互愤怒的时候，他们的心和心相距很远；为了填补这段距离，他们必须呼喊，这样彼此才能听到。他们越是愤怒，心和心距离则越是遥远，于是，他们只有越发强力呼喊，他们彼此才能听到。反过来，也是恋爱时为什么喃喃低语的原因。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=e789b400-4a09-11e4-981b-782bcb42b082&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

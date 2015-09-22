@@ -1,0 +1,72 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/cpp-trick-04>http://ryan-daily.diandian.com/cpp-trick-04</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   C++技巧系列04 - LOG系统
+  </a>
+ </h3>
+ <p class="date ">
+  9th of February 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+  <a href="/?tag=trick" target="_blank">
+   trick
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  log系统是C++大型项目中一个必须的部分，这里给出一个简单利用define的实现。
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+#define LOG(level, fmt, arg...) \
+    printf("[" #level "] [%s:%d] " fmt"\n",\
+    __FILE__, __LINE__, ##arg); \
+
+#define LOG_WARNING(fmt, arg...) LOG(WARNING, fmt, ##arg)
+#define LOG_NOTICE(fmt, arg...) LOG(NOTICE, fmt, ##arg)
+#define LOG_FATAL(fmt, arg...) LOG(FATAL, fmt, ##arg)
+
+#define ASSERT(cond, fmt, arg...) do { \
+    if (!(cond)) { \
+        LOG_FATAL("assert failed, condition[ " #cond " ], " fmt, ##arg); \
+        return -1; \
+    } \
+} while(0)
+</pre>
+ <p>
+  使用参考：
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+LOG_WARNING("%s %d", "test", 1);
+ASSERT(1==2, "%d != %d", 1, 2);
+</pre>
+ <p>
+  如果写到文件里，修改LOG的函数调用即可。
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=87178210-b029-11e4-97c7-782bcb383994&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

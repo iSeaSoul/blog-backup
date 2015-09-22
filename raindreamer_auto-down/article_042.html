@@ -1,0 +1,125 @@
+<h3>Original Link: <a href=http://raindreamer.diandian.com/python-note-1>http://raindreamer.diandian.com/python-note-1</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Python學習筆記1：sqlite
+  </a>
+ </h3>
+ <p class="date ">
+  21th of August 2013
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=learning%20note" target="_blank">
+   learning note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  【Background】
+ </p>
+ <p>
+  Sqlite是python中一個輕量級的數據庫系統，它不需要一個分離的服務器進程來單獨處理，可以隨時進行數據庫的任何操作。
+ </p>
+ <p>
+  【Usage】
+ </p>
+ <p>
+  首先，import sqlite3來引入庫，并連接數據庫；
+ </p>
+ <p>
+  connection = sqlite3.connect('example.db')
+ </p>
+ <p>
+  然後，可以獲取遊標（cursor）來進行數據庫的操作；
+ </p>
+ <pre config="color:#000000;word-wrap:break-word;white-space:pre-wrap;">c = connection.cursor()
+    
+    # create table
+    c.execute('''CREATE TABLE table_name (table_term[space]term_type, table_term[space]term_type)''')
+
+    # insert a row
+    c.execute('''INSERT INTO table_name VALUES (table_term_content)''')
+
+    # select some rows
+    c.execute('''SELECT * FROM table_name WHERE table_term = table_term_content''')
+    res_list = c.fetchall()
+
+    # save change
+    connection.commit()
+
+    # close the connection
+    connection.close()
+</pre>
+ <p>
+  Select語句的fetchall結果是一個list對象，同時list的每個對象也是一個tuple。如果在獲取遊標前加上一句
+ </p>
+ <p>
+  connection.row_factory = sqlite3.Row
+ </p>
+ <p>
+  那麼fetchall的結果是一個dict。使用起來非常方便簡單。也可以用fecthone依次獲得查詢結果。
+ </p>
+ <p>
+  【Attention】
+ </p>
+ <p>
+  注入攻擊是數據庫中必須注意避免發生的一個問題。
+ </p>
+ <p>
+  避免使用字符串直接替代SQL語句的情況發生，類似
+ </p>
+ <p>
+  c.execute("SELECT * FROM table_name WHERE name = '%s'" % name_str)
+ </p>
+ <p>
+  採用問號替代的形式來解決這種問題：
+ </p>
+ <p>
+  c.execute("SELECT * FROM table_name WHERE name = ?", (name_str, ))
+  <br/>
+ </p>
+ <p>
+  name_list = [('a', 'a', ('b', 'b'), ('c', 'c')]
+ </p>
+ <p>
+  c.executemany("INSERT INTO table_name VALUES (?, ?)', name_list)
+ </p>
+ <p>
+  【Reference】
+ </p>
+ <p>
+  <a href="http://docs.python.org/2/library/sqlite3.html">
+  </a>
+  <a href="http://docs.python.org/2/library/sqlite3.html">
+   http://docs.python.org/2/library/sqlite3.html
+  </a>
+ </p>
+ <p>
+  <a href="http://docs.python.org/2/library/sqlite3.html">
+  </a>
+  <a href="http://zetcode.com/db/sqlitepythontutorial/">
+   http://zetcode.com/db/sqlitepythontutorial/
+  </a>
+  <br/>
+ </p>
+ <p>
+  网dian点点dianwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=5c073fa0-0a05-11e3-8fb1-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

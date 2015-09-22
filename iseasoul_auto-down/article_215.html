@@ -1,0 +1,128 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-03-02/18085752>http://iseasoul.diandian.com/post/2010-03-02/18085752</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   单源最短路Dijkstra SPFA （二）
+  </a>
+ </h3>
+ <p class="date ">
+  2th of March 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  说到heap + dijkstra，就不得不说单源最短路的另一个高效算法：SPFA。
+  <br>
+   SPFA是直接基于bellman ford之上进行改进的，由于bellman ford中的松弛操作是没有任何引导的盲目进行的，所以在平均情况下，效率会很低下。而SPFA正是用一个队列来引导需要进行的松弛操作，先去用最早被更新的点来进行这一次更新，得到新的最小值则顺次添加到队列里为止，这样进行到队列为空。存在负环的判断条件是一个点进入队列大于|V|次，即被更新了|V|次，理由同bellman ford算法。
+   <br>
+    SPFA另一个出色的地方在于，它的代码十分精简直观，只有短短十行左右。
+   </br>
+  </br>
+ </p>
+ <p>
+  基本代码：
+ </p>
+ <p>
+  void SPFA()
+  <br>
+   {
+   <br>
+    queue &lt;int&gt; q;
+    <br>
+     for (int i = 0; i &lt; n; ++i)
+     <br>
+      v[i] = false, dis[i] = inf;
+      <br>
+       dis[s] = 0;
+       <br>
+        v[s] = true;
+        <br>
+         q.push(s);
+         <br>
+          while (!q.empty()) {
+          <br>
+           int k = q.front();
+           <br>
+            q.pop();
+            <br>
+             v[k] = false;
+             <br>
+              for (vector&lt;pair&lt;int, int&gt; &gt; :: iterator it = g[k].begin(); it != g[k].end(); ++it) {
+              <br>
+               int d = dis[k] + it-&gt;second;
+               <br>
+                int b = it-&gt;first;
+                <br>
+                 if (dis[b] &gt; d) {
+                 <br>
+                  dis[b] = d;
+                  <br>
+                   if (!v[b])
+                   <br>
+                    q.push(b), v[b] = true;
+                    <br>
+                     }
+                     <br>
+                      }
+                      <br>
+                       }
+                       <br>
+                        }
+                       </br>
+                      </br>
+                     </br>
+                    </br>
+                   </br>
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  <br>
+   典型题目：
+   <br>
+    POJ 1502, POJ 1511(3268), POJ 3159, POJ 3621
+   </br>
+  </br>
+ </p>
+ <p>
+ </p>
+ <p>
+  点点网diandianwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b918ad20-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

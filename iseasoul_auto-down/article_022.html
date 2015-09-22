@@ -1,0 +1,79 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/topcoder-sol-2>http://iseasoul.diandian.com/topcoder-sol-2</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   TOPCODER解题报告系列：2 - SRM 545
+  </a>
+ </h3>
+ <p class="date ">
+  8th of June 2012
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  <span class="text-img-holder">
+   <img height="329" src="http://m3.img.srcdd.com/farm4/d/2012/0608/12/8FB843F9D7EBE48B82505685F244612C_B500_900_500_329.JPEG" width="500"/>
+  </span>
+  <br/>
+ </p>
+ <p>
+  好久没做了，手有点生，还好最后交上了500，刚刚2200，红了。
+ </p>
+ <p>
+  这个号发挥也算比较稳定吧，基本都是250比较快，500常常差一点，1000 OMG。
+ </p>
+ <p>
+ </p>
+ <p>
+  275 - 求一个N的字典序最小排列，逆序数要大于S，且字典序大于给出的一个排列P。N &lt;= 20。P可能长度小于N。
+ </p>
+ <p>
+  先补齐P，后面按没有出现的字母（数字）升序排列。然后从高位到低位，对每一位贪心求出大于P排列且逆序对在最好情况（后面的全部逆序）时能大于S的最小数字。
+ </p>
+ <p>
+ </p>
+ <p>
+  500 - 很绕口的一个题。大意就是在一个 H * L 的格子里选出K个点，这K个点可以用一条从x轴出发且 0 &lt;= xi &lt;= L 的射线连接起来。求选取方案 % mod。范围都为 [1, 2000]。
+ </p>
+ <p>
+  考虑直线穿过的单元格，步长为 (dx, dy)，枚举这个步长后再枚举起点就OK了。但复杂度N^3，需要优化一层。考虑枚举起点这一层，这样得到的可选点数P_select是 min(H / dy, (L - x0) / dx), 在这些点中选出K个。那么可以发现备选点数P_select_x从大到小的顺序是 dx个0， dx个1， dx个2... dx个L/dx，剩余的若干个。然后与H/dy取一个较小值。那么枚举就没有意义了，只需要求一个部分和。注意一下边界情况。
+ </p>
+ <p>
+ </p>
+ <p>
+  975 - 将N个数分为两组，两组的AND值相等的方案数。N &lt;= 50，num_in_array &lt;= 2^20。
+ </p>
+ <p>
+  Only a few uncompleted thought, but far from enough。
+ </p>
+ <p>
+ </p>
+ <p>
+  <span>
+   
+  </span>
+  <span>
+   版权所有，转载注明iSea则不究。
+  </span>
+  <br/>
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=f4878ee0-b120-11e1-ae24-782bcb38253b&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

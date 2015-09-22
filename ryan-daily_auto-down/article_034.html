@@ -1,0 +1,169 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/codeforces-sol-285-286>http://ryan-daily.diandian.com/codeforces-sol-285-286</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   [CodeForces Solution] CodeForces 285 &amp; 286
+  </a>
+ </h3>
+ <p class="date ">
+  19th of January 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=codeforces" target="_blank">
+   codeforces
+  </a>
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=tutorial" target="_blank">
+   tutorial
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  Simple &amp; Quick Summary.
+ </p>
+ <h4>
+  <strong>
+   CF 285
+  </strong>
+ </h4>
+ <p>
+  A: The key point is
+  <strong>
+   Forest
+  </strong>
+  . So find the vertex node with degree of 1, we can get an edge. Repeat it until no more found.
+ </p>
+ <p>
+  B: Conversion between Factorial base and Normal decimal base. Use a binary indexed tree to keep numbers have appeared and find the amount of numbers less than the current number. Basically:
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   Normal -&gt; Factorial
+   <code>
+    fnum[i] = num[i] - less_than_i
+   </code>
+  </li>
+  <li>
+   Factorial -&gt; Normal binary search i that
+   <code>
+    k - less_than_k = fnum[i]
+   </code>
+  </li>
+ </ul>
+ <p>
+  C: I
+  <strong>
+   misunderstood
+  </strong>
+  the meaning during the contest: find the number of sub-strings which can be rearranged to be a palindrome.
+ </p>
+ <p>
+  Then I tried to use a naive method, divide the array to K(usually sqrt(n)) blocks. For each block, use
+  <code>
+   set&lt;int&gt;
+  </code>
+  to record its state, do a "swap line" with each start point. The complexity can be reached
+  <code>
+   O(N*sqrt(N)*log(N))
+  </code>
+  , also huge.
+ </p>
+ <p>
+  The right task is: find the number of sub-strings which can be rearranged to make the total string to be a palindrome.
+ </p>
+ <p>
+  It should be easier, but still not interesting. So let it go.
+ </p>
+ <h4>
+  <strong>
+   CF 286
+  </strong>
+ </h4>
+ <p>
+  A: This is a strange problem. I failed to find the point of problem A while solving the CF-style contest for the first time.
+ </p>
+ <p>
+  Assume there are N grids, given the amount of goods on each grid. Goal of the game is to collect as many goods as possible.
+ </p>
+ <p>
+  Now you can jump between grids, the step must be positive, and if the previous step is
+  <code>
+   l
+  </code>
+  , the current step can only be
+  <code>
+   l
+  </code>
+  ,
+  <code>
+   l+1
+  </code>
+  or
+  <code>
+   l-1
+  </code>
+  . The limits of N is 30000.
+ </p>
+ <p>
+  Here is the key, N &lt;= 30000. As we know (1+2+...+s)=s*(s+1)/2, even if we keep increasing(or decreasing, the same) the step length in every step, the maximum s is about 250, to reach the final destination.
+ </p>
+ <p>
+  So the dp state is about [position(30000)][step(-250,250)], approximate to 15 millions. But be careful,
+  <code>
+   map
+  </code>
+  or
+  <code>
+   unordered_map
+  </code>
+  is too heavy to keep the state, just use a big array.
+ </p>
+ <p>
+  B: Rebuild a directed graph to keep the original connectivity. It's
+  <strong>
+   NOT
+  </strong>
+  necessary to use the original edge.
+ </p>
+ <p>
+  Because we can rebuild it by our own way, a simple cycle to make all pairs of vertices connected. So for each connected component, by the way, here we treat the edge to be bi-directed, if it's a DAG, a tree is enough, otherwise use a cycle.
+ </p>
+ <p>
+  It's totally a different problem if you can only delete useless edges to keep the original connectivity. First find all the SCC(Strong Connected Component), shrink the original map to a DAG forest. Then for an edge i-&gt;j, if there exists i-&gt;k and k-&gt;j as the same time, we can delete it. Just like the Floyd algorithm. The total complexity can be
+  <code>
+   O(N^3)
+  </code>
+  .
+ </p>
+ <p>
+  D: Color the edge of a map with a specified color, and a colored map will be simple. For each query (u, v), find the number of different color in which they are connected.
+ </p>
+ <p>
+  Hash vertex ID in each colored map, and use a disjointed set to keep the connectivity. Then do a offline traversal. One optimization is keep the color set for each vertex, only loop it when both of the vertices have that color. And verify it by looping the vertex with smaller number of colors.
+ </p>
+ <p>
+  Fortunately, it got Accepted. (And the only one I had passed TAT)
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=bfe3dbd0-9fac-11e4-af31-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

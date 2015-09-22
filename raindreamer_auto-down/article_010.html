@@ -1,0 +1,247 @@
+<h3>Original Link: <a href=http://raindreamer.diandian.com/ctci-summary-1>http://raindreamer.diandian.com/ctci-summary-1</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   CTCI Summary 1
+  </a>
+ </h3>
+ <p class="date ">
+  24th of July 2014
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  From today, I'll write some reading summary of what I'm working on, for plenty of free time should be reserved as I already drop all the trammel, i.e. work.
+ </p>
+ <p>
+  First of all, some preparation for the coming interview.
+ </p>
+ <p>
+  <strong>
+   Bahaivoral Issues
+  </strong>
+  Let it go, without enough commuication ablity, what I can achieve is only being innocent.
+ </p>
+ <p>
+  Maybe a better resume make a lot sense.
+ </p>
+ <p>
+  <strong>
+   Techincal Problems
+  </strong>
+  That's what I'm major at, though the recent appearance show it isn't very optimistic too, with one year (or even more) time deserted, most skills had been lost. I need make huge efforts to find them back.
+ </p>
+ <p>
+  Ok, less jumbled, let's begin with
+  <span class="edui-filter-underline">
+  </span>
+  <strong>
+   Data Structure
+  </strong>
+  <span class="edui-filter-underline">
+  </span>
+  .
+ </p>
+ <p>
+  [Strings &amp; Arrays] Most of this problems are easy, a useful point is, the valid range of character in strings is 0~255, and a record array with size 256 can solve a lot of problems.
+ </p>
+ <p>
+  Well, KMP &amp; AC automate is really yummy estate.
+ </p>
+ <p>
+  [Linked List] That's what this article will focus on.
+ </p>
+ <p>
+  Based on experience from myself, in most programming competition, players always avoid to use linked list, for it would result in numerous unpredicted problems, so the last time I prepare for interview, I'm too confidence to underestimate this field, which give me a harsh lesson, failed in Google's interview with a linked-list problem unsolved as a prime reason.
+ </p>
+ <p>
+  So start off from the basic part, in C++, linked list is used like that:
+ </p>
+ <blockquote>
+  <pre config="brush:cpp;toolbar:false;">struct node {
+    type val;
+    node* next;
+};
+
+node *head = new node;
+head-&gt;next = null;
+
+free(head);</pre>
+ </blockquote>
+ <p>
+  What makes linked list very charming is the next pointer, it gives up the accessiblity of array by index, however, the next pointer connect the data, and get the structure very flexible. Also, with the linear and next characteristic, the list is a good example the show the graceful of recursion.
+ </p>
+ <p>
+  What's more, playing with linked list is alike the ancient Geeks' geometry, we only have very primitive tools, a pointer(just like the ruler without scale). So here are 'runner' technique, catch up, breakdown the structure pseudoly... and so on.
+ </p>
+ <p>
+  Take some chanllengable tasks for specific understanding.
+ </p>
+ <p>
+  Q1. Given a linked list, check whether it is circular, if it is, find the beginning node of loop.
+ </p>
+ <p>
+  This's a very typical usage of two pointer's 'catch up' method. Create two pointers both point to the head node. The fast one move two steps a time, and the slow one move one step. Assume T time passed, and the difference distance between them will be T, whose reminder will be 0 module the length of loop, say L, eventually.
+ </p>
+ <p>
+  Once the slow pointer catch up the fast, it can be concluded that there is a circle and T mod L = 0. We name the distance between current position and the beginning position of the loop X, and the distance of beginning node and head node is Y, then (T - Y) mod L = X, hence (X + Y) mod L = 0.
+ </p>
+ <p>
+  So if we move Y steps forward from the position the catch-up operation ends, we will return the beginning of the loop! It's so simple, and beautiful!
+ </p>
+ <blockquote>
+  <pre config="brush:cpp;toolbar:false;">node* find_loop_beginning(node *head) {
+    node *slow = head, *fast = head;
+    // runner
+    while (slow &amp;&amp; fast) {
+        fast = fast-&gt;next;
+        if (!fast) {
+            return NULL;
+        }
+        fast = fast-&gt;next;
+        slow = slow-&gt;next;
+        if (fast == slow) {
+            break;
+        }
+    }
+    if (!slow || !fast) {
+        return NULL;
+    }
+    // run again from the meeting point
+    slow = head;
+    while (slow != fast) {
+        slow = slow-&gt;next;
+        fast = fast-&gt;next;
+    }
+    return slow;
+}</pre>
+ </blockquote>
+ <p>
+  Q2. Random shuffle a linked list with O(logN) extra space and O(NlogN) time.
+ </p>
+ <p>
+  O(logN) extra space means we must shuffle it locally. But for linked list, the only way to do this is recursion. Consider break the linked list from the centre into L1 and L2, solve it with divide-and-conquer.
+ </p>
+ <p>
+  Now we fit the restriction good enough. The next part is to make sure the process is definitely randomly, which should cover and N! cases with equal probability. Assume the sub-producure cover N_L1! and N_L2! cases, we need make sure the merge step covers (N1 + N2)! / (N1! * N2!), so that the result of their multiplcation is N! finally.
+ </p>
+ <p>
+  That can be done with a uniform random number in [0, 1) for N times, and fetch out the node from the first list if it less than len1 / (len1 + len2), else from the second list.
+ </p>
+ <blockquote>
+  <pre config="brush:cpp;toolbar:false;">node* random_shuffle(node* head) {
+    int len = get_list_len(head);
+    if (len &lt;= 0) {
+        return head;
+    }
+    // divide
+    int half_len = len &gt;&gt; 1;
+    node *h1 = head, *h2 = head;
+    while (half_len--) {
+        h2 = h2-&gt;next;
+    }
+    h1 = random_shuffle(h1);
+    h2 = random_shuffle(h2);
+    // merge
+    int len1 = len &gt;&gt; 1, len2 = len - len1;
+    node *ret_head = NULL, *temp = NULL;
+    while (len1 || len2) {
+        double break_pt = (double)len1 / (len1 + len2);
+        node *cur = NULL;
+        if (random_range(0, 1) &lt; break_pt) {
+            cur = h1;
+            h1 = h1-&gt;next;
+        } else {
+            cur = h2;
+            h2 = h2-&gt;next;
+        }
+        if (ret_head) {
+            temp-&gt;next = cur;
+            temp = cur;
+        } else {
+            ret_head = temp = cur;
+        }
+    }
+    return ret_head;
+}</pre>
+ </blockquote>
+ <p>
+  Q3. Copy a linked list which has a random pointer except the next pointer without any extra space applied.
+ </p>
+ <p>
+  A'right, first I must admit that's exactly the problem failed me, but I do NOT have any resentful feeling for it. It's a little strange but excellent puzzle.
+ </p>
+ <p>
+  Let's begin with the re-definition of the node in linked list.
+ </p>
+ <blockquote>
+  <pre config="brush:cpp;toolbar:false;">struct node {
+    type val;
+    node* next;
+    node* random;
+};</pre>
+ </blockquote>
+ <p>
+  How can we copy the relationship between the random pointers without recording any extra infomation?
+ </p>
+ <p>
+  Break the original structure! We can insert new node after each node to double the original list. Then iterate every two node to setup the random pointer for new inserted nodes. As last, break it into two, and look what we get, a shining new identical list!
+ </p>
+ <blockquote>
+  <pre config="brush:cpp;toolbar:false;">node* copy_list(node* head) {
+    // insert
+    node *temp = head;
+    while (temp) {
+        node *newn = new node;
+        newn-&gt;val = temp-&gt;val;
+        newn-&gt;next = temp-&gt;next;
+        temp-&gt;next = newn;
+        temp = newn-&gt;next;
+    }
+    // copy random
+    temp = head;
+    while (temp) {
+        temp-&gt;next-&gt;random = temp-&gt;random-&gt;next;
+        temp = temp-&gt;next-&gt;next;
+    }
+    // break
+    node *new_head = NULL, *newt = NULL;
+    temp = head;
+    while (temp) {
+        node* cur = temp-&gt;next;
+        temp-&gt;next = cur-&gt;next;
+        temp = temp-&gt;next;
+        cur-&gt;next = NULL;
+        if (new_head) {
+            newt-&gt;next = cur;
+            newt = cur;
+        } else {
+            new_head = newt = cur;
+        }
+    }
+    return new_head;
+}</pre>
+ </blockquote>
+ <p>
+  It's really a smart trick.
+ </p>
+ <p>
+  点dianwangdian点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=1bac4310-12f1-11e4-a010-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

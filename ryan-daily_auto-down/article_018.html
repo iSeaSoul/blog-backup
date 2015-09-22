@@ -1,0 +1,156 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/vimrc-backup>http://ryan-daily.diandian.com/vimrc-backup</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Vimrc Backup
+  </a>
+ </h3>
+ <p class="date ">
+  27th of February 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=vimrc" target="_blank">
+   vimrc
+  </a>
+  <a href="/?tag=vim" target="_blank">
+   vim
+  </a>
+  <a href="/?tag=backup" target="_blank">
+   backup
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  Version 1.3 (For Windows)
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+"Version: 1.3 by iSea@WHU; Updated from mmd
+
+source $VIMRUNTIME/mswin.vim
+behave mswin
+cd d:/prog
+imap &lt;c-d&gt; &lt;c-o&gt;dd
+imap &lt;cr&gt; &lt;cr&gt;&lt;left&gt;&lt;right&gt;
+map o o&lt;left&gt;&lt;right&gt;
+imap &lt;c-]&gt; {&lt;cr&gt;}&lt;c-o&gt;O&lt;left&gt;&lt;right&gt;
+noremap &lt;f6&gt; =a{
+syn on
+colo desertEx
+filetype indent on
+se ru nu ar sw=4 ts=4 noswf et sta nowrap ww=&lt;,&gt;,[,] gfn=Consolas:h14
+autocmd BufEnter * lcd %:p:h
+
+map vs :vsplit
+map &lt;c-t&gt; :tabnew&lt;CR&gt;
+map &lt;c-w&gt; :q&lt;CR&gt;
+
+"set encoding=utf-8
+"set termencoding=utf-8
+"set fileencoding=chinese
+set fileencodings=ucs-bom,utf-8,chinese
+
+map &lt;c-b&gt; :call CR()&lt;CR&gt;&lt;CR&gt;
+func CR()
+exec 'update'
+if filereadable(expand('%&lt;').'.in')
+    exec '!start cmd /c g++ -std=c++11 %&lt;.cpp -o %&lt;.exe &amp; %&lt; &lt; %&lt;.in &amp; pause'
+else
+    exec '!start cmd /c g++ -std=c++11 %&lt;.cpp -o %&lt;.exe &amp; %&lt; &amp; pause'
+endif
+endfunc
+
+map &lt;f11&gt; :call PY()&lt;CR&gt;&lt;CR&gt;
+func PY()
+exec 'update'
+if filereadable(expand('%&lt;').'.in')
+    exec '!start cmd /c python %&lt;.py &lt; %&lt;.in &amp; pause'
+else
+    exec '!start cmd /c python %&lt;.py &amp; pause'
+endif
+endfunc
+
+map &lt;f12&gt; :call JA()&lt;CR&gt;&lt;CR&gt;
+func JA()
+exec 'update'
+if filereadable(expand('%&lt;').'.in')
+    exec '!start cmd /c javac %&lt;.java &amp; java %&lt; &lt; %&lt;.in &amp; pause'
+else
+    exec '!start cmd /c javac %&lt;.java &amp; java %&lt; &amp; pause'
+endif
+endfunc
+
+map &lt;f2&gt; :call SetTitle()&lt;CR&gt;Gkki&lt;tab&gt;
+func SetTitle()
+let l = 0
+let l = l + 1 | call setline(l, '/**')
+let l = l + 1 | call setline(l, ' * @author - iSea')
+let l = l + 1 | call setline(l, ' * @time - '.strftime("%Y/%m/%d %H:%M"))
+let l = l + 1 | call setline(l, ' * @brief - From sky to the sea.')
+let l = l + 1 | call setline(l, ' **/')
+let l = l + 1 | call setline(l, '')
+let l = l + 1 | call setline(l, '#include &lt;bits/stdc++.h&gt;')
+let l = l + 1 | call setline(l, '')
+let l = l + 1 | call setline(l, 'using namespace std;')
+let l = l + 1 | call setline(l, '')
+let l = l + 1 | call setline(l, '// SELF TEMPLATE CODE BGEIN')
+let l = l + 1 | call setline(l, '')
+let l = l + 1 | call setline(l, '#define LOG(level, fmt, arg...) \')
+let l = l + 1 | call setline(l, '    printf("[" #level "] [Line:%d] " fmt"\n", __LINE__, ##arg);')
+let l = l + 1 | call setline(l, '')
+let l = l + 1 | call setline(l, '#define NOTICE(fmt, arg...) LOG(NOTICE, fmt, ##arg)')
+let l = l + 1 | call setline(l, '#define FATAL(fmt, arg...) LOG(FATAL, fmt, ##arg)')
+let l = l + 1 | call setline(l, '')
+let l = l + 1 | call setline(l, '#define DEBUG(x) do { \')
+let l = l + 1 | call setline(l, '    stringstream ss; \')
+let l = l + 1 | call setline(l, '    ss &lt;&lt; #x &lt;&lt; ": " &lt;&lt; x; \')
+let l = l + 1 | call setline(l, '    NOTICE("%s", ss.str().c_str()) \')
+let l = l + 1 | call setline(l, '} while(0)')
+let l = l + 1 | call setline(l, '')
+let l = l + 1 | call setline(l, '#define SZ(x) ((int)((x).size()))')
+let l = l + 1 | call setline(l, '#define rep(i,n) for (int i = 0; i &lt; (n); ++i)')
+let l = l + 1 | call setline(l, '#define repf(i,a,b) for (int i = (a); i &lt;= (b); ++i)')
+let l = l + 1 | call setline(l, '#define repcase int t, Case = 1; for (scanf("%d", &amp;t); t; --t)')
+let l = l + 1 | call setline(l, '')
+let l = l + 1 | call setline(l, 'template&lt;class T&gt; inline void to_min(T &amp;a, const T b) { if (b &lt; a) a = b; }')
+let l = l + 1 | call setline(l, 'template&lt;class T&gt; inline void to_max(T &amp;a, const T b) { if (b &gt; a) a = b; }')
+let l = l + 1 | call setline(l, '')
+let l = l + 1 | call setline(l, '// SELF TEMPLATE CODE END')
+let l = l + 1 | call setline(l, '')
+let l = l + 1 | call setline(l, 'int main() {')
+let l = l + 1 | call setline(l, '   ')
+let l = l + 1 | call setline(l, '    return 0;')
+let l = l + 1 | call setline(l, '}')
+endfunc
+
+map&lt;f4&gt; :call AddComment()&lt;CR&gt;
+func AddComment()
+    if matchstr(getline('.'), '[^ ]') == '/'
+        normal ^xx
+    else
+        normal ^i//
+    endif
+endfunc
+
+set printoptions=syntax:n,number:y,portrait:y
+</pre>
+ <p>
+  点j点vUwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=d452b5b0-be32-11e4-830d-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

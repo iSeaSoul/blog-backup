@@ -1,0 +1,100 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/topcoder-sol-3>http://iseasoul.diandian.com/topcoder-sol-3</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   TOPCODER解题报告系列：3 - SRM 547
+  </a>
+ </h3>
+ <p class="date ">
+  2th of July 2012
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=SRM" target="_blank">
+   SRM
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  这场没做，夜晚有场，练手补做了一下。
+ </p>
+ <p>
+  题目意思都很简短，给出直接的数学模型，挺不错。
+ </p>
+ <p>
+ </p>
+ <p>
+  1000 (DIV 2) - 给定N个数，选出最大的子集，子集中的数两两互质。N &lt;= 50, 数字 &lt;= 100。
+ </p>
+ <p>
+  由于数字不大于100，可以考虑利用质因子来集合DP。首先，大于50的质因子只会出现一次，无需记录。只需记录&lt;=50的质因子，共15个。取当前数时，需要满足集合不相交。这样顺序扫描一遍更新DP值即可。
+ </p>
+ <p>
+ </p>
+ <p>
+  250 - 两条底顶点在X轴上且垂直于X轴的线段，底边顶点距离为W，高度分别为X和Y。在第一条直线的1-X纵坐标上随机选一个点，第二条的1-Y纵坐标上随机选一个点，求两个点的期望距离。1&lt;= X, Y &lt;= 100000。
+ </p>
+ <p>
+  直接的想法是枚举，复杂度O(X * Y)。优化一下，考虑纵坐标的距离，取值为 (-Y, +X)。对于每种取值DIS，可以求出能取到该值的在左右两条线段上的坐标区间，求一个并后的长度就是这个DIS被取出的次数。复杂度优化掉一维。
+ </p>
+ <p>
+ </p>
+ <p>
+  500 - 数字从0开始依次从小到大排成H行W列。取出一个面积最小的矩形，矩形内数字的和为S。1 &lt;= H, W &lt;= 10^6, 1 &lt;= S &lt;= 10^12。
+ </p>
+ <p>
+  先推出一个求和公式，表示从数字P为左上角开始，取出Hi行Wi列得到的矩形内数字和。可以发现Hi和Wi必须同时被S整除，于是可以枚举S的因子，结合求和式判断即可。
+ </p>
+ <p>
+ </p>
+ <p>
+  1000 - 求有多少种方式可以将一个正N边形切割成N-2个三角形，且三角形里有一个面积比其他都大的。3 &lt;= N &lt;= 444。
+ </p>
+ <p>
+  官方报告给出了一个N^4的DP。首先，枚举这个最大的三角形的边长，由于是正N边形，只用枚举两条边的长度，第三条边就知道了，这个复杂度O(N^2)。然后DP求出连续的X条边切割成严格小于这个三角形面积的三角形的方式，每次枚举一个K，(1, K, K + 1) 组成一个三角形，如果面积更小，则合法，DP[x] = sigma(DP[k] * DP[x - k - 1]）。
+ </p>
+ <p>
+  然后加上一对乱七八糟的优化，没看，也没写。
+ </p>
+ <p>
+ </p>
+ <p>
+  <span>
+   
+  </span>
+  <span>
+   版权所有，转载注明iSea则不究。
+  </span>
+  <br/>
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <style>
+     .cmt-inline-1b8fa870-c421-11e1-9c02-782bcb383994-1440653912239 {display:none;}
+    </style>
+    <ul class="cmt-inline-1b8fa870-c421-11e1-9c02-782bcb383994-1440653912239">
+     <li>
+      <a href="http://iseasoul.diandian.com">
+       哀涉の遺忘之地
+      </a>
+      Right, a typical mask DP mode.
+     </li>
+    </ul>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=1b8fa870-c421-11e1-9c02-782bcb383994&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

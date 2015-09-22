@@ -1,0 +1,181 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/codeforces-sol-272>http://ryan-daily.diandian.com/codeforces-sol-272</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   [CodeForces Solution] CodeForces 272 D2
+  </a>
+ </h3>
+ <p class="date ">
+  13th of October 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=codeforces" target="_blank">
+   codeforces
+  </a>
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=tutorial" target="_blank">
+   tutorial
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <h3>
+  Problem (Contest) Link
+ </h3>
+ <p>
+  <a href="http://codeforces.com/contest/476">
+   CodeForces Round #272 (Div. 2)
+  </a>
+ </p>
+ <h3>
+  Problem Official Tutorial
+ </h3>
+ <p>
+  <a href="http://codeforces.com/blog/entry/14256">
+   Codeforces Round #272 Editorial
+  </a>
+ </p>
+ <h3>
+  Problem Personal Solution
+ </h3>
+ <h4>
+  <strong>
+   <em>
+    A. Dreamoon and Stairs
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Climb up a stair of n steps with 1 or 2 steps one move. What's the minimal moves that is a multiple of interger m.
+ </p>
+ <p>
+  The minimal number of moves is $\frac {n + 1} {2}$, make it a multiple of m and check if it's less than n.
+ </p>
+ <h4>
+  <strong>
+   <em>
+    B. Dreamoon and WiFi
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Given two operation strings, '+' indicates moving forward, '-' indicates moving back, and '?' indicates equal probability to choose either. Calculate the probablity that they both result in a same position.
+ </p>
+ <p>
+  Simple DP.
+  <code>
+   DP[i][j]
+  </code>
+  indicates the probability that after i moves ends in position j. For a '?' character, tranform the state to either direction.
+ </p>
+ <h4>
+  <strong>
+   <em>
+    C. Dreamoon and Sums
+   </em>
+  </strong>
+ </h4>
+ <p>
+  $\sum(X | mod(X, b) != 0 \bigwedge div(X, b) = k*mod(X, b) | k \subset [1, a])$ .
+ </p>
+ <p>
+  Simple Math. Assume the number X is $ k1*b + k2 $. If k2 = 1, so $ k \subset [1, a] $, the sum is $\frac{(1 + a) * a}{2} * b + a$. And as $ k2 \subset [1, b - 1]$, the final ans is $(\frac{(1 + a) * a}{2} * b + a) * \frac {b * (b - 1)} {2}$.
+ </p>
+ <h4>
+  <strong>
+   <em>
+    D. Dreamoon and Sets
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Make up n sets with four integers of rank k using integers from 1 to m such that no integer is used in two different sets, with the minimum m.
+ </p>
+ <p>
+  The key is ${ 6
+  <em>
+   k+1, 6
+  </em>
+  k+2, 6
+  <em>
+   k+3, 6
+  </em>
+  k+5 }$ is always a valid set.
+ </p>
+ <h4>
+  <strong>
+   <em>
+    E. Dreamoon and Strings
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Given two strings S and T, if delete 0 - len(s) characters for string S, calculate the maximal number of non-overlapping substrings equal to T in reduced S.
+ </p>
+ <p>
+  First calculate a
+  <code>
+   minlen[i]
+  </code>
+  assisted array which indicates the minimal length to match T starting from index i. It can be solved greedily.
+ </p>
+ <p>
+  Then do a
+  <code>
+   dp[i][j]
+  </code>
+  indicates the maximum match that ends at index i and delete j characters. So for a state
+  <code>
+   dp[i][j]
+  </code>
+  , it can contribute to three state:
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   <code>
+    dp[i + 1][j]
+   </code>
+   means just keep that character
+  </li>
+  <li>
+   <code>
+    dp[i + 1][j + 1]
+   </code>
+   means delete that character
+  </li>
+  <li>
+   <code>
+    dp[i + minlen[i]][j + minlen[i] - lent]
+   </code>
+   means make one matching with minimal removed character, and the value should be increased by 1
+  </li>
+ </ul>
+ <p>
+  Then the
+  <code>
+   dp[lens][0...lens]
+  </code>
+  would be the answer.
+ </p>
+ <p>
+  点点网diandianwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=2251a380-52a3-11e4-a010-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

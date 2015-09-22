@@ -1,0 +1,114 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/abstract-factory>http://ryan-daily.diandian.com/abstract-factory</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Abstract Factory
+  </a>
+ </h3>
+ <p class="date ">
+  14th of September 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+  <a href="/?tag=design-pattern" target="_blank">
+   design-pattern
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  Abstract Factory is a design pattern. A factory is an object that creates some objects. The abstract factory separates the implementation from the user code. Factory selection will be determined in the run-time, even changed in the midway if needed.
+ </p>
+ <p>
+  The following code is a C++ sample of abstract factory.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+using ProductA = std::string;
+using ProductB = int;
+
+class Factory {
+public:
+    virtual ProductA getProductA() = 0;
+    virtual ProductB getProductB() = 0;
+};
+
+class FactoryA : public Factory {
+public:
+    ProductA getProductA() {
+        return ProductA("A by FactoryA");
+    }
+    ProductB getProductB() {
+        return ProductB(1000);
+    }
+};
+
+class FactoryB : public Factory {
+public:
+    ProductA getProductA() {
+        return ProductA("A by FactoryB");
+    }
+    ProductB getProductB() {
+        return ProductB(1001);
+    }
+};
+
+class Worker {
+public:
+    Worker() {
+        factory = nullptr;
+    }
+    void setFactory(std::string factory_type) {
+        if (factory_type == "A") {
+            factory = std::make_shared&lt;FactoryA&gt;();
+        } else if (factory_type == "B") {
+            factory = std::make_shared&lt;FactoryB&gt;();
+        }
+    }
+    void produce() {
+        if (factory != nullptr) {
+            std::cout &lt;&lt; factory-&gt;getProductA() &lt;&lt; ' ' &lt;&lt; factory-&gt;getProductB() &lt;&lt; std::endl;
+        } else {
+            std::cout &lt;&lt; "ERROR:: No Abstract Factory provided." &lt;&lt; std::endl;
+        }
+    }
+private:
+    shared_ptr&lt;Factory&gt; factory;
+};
+
+int main() {
+    shared_ptr&lt;Worker&gt; worker = std::make_shared&lt;Worker&gt;();
+    worker-&gt;setFactory("A");
+    worker-&gt;produce();
+    worker-&gt;setFactory("B");
+    worker-&gt;produce();
+    return 0;
+}
+</pre>
+ <p>
+  Worker will produce different product according to the provided factory, just like the actual worker in the reality.
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=9dcbb1a0-5a94-11e5-9c61-782bcb2b7770&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

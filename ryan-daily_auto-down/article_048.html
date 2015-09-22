@@ -1,0 +1,166 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/srm-sol-633-634-635>http://ryan-daily.diandian.com/srm-sol-633-634-635</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   [SRM Solution] SRM 633 &amp; 634 &amp; 635
+  </a>
+ </h3>
+ <p class="date ">
+  25th of October 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=srm" target="_blank">
+   srm
+  </a>
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=tutorial" target="_blank">
+   tutorial
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  连续三场500网络流，又发现自己没学过网络流。
+ </p>
+ <h3>
+  <strong>
+   <em>
+    SRM633 250P PeriodicJumping
+   </em>
+  </strong>
+ </h3>
+ <p>
+  给一个step数组，（循环）表示每步走的距离。走到(X, 0)最少需要多少步。
+ </p>
+ <p>
+  如果步长与abs(X)可以组成一个多边形（可以面积为0），就表示可以走到目标位置。组成多边形的条件是：最大边长&lt;=其余边长和。
+ </p>
+ <p>
+  如果一个步长用两次，那这个条件一定符合。当
+  <code>
+   sum(step)&lt;X
+  </code>
+  时，一个周期内无法完成，此时只要求出最小的步数使得总的步长sum大于等于X。如果一个周期内能够完成，枚举步数，判断条件是否符合。
+ </p>
+ <h3>
+  <strong>
+   <em>
+    SRM633 600P DoubleTree
+   </em>
+  </strong>
+ </h3>
+ <p>
+  给出两颗节点数相等的树，每个节点有相同的权值。求一个节点子集，使得节点在两颗树上都连通。
+ </p>
+ <p>
+  枚举根节点，使树变有向。这时除了根节点，每个节点都有依赖节点p[i]，即如果选取该节点，父节点一定也要被选取。这是一个标准的最大权闭合子图问题。
+ </p>
+ <p>
+  每个节点向其依赖节点连边，流量无穷，表示不能被割断。正权值连源点，父权值连汇点。正权值之和减掉最小割就是答案。
+ </p>
+ <p>
+  如何理解这个构图呢？如果选择了一条源点流出的边，这个节点被舍弃，它会流到更大的负收益。如果选择了一条流向汇点的边，这个点会带来负收益，但是我们依然选取，因为有正收益更大的流流过。对于依赖边，就表示如果希望获得这个点的正收益，就必须获得其依赖节点的负收益。
+ </p>
+ <h3>
+  <strong>
+   <em>
+    SRM634 250P ShoppingSurveyDiv1
+   </em>
+  </strong>
+ </h3>
+ <p>
+  有N个人买M件物品，记录了每件物品被买的次数。最少有多少个人买了K个？
+ </p>
+ <p>
+  最多版的我出过：
+  <a href="http://acm.hdu.edu.cn/showproblem.php?pid=3418">
+   Beautiful Dream
+  </a>
+  。思路是去掉多余的sum/K，直到没有为止。
+ </p>
+ <p>
+  这个问题思路也是贪心：如果第K大的物品数目已经等于当前剩余人数，那么当前剩余人数购买物品一定都不小于K，不然无法买完。否则当前的人可以买掉最大的K-1个。
+ </p>
+ <h3>
+  <strong>
+   <em>
+    SRM634 500P ShoppingSurveyDiv1
+   </em>
+  </strong>
+ </h3>
+ <p>
+  N个点，每次可以连接两个点，染色红色或蓝色，得到对应的分数。但是红色和蓝色的线段不能相交。求最大的分数。
+ </p>
+ <p>
+  又是个典型的最小割。左边表示两个点染红色，右边表示染蓝色，如果有相同的点或者相交，连一条依赖边。总权值减掉最小割就是答案。
+ </p>
+ <h3>
+  <strong>
+   <em>
+    SRM635 250P SimilarRatingGraph
+   </em>
+  </strong>
+ </h3>
+ <p>
+  如果两段折线可以通过平移和缩放变换重合，称之为相似。求一段折线中有相似折线的最长部分。
+ </p>
+ <p>
+  怎么定义相似？如果每段线段角度（叉积）相等，且所有线段比例相等，就是相似的。于是判断一下
+  <code>
+   DX[i] / DX[j] = DX[i + k] / DX[j + k] = DY[i + k] / DY[j + k]
+  </code>
+  。前一等式判断比例相等，后一段判断斜率。
+ </p>
+ <h3>
+  <strong>
+   <em>
+    SRM635 500P StoryFromTCO
+   </em>
+  </strong>
+ </h3>
+ <p>
+  给出两个数组，重新安排第一个数组的部分数字顺序，使得对应位置上的数都不大于第二个数组。要求安排的数字个数最小。
+ </p>
+ <p>
+  这回是最小费用最大流了。对于左边的点，保证流入的流一定从一个比他大的数流出。这样最小费用就是最少安排个数了。
+ </p>
+ <p>
+  暴力的费用流是，相同位置连边无费用，不同位置的费用为1。这样会TLE，因为边数太多。要考虑如何优化这个模型。
+ </p>
+ <p>
+  小于是全序关系。那么如果按右边的点排序后，对于左边的点，找到第一个比它的大的数，而右边的点都可以流到下一个数，这样就可以保证是从更大的数流出了。上一种构图的边数是
+  <code>
+   O(N*N)
+  </code>
+  级别，这种只有
+  <code>
+   O(N)
+  </code>
+  。而费用流的复杂度可以认为是大约
+  <code>
+   O(VE)
+  </code>
+  。
+ </p>
+ <p>
+  『女人的幸福在于：他真的爱我；男人的幸福在于：她值得我爱。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=aa096800-5c5b-11e4-a29e-90b11c0ed01e&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

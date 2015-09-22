@@ -1,0 +1,130 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/interviewstreet-problems-math>http://iseasoul.diandian.com/interviewstreet-problems-math</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Interviewstreet Math Problems
+  </a>
+ </h3>
+ <p class="date ">
+  30th of July 2012
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  Recent afternoon time are almost wasted at there, finally with all math problems done.
+ </p>
+ <p>
+  So, write some simple solutions to record it.
+ </p>
+ <p>
+  EQUATION
+ </p>
+ <p>
+  For an equation 1/x + 1/y = 1/num, in which num is known. The solution satisfies the condition x = num + c, y = num + (num^2) / c. You can verify this by substituting this condition.
+ </p>
+ <p>
+  Grid Walking
+ </p>
+ <p>
+  First, use dynamic programming to calculate the ways of walk X steps without exceeding the lower and upper bound in each dimension. Then use another DP and combination to calculate the total ways when distributing the M steps to N dimensions.
+ </p>
+ <p>
+  Circle Summation
+ </p>
+ <p>
+  Typical Matrix Multiplication. If shiftting all numbers to its left place circularly, then the operation of the second line is totally the same with the first line, do this similarily in the following lines.
+ </p>
+ <p>
+  Stone piles
+ </p>
+ <p>
+  Game Theory with SG function. Use a depth-first-search to enumerate all possible circumstances after a divide operation, calculate all SG values and XOR them.
+ </p>
+ <p>
+  Points in a Plane
+ </p>
+ <p>
+  With bitmask, get all state where all point(s) are on a line first. Then enumerate all valid states to remove, calculate the minimum steps to achieve current state. Enumeration here can use the clever 3^N
+  <span>
+   subsets
+  </span>
+  trick to handle. But it's still exceeding the time limit for the last test case. Need an interesting improvement to avoid some duplicated calculation.
+ </p>
+ <p>
+  String Reduction
+ </p>
+ <p>
+  A plenty of greedy algorithm works.
+ </p>
+ <p>
+  Permutation game
+ </p>
+ <p>
+  Simple bitset DP.
+ </p>
+ <p>
+  Connect the country
+ </p>
+ <p>
+  A similar problem, connect totally two random cities whether connected or not, here only connect two random cities which is not connected. Think DP for a long time, but it asks to record the existed edge numbers in each connected component, too heavy for implement. While the vertex number is only 30 and just asks for integer part, simulation is enough, yes, try millions times of experiments.
+ </p>
+ <p>
+  Unfriendly Numbers
+ </p>
+ <p>
+  K has at most 10000 factors, problem solved.
+ </p>
+ <p>
+  Ants
+ </p>
+ <p>
+  A fact: if distance between two ants is 1, they can meet 200001 times, otherwises 200000 times. So the only task is processing the adjacent ants.
+ </p>
+ <p>
+  <span class="text-img-holder">
+   <img height="296" src="http://m3.img.srcdd.com/farm5/d/2012/0730/14/BACF68F4E871F609E7D62D1AF9E30AE7_B500_900_500_296.PNG" width="500"/>
+  </span>
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <style>
+     .cmt-inline-2ff2d1c0-da10-11e1-94ee-782bcb38253b-1440653911943 {display:none;}
+    </style>
+    <ul class="cmt-inline-2ff2d1c0-da10-11e1-94ee-782bcb38253b-1440653911943">
+     <li>
+      <a href="http://iseasoul.diandian.com">
+       哀涉の遺忘之地
+      </a>
+      乘一个阶乘数就OK啊。复杂度小了一点的
+     </li>
+     <li>
+      <a href="http://iseasoul.diandian.com">
+       哀涉の遺忘之地
+      </a>
+      每次枚举消除的subset时一定包含第一个unremoved的点，这样可以降低一些复杂度
+     </li>
+     <li>
+      <a href="http://iseasoul.diandian.com">
+       哀涉の遺忘之地
+      </a>
+      Just Google it. 效率嘛，个人习惯，concentrate也是一个重要品质了。
+     </li>
+    </ul>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=2ff2d1c0-da10-11e1-94ee-782bcb38253b&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

@@ -1,0 +1,134 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/changchun-onsite-easy-sol>http://iseasoul.diandian.com/changchun-onsite-easy-sol</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Changchun 2012 Onsite 最水6道题 简单题解
+  </a>
+ </h3>
+ <p class="date ">
+  14th of October 2012
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  也是好久不做题目了。
+ </p>
+ <p>
+  做semilive做的很疼，脑子不会转的感觉，代码也写的很囧。
+ </p>
+ <p>
+  但做题还是比打DotA好玩啊，看到还没题解，写个简单的吧。
+ </p>
+ <p>
+ </p>
+ <p>
+  K题：
+ </p>
+ <p>
+  看题目就知道是坑人用的。但还是没仔细想“And it's optional to place at most one candle at the center of the cake.”
+ </p>
+ <p>
+  题目大概就是求满足条件的r和k使 (1 + k + k^2 +...+ k^r) = N (1 &lt;= N &lt;= 10^12)。试着根号的搞，超时了，然后打表生成所有的数，r=2的时候又太多了，MLE。于是打表出r&gt;=3的，二分r=2的，其余r=1。
+ </p>
+ <p>
+  由于题目那句话，1可加可不加，判断一下。
+ </p>
+ <p>
+  吐槽这题，平时也就算了，放区域赛现场赛有意思么...
+ </p>
+ <p>
+ </p>
+ <p>
+  C题：
+ </p>
+ <p>
+  看题目又可以知道是坑人题。看不懂...
+ </p>
+ <p>
+  弄明白了就可以知道N&lt;5时那些数是可以自己分配的，于是分类瞎讨论一下就可以了。
+ </p>
+ <p>
+  注意N=4不是永远1024的，想清楚各种情况。
+ </p>
+ <p>
+ </p>
+ <p>
+  B题：
+ </p>
+ <p>
+  我竟然又一次像不懂2-sat的时候那样拿各种方法水。
+ </p>
+ <p>
+  最后水不过了，想起来是个裸的2-sat...按32位依次建图，AND，OR和XOR依次加冲突边处理就可以了。
+ </p>
+ <p>
+  貌似POJ有这道原题吧。开始觉得蛮有意思的，发现是原题顿时没兴趣了。
+ </p>
+ <p>
+ </p>
+ <p>
+  H题：
+ </p>
+ <p>
+  这也是个原题...还是我自己出的。
+  <a href="http://acm.hdu.edu.cn/showproblem.php?pid=3985" target="_blank">
+   HDU 3985
+  </a>
+  。
+ </p>
+ <p>
+  那个题没K，M大很多，还难一些。方法就是把M分解质因数了，然后状态压缩。每个数只有达到这个质因子下的最大指数，才在该位上标记1。这样预处理一下有用的数，DP时间复杂度就无压力了。
+ </p>
+ <p>
+ </p>
+ <p>
+  E题：
+ </p>
+ <p>
+  唯一有点意思的题。
+ </p>
+ <p>
+  考虑边的价值，cost最小的边要么被左边的点全部使用，要么被右边的点全部使用。这里“使用”的含义是作为到中心点路上的边权最小值。
+ </p>
+ <p>
+  如果能处理出拆掉这条边的两个森林各自的最大代价，就可以计算出中心点最佳的设置方案。事实上，可以做到，把边按权值逆序排序，依次加入，用并查集维护当前块的节点个数和最大代价就可以了。
+ </p>
+ <p>
+ </p>
+ <p>
+  J题：
+ </p>
+ <p>
+  先建一颗矩形关系树，然后每次询问暴力求出LCA，答案就是N+1-(LCA节点下的叶子节点个数-1）。
+ </p>
+ <p>
+  规模1000，暴力即可。Brute Force代码写起来很爽...
+ </p>
+ <p>
+ </p>
+ <p>
+  个人无责任觉得这6个题比较有点非常boring，除了E题还要点思考。
+ </p>
+ <p>
+  其他题目还没看，先这样吧。
+ </p>
+ <p>
+  点V2J点MNFwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=85f98920-160f-11e2-867e-782bcb32ff27&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

@@ -1,0 +1,385 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/leetcode-record-3>http://ryan-daily.diandian.com/leetcode-record-3</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   LeetCode Record - 3
+  </a>
+ </h3>
+ <p class="date ">
+  23th of October 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=leetcode" target="_blank">
+   leetcode
+  </a>
+  <a href="/?tag=programming" target="_blank">
+   programming
+  </a>
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=interview" target="_blank">
+   interview
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  <a href="https://oj.leetcode.com/problems/length-of-last-word/">
+   Length of Last Word
+  </a>
+ </p>
+ <p>
+  Python solve every string trick without moving a single finger.
+ </p>
+ <pre config="brush:python;toolbar:false;">
+class Solution:
+    # @param s, a string
+    # @return an integer
+    def lengthOfLastWord(self, s):
+        return len(s.split()[-1]) if len(s.strip()) != 0 else 0
+</pre>
+ <p>
+  <a href="https://oj.leetcode.com/problems/reorder-list/">
+   Reorder List
+  </a>
+ </p>
+ <p>
+  Reverse the latter part of Linked List, then combine it with the previous.
+ </p>
+ <p>
+  While reversing the list, keep the tail of the reversed list, do it recursively, and it can be done in linear time.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class Solution {
+public:
+    void reorderList(ListNode *head) {
+        int len = getListLen(head);
+
+        if (len &lt;= 2) {
+            return ;
+        }
+
+        // find centre node
+        ListNode *iter = head;
+        for (int i = 1; i &lt;= (len + 1) / 2; ++i) {
+            iter = iter-&gt;next;
+        }
+
+        // find original tail
+        ListNode *tail = head;
+        for (int i = 1; i &lt; len; ++i) {
+            tail = tail-&gt;next;
+        }
+
+        reverseList(iter);
+
+        // combine
+        while (head != NULL &amp;&amp; tail != NULL) {
+            ListNode *chead = head;
+            ListNode *ctail = tail;
+            head = head-&gt;next;
+            tail = tail-&gt;next;
+            chead-&gt;next = ctail;
+            ctail-&gt;next = head;
+        }
+        if (head != NULL) {
+            head-&gt;next = NULL;
+        }
+        if (tail != NULL) {
+            tail-&gt;next = NULL;
+        }
+    }
+
+    ListNode *reverseList(ListNode *head) {
+        if (head-&gt;next == NULL) {
+            return head;
+        }
+        ListNode *tail = reverseList(head-&gt;next);
+        tail-&gt;next = head;
+        head-&gt;next = NULL;
+        return head;
+    }
+
+    int getListLen(ListNode *head) {
+        return head == NULL? 0 : 1 + getListLen(head-&gt;next);
+    }
+};
+</pre>
+ <p>
+  <a href="https://oj.leetcode.com/problems/lru-cache/">
+   LRU Cache
+  </a>
+ </p>
+ <p>
+  Use three map:
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   One record the key-value pairs of the cache
+  </li>
+  <li>
+   One record the last used time stamp of the key
+  </li>
+  <li>
+   One record the opposite of the latter: time stamp and the key, which is used for finding the least recently used time stamp
+  </li>
+ </ul>
+ <p>
+  For a
+  <code>
+   get
+  </code>
+  operation, search the key in the cache map and replace the last used time stamp if it exists.
+ </p>
+ <p>
+  For a
+  <code>
+   set
+  </code>
+  operation, if the key is already in the cache, replace the time stamp, otherwise try to replace a LRU key if the cache is full.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class LRUCache{
+public:
+    LRUCache(int capacity) {
+        tms = 0;
+        cache_cap = capacity;
+        key_last_tms.clear();
+        key_last_tms_rev.clear();
+        cache_map.clear();
+    }
+
+    int get(int key) {
+        if (cache_map.find(key) != cache_map.end()) {
+            // get -&gt; replace the new time stamp
+            int prev_tms = key_last_tms[key];
+            key_last_tms_rev.erase(prev_tms);
+            key_last_tms[key] = tms;
+            key_last_tms_rev[tms] = key;
+            tms += 1;
+
+            return cache_map[key];
+        }
+        return -1;
+    }
+
+    void set(int key, int value) {
+        if (cache_map.find(key) != cache_map.end()) {
+            // set -&gt; replace the new time stamp
+            int prev_tms = key_last_tms[key];
+            key_last_tms_rev.erase(prev_tms);
+            key_last_tms[key] = tms;
+            key_last_tms_rev[tms] = key;
+            cache_map[key] = value;
+        } else {
+            if ((int)cache_map.size() == cache_cap &amp;&amp; cache_cap != 0) {
+                // remove the least used item
+                int least_tms_key = key_last_tms_rev.begin()-&gt;second;
+                key_last_tms_rev.erase(key_last_tms_rev.begin());
+                key_last_tms.erase(least_tms_key);
+                cache_map.erase(least_tms_key);
+            }
+            // add the new key-value
+            key_last_tms[key] = tms;
+            key_last_tms_rev[tms] = key;
+            cache_map[key] = value;
+        }
+        tms += 1;
+    }
+
+private:
+    map&lt;int, int&gt; key_last_tms;
+    map&lt;int, int&gt; key_last_tms_rev;
+    map&lt;int, int&gt; cache_map;
+    int cache_cap;
+    int tms;
+};
+</pre>
+ <p>
+  <a href="https://oj.leetcode.com/problems/find-minimum-in-rotated-sorted-array/">
+   Find Minimum in Rotated Sorted Array
+  </a>
+ </p>
+ <p>
+  Keep a [L, R] interval, do a binary search. But here we can't give up
+  <code>
+   mid
+  </code>
+  , if a[mid] &gt;= a[R], the likely answer can be is [mid, R], not [mid + 1, R]. Repeat the procedure until the length of the interval is reduced to no more than 2.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class Solution {
+public:
+    int findMin(vector&lt;int&gt; &amp;num) {
+        int L = 0, R = (int)(num.size()) - 1;
+        while (L &lt;= R - 2) {
+            int mid = (L + R) &gt;&gt; 1;
+            if (num[mid] &gt;= num[R]) {
+                L = mid;
+            } else {
+                R = mid;
+            }
+        }
+        return min(num[L], num[R]);
+    }
+};
+</pre>
+ <p>
+  <a href="https://oj.leetcode.com/problems/longest-palindromic-substring/">
+   Longest Palindromic Substring
+  </a>
+ </p>
+ <p>
+  A O(N^2) solution. Unfold the sub-string progressively.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int len = s.length();
+
+        int maxlen = 1;
+        int ansL = 0, ansR = 0;
+
+        // odd length
+        for (int centre_id = 0; centre_id &lt; len; ++centre_id) {
+            int offset;
+            for (offset = 1; centre_id - offset &gt;= 0 &amp;&amp; centre_id + offset &lt; len; ++offset) {
+                if (s[centre_id + offset] != s[centre_id - offset]) {
+                    break;
+                }
+            }
+            offset -= 1;
+            if (2 * offset + 1 &gt; maxlen) {
+                maxlen = 2 * offset + 1;
+                ansL = centre_id - offset;
+                ansR = centre_id + offset;
+            }
+        }
+
+        // even length
+        for (int centre_id = 0; centre_id + 1 &lt; len; ++centre_id) {
+            int offset;
+            for (offset = 0; centre_id - offset &gt;= 0 &amp;&amp; centre_id + 1 + offset &lt; len; ++offset) {
+                if (s[centre_id + 1 + offset] != s[centre_id - offset]) {
+                    break;
+                }
+            }
+            if (2 * offset &gt; maxlen) {
+                maxlen = 2 * offset;
+                ansL = centre_id - offset + 1;
+                ansR = centre_id + offset;
+            }
+        }
+
+        return s.substr(ansL, ansR - ansL + 1);
+    }
+};
+</pre>
+ <p>
+  <a href="https://oj.leetcode.com/problems/string-to-integer-atoi/">
+   String to Integer (atoi)
+  </a>
+ </p>
+ <p>
+  It looks like a simple problem. But a lot of tricks are present:
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   Overflow
+  </li>
+  <li>
+   Extra Non-number characters
+  </li>
+  <li>
+   Invalid format
+  </li>
+  <li>
+   Multiple symbol of number (--3)
+  </li>
+  <li>
+   NULL &amp; Empty string
+  </li>
+ </ul>
+ <p>
+  Always be careful.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class Solution {
+public:
+    int atoi(const char *str) {
+        if (str == NULL) {
+            return 0;
+        }
+
+        // skip front space
+        int ret = 0;
+        while (*str &amp;&amp; *str == ' ') {
+            str++;
+        }
+
+        // no valid content
+        if (!*str) {
+            return 0;
+        }
+
+        // symbol of number (only one)
+        int num_sign = 1;
+        if (*str &amp;&amp; (*str == '+' || *str == '-')) {
+            if (*str == '-') {
+                num_sign *= -1;
+            } 
+            str++;
+        }
+
+        // iterate the number string
+        while (*str &amp;&amp; *str &gt;= '0' &amp;&amp; *str &lt;= '9') {
+            if (num_sign == 1 &amp;&amp; (INT_MAX - (*str - '0')) / 10 &lt; ret) {
+                // positive overflow
+                return INT_MAX;
+            }
+            if (num_sign == -1 &amp;&amp; (INT_MIN + (*str - '0')) / 10 &gt; -ret) {
+                // nagative overflow
+                return INT_MIN;
+            }
+            ret = ret * 10 + (*str - '0');
+            str++;
+        }
+
+        /* 
+        // skip end space
+        while (*str &amp;&amp; *str == ' ') {
+            str++;
+        }
+
+        // improper end
+        if (*str) {
+            return 0;
+        } 
+        */
+
+        return ret * num_sign;
+    }
+};
+</pre>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=39439a20-5a51-11e4-a010-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

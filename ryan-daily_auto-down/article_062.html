@@ -1,0 +1,128 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/mac-beginner-continuation>http://ryan-daily.diandian.com/mac-beginner-continuation</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Mac使用初 - 续
+  </a>
+ </h3>
+ <p class="date ">
+  30th of September 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=mac" target="_blank">
+   mac
+  </a>
+  <a href="/?tag=daily-note" target="_blank">
+   daily-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  上次刚拿到Mac时心情比较小激动写了篇
+  <a href="http://ryan-daily.diandian.com/mac-beginner">
+   Mac使用初
+  </a>
+  的水文，但是体验了一会之后就没怎么用了，一方面感觉很高端，小农思想作祟先省着点旧电脑也没啥问题；另一方面新电脑需要同步加配置一堆东西，懒到我这样的自然是一拖再拖。
+ </p>
+ <p>
+  还是留点空间黑自己…Anyway，今天开始（准确的说，是昨天午夜之后），试图把工作慢慢转移到MacBook上来。
+ </p>
+ <p>
+  不出意料的碰到了许多问题，主要是伟大而犀利的天朝局域网block掉了太多东西，让网络同步步履维艰。
+ </p>
+ <h3>
+  Chrome登陆
+ </h3>
+ <p>
+  一直没觉得Chrome登陆是个如此大的问题，直到发现什么网站都上不去。不仅仅是不存在的脸书和油兔播，大部分常用的网站也登陆不了，因为自己的密码都放在Chrome插件里面了，不能登陆Chrome账号同步插件，同时SwitchySharp也没有，GoAgent也没用。
+ </p>
+ <p>
+  这完完全全是一个deadlock啊。只能试图dropbox同步一些文件过来，惊喜的发现dropbox居然还没恢复，在Windows上一直用OpenDNS都忘记这个问题了。然后只能去Github上下载（咱们程序员力量大，Github还是可以上的）。好容易找到了一个攻略不用SwitchySharp，而是开http和https的Proxy端口，但是一直失败。因为最开始我不知道sudo来执行来获取root权限，好吧，就是这么弱。
+ </p>
+ <p>
+  今天起来跌跌撞撞搞懂了权限问题，但失败的命运还是一直没改变。Terminal里面疯狂报错，大部分是SSL error ，直接连不上appspot.com，good_ipaddrs总是0，这个问题真是搞不懂。最后没办法，用U盘把旧电脑的GoAgent拷了过来，感人地发现怎样看都很难看的facebook界面又出现在眼前了。
+ </p>
+ <p>
+  算是重新理解了一下GoAgent，大致来说
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   只有第一次需要注册appid和用server里面的uploader来上传，如果以前已经弄好了这些，这些步骤可以直接跳过
+  </li>
+  <li>
+   将proxy.ini里面的appid修改成自己申请的
+  </li>
+  <li>
+   运行python proxy.py来开启代理
+  </li>
+  <li>
+   打开http和https的Proxy端口
+  </li>
+ </ul>
+ <p>
+  这个步骤比较复杂一点，不过自己主要目的是来同步东西，频率不高，如果有需要，再研究一下更方便的方法。
+ </p>
+ <p>
+  Chrome账户终于可以登录了，感觉世界又重新充满了善意。
+ </p>
+ <h3>
+  一些基本软件
+ </h3>
+ <p>
+  由于怎么都下不了dropbox，dropbox网站直接下载的居然是个installer，下载之后继续下载，这不是自寻死路吗。
+  <strong>
+   还需要跟进一下。
+  </strong>
+ </p>
+ <p>
+  QQ的一些软件还不错，包括电脑管家和Music，Mac版的清爽多了，真是赤裸裸的价格歧视。
+ </p>
+ <p>
+  输入法就用Sogou好了。
+ </p>
+ <p>
+  Github Mac版的也很漂亮的样子，不过大多数时候还是用命令。
+ </p>
+ <p>
+  Sublime自然不能少，把配置也同步过来。
+ </p>
+ <p>
+  似乎也就这些了，果然大的入口有Chrome足以啊。浏览器应用越来越挤压桌面应用，这是不可避免的趋势。
+ </p>
+ <h3>
+  Gmail同步
+ </h3>
+ <p>
+  系统自带的Gmail同步开始一直没有注意，同步了之后发现很好很强大，目前为止不用翻墙还是可以收邮件的。
+ </p>
+ <p>
+  日历同步的自动提醒真是太有用了，毕竟不能时刻关注着手机。
+ </p>
+ <p>
+  <strong>
+   <em>
+    尽管遭遇了不少波折，并且依然还在波折和变故之中，就如这凉意快要溢出来的夜，只消一只脚迈进去，就有点着了迷了。
+   </em>
+  </strong>
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=cc534de0-48a6-11e4-a29e-90b11c0ed01e&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

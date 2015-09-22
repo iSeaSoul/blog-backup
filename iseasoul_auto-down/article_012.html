@@ -1,0 +1,124 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/tianjin-onsite-easy-sol>http://iseasoul.diandian.com/tianjin-onsite-easy-sol</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Tianjin 2012 Onsite 最水6道题 简单题解
+  </a>
+ </h3>
+ <p class="date ">
+  28th of October 2012
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p class="edui-filter-align-left">
+  没事和他们训练一起做了下这套题。
+  <br/>
+ </p>
+ <p class="edui-filter-align-left">
+  看题目名字大小写都参差不齐，内容也没什么格式，自忖出题的可真够随便的。
+ </p>
+ <p class="edui-filter-align-left">
+  做了发现，题目质量还不错，比长春好不少，还有不少神题。
+ </p>
+ <p class="edui-filter-align-left">
+  有点不足的，两道关键题，F和I都有点陈，A这种模拟还是个大原题。
+ </p>
+ <p class="edui-filter-align-left">
+  <br/>
+ </p>
+ <p class="edui-filter-align-left">
+  B题：
+ </p>
+ <p class="edui-filter-align-left">
+  就不说了吧。枚举因子，模拟进制转化。
+ </p>
+ <p class="edui-filter-align-left">
+  <br/>
+ </p>
+ <p class="edui-filter-align-left">
+  H题：
+ </p>
+ <p class="edui-filter-align-left">
+  也是简单的求期望，枚举一下选哪个。
+ </p>
+ <p class="edui-filter-align-left">
+  <br/>
+ </p>
+ <p class="edui-filter-align-left">
+  C题：
+ </p>
+ <p class="edui-filter-align-left">
+  Typical DP。从后往前和从前往后都一样，最多每次选三个连续的，所以当前对以后的影响最多有两位，记录这两位状态和前面都已调整好的最优值就好了。
+ </p>
+ <p class="edui-filter-align-left">
+  具体一点就是dp[cur_pos][next_change_1][next_change_2]，转移时枚举后两位的改变值，计算出单独改变的步数，复杂度O(1000 * 100 * 100)。
+ </p>
+ <p class="edui-filter-align-left">
+  <br/>
+ </p>
+ <p class="edui-filter-align-left">
+  E题：
+ </p>
+ <p class="edui-filter-align-left">
+  选取的代价是2^i，这就决定了选取前面所有的代价都比选取当前的代价小。于是可以从后往前扫描，贪心选取后面所有的而不选当前，检查是否可行。不可行才选取之。
+ </p>
+ <p class="edui-filter-align-left">
+  问题变为给出选取的具体情况，判断是否全部可达，并能够返回0点。由于是平面图，有一个重要的性质，如果X和Y不直接可达，那么一定也不可以间接可达。所以从0开始染色，如果染色到被选取的，继续染色。可达的必要条件显然是，图被全部染色。这还不够，还需要返回。选取的点显然是相互可达的，那么对于未被选取的，可以由一个最近的选取点往返可达即可。
+ </p>
+ <p class="edui-filter-align-left">
+  <br/>
+ </p>
+ <p class="edui-filter-align-left">
+  A题：
+ </p>
+ <p class="edui-filter-align-left">
+  某个zoj月赛题，然后加菲把它改成校赛题了。名字一样就算了，插画描述都一样能忍？（应该都是抄wiki的）
+  <a href="http://acm.hdu.edu.cn/showproblem.php?pid=3391" target="_blank">
+   HDOJ 3391
+  </a>
+  。
+ </p>
+ <p class="edui-filter-align-left">
+  就是枚举模拟了。对于一副牌，先把对去了，剩下的贪心匹配。特殊情况特判了。
+ </p>
+ <p class="edui-filter-align-left">
+  <br/>
+ </p>
+ <p class="edui-filter-align-left">
+  I题：
+ </p>
+ <p class="edui-filter-align-left">
+  算是很常见的计算几何题了吧。
+ </p>
+ <p class="edui-filter-align-left">
+  首先算出对于警察速度vi，能够覆盖的角度。vi大于vm的时候是肯定可以抓到的。考虑小于等于的时候。我使用的解析几何的方法，来看能被抓到的点的性质，设小偷在A(0,0)点，警察在B(a,0)点（为了方便，可以平移到这种情况），设恰好被抓到的点为C(x, y)，那么有|AC| : vm = |BC| : vi。即sqrt(x*x + y*y) * vi/vm = sqrt((x-a) * (x-a) + y*y)，化简这个方程，可以发现它是个圆心在x轴上的圆，并且 半径/圆心 = vi/vm，那么覆盖角度就是 [-asin(vi/vm), asin(vi/vm)]了。剩下的就是个计算几何中常见的最小环形区间覆盖问题了。枚举起点，贪心。
+ </p>
+ <p class="edui-filter-align-left">
+  和天才讨论了一个更好理解这个角度的方法。还是为了方便考虑，把问题平移成小偷在A(0,0)点，警察在B(a,0)点，并且vm&gt;vi。那么如果小偷有x轴负方向的水平速度，因为合速度小于小偷，那么警察要么水平速度小于小偷，要么竖直速度小于，一定追不上。如果小偷有x轴正方向的水平速度，那么在水平方向两者一定相遇，只要警察竖直方向速度不小于小偷即可。那么角度就是一个分速度与合速度的比值，即sinA = vi/vm。
+ </p>
+ <p class="edui-filter-align-left">
+  由于很久不写几何，最小环形区间覆盖写了好久，比赛时没时间捉其他题了。
+ </p>
+ <p class="edui-filter-align-left">
+  赛后也没太大动力，只是大概扫了扫其他题。D、G和J都是神题，只能AFK &amp; WTF。F是个后缀数组，求不同子串的题目不少吧，这个题需要加个权。然后K是个Splay，目测搞不出。
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=00add990-2106-11e2-b4cf-782bcb43bbd4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

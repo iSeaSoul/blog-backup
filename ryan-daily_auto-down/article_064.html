@@ -1,0 +1,168 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/codechef-sol-lunchtime-sept-2014>http://ryan-daily.diandian.com/codechef-sol-lunchtime-sept-2014</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   [Codechef Solution] September LunchTime 2014
+  </a>
+ </h3>
+ <p class="date ">
+  28th of September 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=codechef" target="_blank">
+   codechef
+  </a>
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=tutorial" target="_blank">
+   tutorial
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <h3>
+  Problem (Contest) Link
+ </h3>
+ <p>
+  <a href="http://www.codechef.com/LTIME16/">
+   Codechef September Lunchtime 2014
+  </a>
+ </p>
+ <h3>
+  Problem Code Link
+ </h3>
+ <p>
+  <a href="https://github.com/iSeaSoul/codechef/tree/master/201409_LT">
+   Code on Github
+  </a>
+ </p>
+ <h3>
+  Problem Solution
+ </h3>
+ <h4>
+  <strong>
+   <em>
+    Chef and easy problem
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Chef and Roam take numbers alternately, maximum the sum of their taken numbers.
+ </p>
+ <p>
+  Sort the numbers and they will take them with the decreasing order.
+ </p>
+ <h4>
+  <strong>
+   <em>
+    Chef and easy problem 2
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Given a sequence of number, each operation Chef can choose a prime and divide all the numbers which can be divided. Find the minimum times of operations to change all the numbers to 1.
+ </p>
+ <p>
+  For a number X, if its prime factorization is
+  <code>
+   p1^a1 * p2^a2 ... * pi^ai
+  </code>
+  , its divide time should be
+  <code>
+   sigma(ai)
+  </code>
+  . For each prime factor, calculate the maximum ai, i.e. the maximum power time, sum up them to get the answer.
+ </p>
+ <h4>
+  <strong>
+   <em>
+    Chef and medium problem
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Given a array of number, there are two operations:
+ </p>
+ <blockquote>
+  <ul class="edui-filter-disc">
+   <li>
+    <p>
+     1 l r - Calculate the different continuous identical numbers for subarray indexed from l to r inclusive.
+    </p>
+   </li>
+   <li>
+    <p>
+     2 l r - Modify the given array by removing all elements having indices in range from l to r and then putting these numbers at the beginning of array. Order of all other elements remains same.
+    </p>
+   </li>
+  </ul>
+ </blockquote>
+ <p>
+  If without operation 2, we can calculate a array
+  <code>
+   diff_continuous
+  </code>
+  indicating if the two number is the same on position i and i + 1, and then do a partial sum. With this, for given [l, r], the answer is
+  <code>
+   r - l + 1 - (sum_diff_continuous[r] - sum_diff_continuous[l])
+  </code>
+  .
+ </p>
+ <p>
+  But with operation 2, the official solution suggest use
+  <strong>
+   Treap
+  </strong>
+  .
+ </p>
+ <h4>
+  <strong>
+   <em>
+    Chef and medium problem 2
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Given a array of number, there are two operations:
+ </p>
+ <blockquote>
+  <ul class="edui-filter-disc">
+   <li>
+    <p>
+     1 l r p - Select all the numbers having indices between l and r (inclusive) that are divisible by p and divide them by p, where p is in set {2, 3, 5}.
+    </p>
+   </li>
+   <li>
+    <p>
+     2 l d - Modify the l-th number in the array to d.
+    </p>
+   </li>
+  </ul>
+ </blockquote>
+ <p>
+  Segment tree is feasible to solve this: for operation 1, use lazy flag to mark the segment state; for operation 2, push down the lazy flag and change the value of only one leaf node. At last, get all the value of its lazy flag, calculate its real value.
+ </p>
+ <p>
+  Also, we can divide the number first, use 3 binary indexed tree to record the sum of the {2, 3, 5} factor power, and multiply them to get the final number. It's easier to implement.
+ </p>
+ <p>
+  『做弱者，多不得好活；做强者，多不得好死。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=35f98850-4702-11e4-a010-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

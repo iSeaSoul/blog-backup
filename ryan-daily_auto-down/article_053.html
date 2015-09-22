@@ -1,0 +1,211 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/map-reduce-learning>http://ryan-daily.diandian.com/map-reduce-learning</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   MapReduce学习
+  </a>
+ </h3>
+ <p class="date ">
+  12th of October 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=mapreduce" target="_blank">
+   mapreduce
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  1 MapReduce应用背景
+ </p>
+ <p>
+  MapReduce是一种对大数据处理模型的抽象（abstraction）。通常，在处理超大数据集时，计算机的内存不足以一次存放数据集的内容，需要分块多次处理。MapReduce就提供了一种途径，使得程序设计者无需关心分配方法（大部分场景下分配方法是很通用的），只需要处理对每条数据的处理，以及定义这些处理结果的合并方法。
+ </p>
+ <h4>
+  2 MapReduce模型
+ </h4>
+ <p>
+  考虑一个具体的实例，统计一个大型文档集合中每个单词出现的次数。
+ </p>
+ <p>
+  如果单词的数目数量级为1G(10^9)，每次单词的长度为16，那么需要的内存大约为1G * 16B = 16GB，加上统计次数的数字（4GB），这个HashMap就需要大约20GB的内存开销。考虑如何减少这个开销，假设现在允许的内存只有1GB。
+ </p>
+ <p>
+  对于每个单词，可以设计一个Hash算法，将其转化成一个理论上足够均匀的数字（int）。由于每次可以内存只有1GB，那么可以依据
+  <code>
+   HashVal % 20
+  </code>
+  的结果来将单词划分为20组。遍历20次文档，每次处理处在一档
+  <code>
+   HashVal % 20 = [0, 20)
+  </code>
+  的数据并写入文件。
+ </p>
+ <p>
+  MapReduce就简化了这一过程。用户不用关心如何分配这些单词，只要定义Map（映射）和Reduce（合并归纳）过程。对于单词统计这个问题，定义Map过程为对于一组文档，对每个单词产生一个
+  <code>
+   (word, 1)
+  </code>
+  的key/value对。
+ </p>
+ <pre><code>map(String key, String value)
+    // key : document name
+    // value : document contents
+    for each word w in value:
+        EmitIntermediate(w, 1)
+</code></pre>
+ <p>
+  这样，对于每个单词key，就产生了一个value的list。现在来合并这个list：
+ </p>
+ <pre><code>reduce(String key, Iterator values)
+    // key : a word
+    // values : a list of counts
+    int result = 0
+    for each value v in values:
+        result += v
+    Emit(result)
+</code></pre>
+ <p>
+  这个过程合并了这个list作为一个数，作为结果，也就是每次单词的count。
+ </p>
+ <p>
+  从这个例子可以看出，MapReduce技术屏蔽了并行计算的具体过程，使得解决问题只需要关注问题本身：如何处理输入将其对应成需要的key/value，然后如何合并这个key/list(value)成最后的结果。
+ </p>
+ <pre><code>(k1, v1) -&gt; list(k2, v2)
+(k2, list(v2)) -&gt; list(v3)
+</code></pre>
+ <h4>
+  3 MapReduce流程
+ </h4>
+ <p>
+  通过一些方法将输入数据分为M份，Map过程可以同时在多台机器上运行来处理输入数据。处理得到key对应的list(value)之后，通过hash之类的方法可以将key划分为R份，同样在多台机器上运行来合并数据。
+ </p>
+ <p>
+  <span class="text-img-holder">
+   <img alt="MapReduce Procedure" height="268" src="http://m2.img.srcdd.com/farm4/d/2014/1013/16/12778CE1F2C457C6C44B6678F648B785_B500_900_500_268.png" width="500"/>
+  </span>
+ </p>
+ <p>
+  具体来说，可以划分为7个步骤：
+ </p>
+ <ol class="edui-filter-decimal">
+  <li>
+   用户程序的MapReduce库将输入文件划分为M个部分，同时将程序拷贝到集群机器上。
+  </li>
+  <li>
+   其中一台机器称作
+   <code>
+    master
+   </code>
+   ，负责分配map或reduce任务到空闲的机器上。
+  </li>
+  <li>
+   一台被分配map任务的
+   <code>
+    worker
+   </code>
+   将读取对应的输入，通过用户定义的Map过程来处理输入的key/value，并输出一些作为媒介的中间key/value，缓存在内存中。
+  </li>
+  <li>
+   通过分割函数，将缓存的键对周期性的写到磁盘上。这些键对在本地磁盘的位置会传回
+   <code>
+    master
+   </code>
+   ，由它将位置信息推送到
+   <code>
+    reduce worker
+   </code>
+   上。
+  </li>
+  <li>
+   当
+   <code>
+    reduce worker
+   </code>
+   接收到
+   <code>
+    master
+   </code>
+   发来的位置信息后，通过RPC读取对应
+   <code>
+    map worker
+   </code>
+   本地磁盘上的缓存信息。当读取完所有中间数据后，由于不同的key值可能映射到一个reduce任务，所以需要将这些信息按key值排序来得到出现过相同key值的所有信息。如果这个中间信息无法读入内存，需要进行外排序。
+  </li>
+  <li>
+   <code>
+    reduce worker
+   </code>
+   遍历所有的中间信息，传递每一个key值和它所对应的所有中间信息到用户定义的Reduce过程进行处理。Reduce的输出会追加到reduce分割的输出文件中。
+  </li>
+  <li>
+   当所有的工作都完成后，
+   <code>
+    master
+   </code>
+   会唤醒用户程序。这时，用户程序的
+   <code>
+    MapReduce
+   </code>
+   调用将会返回。
+  </li>
+ </ol>
+ <h4>
+  4 MapReduce事故处理
+ </h4>
+ <p>
+  当
+  <code>
+   worker
+  </code>
+  失败时，周期性ping它们的
+  <code>
+   master
+  </code>
+  可以及时检查到没有回应，如果这个任务是map任务，就会被重置到空闲状态，准备进行重新调度安排。如果是一个reduce任务，由于结果已经写入GFS中，无需重新执行。在map任务重新安排后，
+  <code>
+   master
+  </code>
+  会通知
+  <code>
+   reduce workers
+  </code>
+  新的数据位置。
+ </p>
+ <p>
+  当
+  <code>
+   master
+  </code>
+  失败时，通常它会周期性backup当前的数据状态，这时就回退到上一个checkpoint来重新启动一份任务拷贝。但是由于只有一台
+  <code>
+   master
+  </code>
+  ，失败的影响是巨大的，所以现在会中止整个MapReduce程序。
+ </p>
+ <p>
+  特别的，如果一些记录由于程序的bug或数据不合法造成程序崩溃，在分析大数据时，这些错误有时是可以接受的。那么为了保证整个处理过程顺利进行，MapReduce会检测出这些会导致崩溃的记录，跳过它们。
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=bcab7ba0-5225-11e4-a010-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

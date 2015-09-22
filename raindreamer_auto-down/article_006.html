@@ -1,0 +1,136 @@
+<h3>Original Link: <a href=http://raindreamer.diandian.com/hackerrank-w9-solution>http://raindreamer.diandian.com/hackerrank-w9-solution</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Hackerrank Week 9 Solution
+  </a>
+ </h3>
+ <p class="date ">
+  2th of September 2014
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  <a href="https://www.hackerrank.com/contests/w9" target="_blank">
+   Contest Link
+  </a>
+ </p>
+ <p>
+  I had attended this contest recently, and it turns out that most of the problems are very talented, though some are a little stereotyped.
+ </p>
+ <h4>
+  <a class="edui-filter-decoration-none" href="https://www.hackerrank.com/contests/w9/challenges/sansa-and-xor">
+   Sansa and XOR
+  </a>
+ </h4>
+ <p>
+  Calculate XOR value of XOR of all sub-array.
+ </p>
+ <p>
+  XOR is commutative, so once we know the occurence number of an element, we can simply XOR all elements which occur for odd times.
+ </p>
+ <h4>
+  <a class="edui-filter-decoration-none" href="https://www.hackerrank.com/contests/w9/challenges/lexicographic-steps">
+   Lexicographic paths
+  </a>
+ </h4>
+ <p>
+  To get (X, Y) only by horizontal or vertical moves, find the k-th lexicographic small path. (X, Y &lt;= 10)
+ </p>
+ <p>
+  By combination, we can know the way to get (X, Y) for (0, 0) is C(X + Y, Y), so enumerate the first move is H or V, and check the left number of ways is larger than K.
+ </p>
+ <h4>
+  <a class="edui-filter-decoration-none" href="https://www.hackerrank.com/contests/w9/challenges/pmix">
+   Mixing proteins
+  </a>
+ </h4>
+ <p>
+  Given a mutation matrix:
+ </p>
+ <blockquote>
+  <pre config="brush:plain;toolbar:false;">    A   B   C   D
+    _   _   _   _
+A|  A   B   C   D
+B|  B   A   D   C
+C|  C   D   A   B
+D|  D   C   B   A</pre>
+ </blockquote>
+ <p>
+  Now given a string(len&lt;=10^6), for a time unit, each character in string will change in the way the matrix describe, with the next character, i.e. S(i, T + 1) = M(S(i, T), S(i + 1, T)). Find the string after K(&lt;=10^9) time unit.
+ </p>
+ <p>
+  Observe this matrix, we can easily find that M(i, j) = M(j, i). And also M(M(i, k), M(j, k)) = M(i, j). So we can deduce that:
+ </p>
+ <blockquote>
+  <pre config="brush:plain;toolbar:false;">S(i, T + 2) </pre>
+  <pre config="brush:plain;toolbar:false;">= M( M(S(i, T), S(i, T + 1)), M(S(i, T + 1), S(i, T + 2)) )
+= M( M(S(i, T), S(i, T + 1)), M(S(i, T + 2), S(i, T + 1)) )
+= M( S(i, T), S(i, T + 2) )</pre>
+ </blockquote>
+ <p>
+  It's a beautiful formula! So S(i, T + k) = M( S(i, T), S(i, T + k) )? Unfortunately, it's not ture. When k = 3, we can't simplify the formula in this way.
+ </p>
+ <p>
+  But for K = 2^T(T=0, 1, 2...), the formula share common k in the second step, so it does work. Then we can calculate the final answer in O(len * log(K)) time.
+ </p>
+ <h4>
+  <a class="edui-filter-decoration-none" href="https://www.hackerrank.com/contests/w9/challenges/a-game-of-knights">
+   A Game of Knights
+  </a>
+ </h4>
+ <p>
+  Two player move N knights (0 &lt;= Xi, Yi &lt; 300) in a checkboard alternately. In each move, the player can choose at most K knights and move each knight at most X move singly. Determine the winner of the game.
+ </p>
+ <p>
+  First we need get the SG value for each grid, as X &lt;= 5, we can simple dfs all possible succeed state, the time complexity is about O(300 * 300 * 2 ^ 5), kind of slow. As usual, my method is printing the value table, and find the pattern of SG value by naked eye.
+ </p>
+ <p>
+  And it do have a pattern: SG[x][y] = SG[x - 2 * X - 1][y - 2 * X - 1], and for x &lt; 2*X+1 and y &gt;= 4 * X, sg[x][y] = x. With this two optimizations, we can get the SG vaule of the checkboard grids very fast. (But I haven't proved why the pattern works)
+ </p>
+ <p>
+  The left problem is a standrad K-Nim game, we can convert the sg value to binary, and do a (K+1)-nary non-carried addition for all SG vaule, just as the simple Nim game.
+ </p>
+ <h4>
+  <a class="edui-filter-decoration-none" href="https://www.hackerrank.com/contests/w9/challenges/alex-vs-fedor">
+   Alex vs Fedor
+  </a>
+ </h4>
+ <p>
+  Calculate the number of Minimal Spanning Tree and Spanning Tree for a graph.
+ </p>
+ <p>
+  This is an extremely speical and traditional algorithm to solve the problem:
+  <a href="http://en.wikipedia.org/wiki/Kirchhoff's_theorem" target="_blank">
+   Kirchhoff's Matrix
+  </a>
+  .
+ </p>
+ <p>
+  My solution failed in some final testcases for int64 problem, though the original number in Kirchhoffs' matrix must fit in int, but while calculating the value of determinant, the value may be overflowed.
+ </p>
+ <p>
+  <a href="https://github.com/iSeaSoul/hackerrank/tree/master/weekly_9" target="_blank">
+   Solution Link
+  </a>
+ </p>
+ <p>
+  『有人向我挑战，说“你放马过来”。我不回话，只是疾驰而去，然后马后炮打倒他。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=7c627660-3269-11e4-a29e-90b11c0ed01e&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

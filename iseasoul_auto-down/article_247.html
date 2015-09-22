@@ -1,0 +1,99 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2008-12-09/14508454>http://iseasoul.diandian.com/post/2008-12-09/14508454</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   八皇后问题
+  </a>
+ </h3>
+ <p class="date ">
+  9th of December 2008
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  八皇后是个古老而著名的问题，在没有计算机的时候，人们沉浸在这种数学带来的沉醉的美中，去探讨这些神奇的数字。
+  <br>
+   虽然C语言学习的伊始，就接触个这个充满趣味的问题，但一直没有下决心自己写下相应的程序，今天的递归学习，终于让我直面此题。
+   <br>
+    其实，真正去写时，也是很简单的事情，因为八皇后问题实在是太典型的递归模型了，枚举，测试是否满足，满足进行下一个，简直就是递归方法的另一个定义！
+    <br>
+     有时候，不，应该是大部分时候，坐下来去做，比浮在表面的说说，更难，也更简单。
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+ </p>
+ <pre><span>#include</span><span>&lt;iostream&gt;</span>
+<span>#include</span><span>&lt;math.h&gt;</span>
+<span>using</span> <span>namespace</span> std<span>;</span>
+
+<span>int</span> result<span>[</span><span>92</span><span>][</span><span>8</span><span>];   //存放结果</span>
+<span>int</span> put<span>[</span><span>8</span><span>];          //一次放置的暂存数组</span>
+<span>int</span> num<span>;</span>
+
+<span>void</span>  <span>PutQueen</span><span>(</span><span>int</span> i<span>)</span>
+<span>{</span>
+ <span>int</span> j<span>,</span>k<span>;</span>
+
+ <span>if</span><span>(</span>i<span>==</span><span>8</span><span>)</span>
+ <span>{</span>
+  <span>for</span><span>(</span>j<span>=</span><span>0</span><span>;</span>j<span>&lt;</span><span>8</span><span>;</span>j<span>++)</span>
+   result<span>[</span>num<span>][</span>j<span>]=</span>put<span>[</span>j<span>]+</span><span>1</span><span>;</span>
+  num<span>++;</span>
+ <span>}</span>
+
+ <span>for</span><span>(</span>j<span>=</span><span>0</span><span>;</span>j<span>&lt;</span><span>8</span><span>;</span>j<span>++)</span>           <span>//放置第i行的皇后</span>
+ <span>{</span>
+  <span>for</span><span>(</span>k<span>=</span><span>0</span><span>;</span>k<span>&lt;</span>i<span>;</span>k<span>++)</span>   <span>//验证是否冲突</span>
+   <span>if</span><span>(</span>put<span>[</span>k<span>]==</span>j<span>||</span><span>abs</span><span>(</span>put<span>[</span>k<span>]-</span>j<span>)==</span>i<span>-</span>k<span>)</span>
+    <span>break</span><span>;</span>
+  <span>if</span><span>(</span>k<span>==</span>i<span>)</span>
+  <span>{</span>
+   put<span>[</span>i<span>]=</span>j<span>;</span>
+   <span>PutQueen</span><span>(</span>i<span>+1</span><span>);</span>
+  <span>}</span>
+ <span>}</span>
+<span>}</span>
+
+<span>int</span> <span>main</span><span>()</span>
+<span>{</span>
+ <span>int</span> num<span>,</span>i<span>,</span>n<span>,</span>m<span>;</span>
+
+ num<span>=</span><span>0</span><span>;</span>
+ <span>PutQueen</span><span>(</span><span>0</span><span>);</span>
+ cin<span>&gt;&gt;</span>n<span>;</span>
+ <span>while</span><span>(</span>n<span>--)</span>
+ <span>{</span>
+  cin<span>&gt;&gt;</span>m<span>;</span>
+  <span>for</span><span>(</span>i<span>=</span><span>0</span><span>;</span>i<span>&lt;</span><span>8</span><span>;</span>i<span>++)</span>
+   cout<span>&lt;&lt;</span>result<span>[</span>m<span>-1</span><span>][</span>i<span>];</span>
+  cout<span>&lt;&lt;</span>endl<span>;</span>
+ <span>}</span>
+ <span>return</span> <span>0</span><span>;</span>
+<span>}</span></pre>
+ <p>
+  『为什么要那么痛苦地忘记一个人，时间自然会使你忘记。如果时间不可以让你忘记不应该记住的人，我们失去的岁月又有甚么意义？』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=ba393850-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

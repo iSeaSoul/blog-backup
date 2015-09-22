@@ -1,0 +1,132 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-07-10/18959947>http://iseasoul.diandian.com/post/2010-07-10/18959947</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Contest 0000001 C &amp; G
+  </a>
+ </h3>
+ <p class="date ">
+  10th of July 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=Funny%20Contest" target="_blank">
+   Funny Contest
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  <a href="http://acm.hdu.edu.cn/showproblem.php?pid=3426" target="_blank">
+   C : XML
+  </a>
+ </p>
+ <p>
+  - Easy medium, simple string simulation
+ </p>
+ <p>
+  <a href="http://acm.hdu.edu.cn/showproblem.php?pid=3430" target="_blank">
+   G: Shuffling
+  </a>
+ </p>
+ <p>
+  - Hard medium, first get the cycle length and shuffle time of every number, this ends to a equation form:
+  <br>
+   X % xi = mi, use Chinese Reminder Theorem to solve it, what's more, the xi can be non-co-prime
+  </br>
+ </p>
+ <pre><span>/*
+ * Author: iSea
+ * Created Time:  2010/7/10 19:47:39
+ * File Name: G.cpp
+ */</span><span>
+#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstring&gt;
+#include &lt;cmath&gt;
+#include &lt;queue&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
+</span><span>
+using namespace</span> std<span><strong>;</strong></span><span>
+
+typedef</span><span> long long</span> int64<span><strong>;</strong></span><span>
+
+const</span><span> int</span> maxn<span><strong> =</strong></span><span> 520</span><span><strong> +</strong></span><span> 10</span><span><strong>;</strong></span><span>
+const</span><span> int</span> inf<span><strong> = (-</strong></span><span>1u</span><span><strong>) &gt;&gt;</strong></span><span> 1</span><span><strong>;</strong></span><span>
+
+int</span> n<span><strong>,</strong></span> p<span><strong>[</strong></span>maxn<span><strong>],</strong></span> q<span><strong>[</strong></span>maxn<span><strong>],</strong></span> mod<span><strong>[</strong></span>maxn<span><strong>],</strong></span> rem<span><strong>[</strong></span>maxn<span><strong>];</strong></span><span>
+
+void</span> init<span><strong>() {</strong></span><span>
+    for</span><span><strong> (</strong></span><span>int</span> i<span><strong> =</strong></span><span> 1</span><span><strong>,</strong></span> t<span><strong>;</strong></span> i<span><strong> &lt;=</strong></span> n<span><strong>; ++</strong></span>i<span><strong>){</strong></span>
+        scanf<span><strong> (</strong></span><span>"%d"</span><span><strong>, &amp;</strong></span>t<span><strong>);</strong></span>
+        p<span><strong>[</strong></span>t<span><strong>] =</strong></span> i<span><strong>; }</strong></span><span>
+    for</span><span><strong> (</strong></span><span>int</span> i<span><strong> =</strong></span><span> 1</span><span><strong>,</strong></span> t<span><strong>;</strong></span> i<span><strong> &lt;=</strong></span> n<span><strong>; ++</strong></span>i<span><strong>) {</strong></span>
+        scanf<span><strong> (</strong></span><span>"%d"</span><span><strong>, &amp;</strong></span>t<span><strong>);</strong></span>
+        q<span><strong>[</strong></span>t<span><strong>] =</strong></span> i<span><strong>; } }</strong></span><span>
+
+bool</span> get_cycle<span><strong>() {</strong></span><span>
+    for</span><span><strong> (</strong></span><span>int</span> i<span><strong> =</strong></span><span> 1</span><span><strong>;</strong></span> i<span><strong> &lt;=</strong></span> n<span><strong>; ++</strong></span>i<span><strong>) {</strong></span><span>
+        int</span> place<span><strong> =</strong></span> p<span><strong>[</strong></span>i<span><strong>],</strong></span> len<span><strong> =</strong></span><span> 1</span><span><strong>,</strong></span> cnt<span><strong> = -</strong></span><span>1</span><span><strong>;</strong></span><span>
+        while</span><span><strong> (</strong></span>place<span><strong> !=</strong></span> i<span><strong>) {</strong></span><span>
+            if</span><span><strong> (</strong></span>place<span><strong> ==</strong></span> q<span><strong>[</strong></span>i<span><strong>])</strong></span> cnt<span><strong> =</strong></span> len<span><strong>; ++</strong></span>len<span><strong>,</strong></span> place<span><strong> =</strong></span> p<span><strong>[</strong></span>place<span><strong>]; }</strong></span><span>
+        if</span><span><strong> (</strong></span>place<span><strong> ==</strong></span> q<span><strong>[</strong></span>i<span><strong>])</strong></span> cnt<span><strong> =</strong></span> len<span><strong>;</strong></span><span>
+        if</span><span><strong> (</strong></span>cnt<span><strong> == -</strong></span><span>1</span><span><strong>)</strong></span><span> return</span><span><strong> false</strong></span><span><strong>;</strong></span>
+        mod<span><strong>[</strong></span>i<span><strong>] =</strong></span> len<span><strong>,</strong></span> rem<span><strong>[</strong></span>i<span><strong>] =</strong></span> cnt<span><strong>;</strong></span>
+        rem<span><strong>[</strong></span>i<span><strong>] %=</strong></span> mod<span><strong>[</strong></span>i<span><strong>]; }</strong></span><span>
+    return</span><span><strong> true</strong></span><span><strong>; }</strong></span>
+
+int64 exgcd<span><strong>(</strong></span>int64 a<span><strong>,</strong></span> int64 b<span><strong>,</strong></span> int64<span><strong>&amp;</strong></span> x<span><strong>,</strong></span> int64<span><strong>&amp;</strong></span> y<span><strong>) {</strong></span><span>
+    if</span><span><strong> (</strong></span>b<span><strong> ==</strong></span><span> 0</span><span><strong>) {</strong></span>
+        x<span><strong> =</strong></span><span> 1</span><span><strong>,</strong></span> y<span><strong> =</strong></span><span> 0</span><span><strong>;</strong></span><span>
+        return</span> a<span><strong>; }</strong></span>
+    int64 r<span><strong> =</strong></span> exgcd<span><strong>(</strong></span>b<span><strong>,</strong></span> a<span><strong> %</strong></span> b<span><strong>,</strong></span> x<span><strong>,</strong></span> y<span><strong>);</strong></span>
+    int64 t<span><strong> =</strong></span> x<span><strong>;</strong></span>
+    x<span><strong> =</strong></span> y<span><strong>;</strong></span>
+    y<span><strong> =</strong></span> t<span><strong> -</strong></span> a<span><strong> /</strong></span> b<span><strong> *</strong></span> y<span><strong>;</strong></span><span>
+    return</span> r<span><strong>; }</strong></span>
+
+int64 chinese_reminder<span><strong>() {</strong></span>
+    int64 nowrem<span><strong> =</strong></span> rem<span><strong>[</strong></span>n<span><strong>],</strong></span> nowmod<span><strong> =</strong></span> mod<span><strong>[</strong></span>n<span><strong>];</strong></span><span>
+    for</span><span><strong> (</strong></span><span>int</span> i<span><strong> =</strong></span><span> 1</span><span><strong>;</strong></span> i<span><strong> &lt;</strong></span> n<span><strong>; ++</strong></span>i<span><strong>) {</strong></span>
+        int64 a<span><strong> =</strong></span> nowmod<span><strong>,</strong></span> b<span><strong> =</strong></span> mod<span><strong>[</strong></span>i<span><strong>],</strong></span> c<span><strong> =</strong></span> rem<span><strong>[</strong></span>i<span><strong>] -</strong></span> nowrem<span><strong>,</strong></span> x<span><strong>,</strong></span> y<span><strong>;</strong></span>
+        int64 g<span><strong> =</strong></span> exgcd<span><strong>(</strong></span>a<span><strong>,</strong></span> b<span><strong>,</strong></span> x<span><strong>,</strong></span> y<span><strong>);</strong></span><span>
+        if</span><span><strong> (</strong></span>c<span><strong> %</strong></span> g<span><strong> !=</strong></span><span> 0</span><span><strong>)</strong></span><span> 
+            return</span><span><strong> -</strong></span><span>1</span><span><strong>;</strong></span>
+        x<span><strong> *=</strong></span> c<span><strong> /</strong></span> g<span><strong>,</strong></span> y<span><strong> *= -</strong></span>c<span><strong> /</strong></span> g<span><strong>;</strong></span>
+        nowrem<span><strong> +=</strong></span> x<span><strong> *</strong></span> nowmod<span><strong>;</strong></span>
+        nowmod<span><strong> =</strong></span> nowmod<span><strong> /</strong></span> g<span><strong> *</strong></span> mod<span><strong>[</strong></span>i<span><strong>];</strong></span>
+        nowrem<span><strong> %=</strong></span> nowmod<span><strong>;</strong></span><span>
+        if</span><span><strong> (</strong></span>nowrem<span><strong> &lt;</strong></span><span> 0</span><span><strong>)</strong></span> nowrem<span><strong> +=</strong></span> nowmod<span><strong>; }</strong></span><span>
+    return</span> nowrem<span><strong>; }</strong></span><span>
+
+void</span> solve<span><strong>() {</strong></span><span>
+    if</span><span><strong> (!</strong></span>get_cycle<span><strong>()) {</strong></span>
+        puts<span><strong>(</strong></span><span>"-1"</span><span><strong>);</strong></span><span>
+        return</span><span><strong> ; }</strong></span>
+    printf<span><strong> (</strong></span><span>"%I64d\n"</span><span><strong>,</strong></span> chinese_reminder<span><strong>()); }</strong></span><span>
+
+int</span><span> main</span><span><strong>() {</strong></span><span>
+    while</span><span><strong> (</strong></span>scanf<span><strong> (</strong></span><span>"%d"</span><span><strong>, &amp;</strong></span>n<span><strong>),</strong></span> n<span><strong>) {</strong></span>
+        init<span><strong>();</strong></span>
+        solve<span><strong>(); }</strong></span><span>
+    return</span><span> 0</span><span><strong>; }</strong></span></pre>
+ <p>
+  点JdD7点iOIric网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b74dd830-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

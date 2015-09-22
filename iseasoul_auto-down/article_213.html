@@ -1,0 +1,88 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-03-02/14643591>http://iseasoul.diandian.com/post/2010-03-02/14643591</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Floyd：DP在图论中（一）
+  </a>
+ </h3>
+ <p class="date ">
+  2th of March 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  计算所有点的最近点对，floyd是一个很有效也很简洁的算法。
+  <br>
+   三重循环，更新操作，一个标准O(V^3)算法，也许会有很多质疑，用堆优化的dijkatra可以达到O(VlogV)，那么做V次dijkstra也只是O(V*V*logV)，但是有一点无法被忽视，五行代码，还可以处理带负权的边，优势毋庸再说。
+  </br>
+ </p>
+ <p>
+  Q1 Dij(k)的含义是什么？
+  <br>
+   如果把初值Dij(0)置为g[i][j]，那么Dij(k)表示仅通过前1~k个顶点得到的最短路。
+  </br>
+ </p>
+ <p>
+  Q2 如何证明Dij(k) = min{Dij(k-1), Dik(k-1) + Dkj(k-1)}的正确性？
+  <br>
+   设Dij(k)对应的最短路为i v1 e1 …ep-1 vp j，若k不属于其中的顶点，那么这条最短路也对应Dij(k-1)中的最短路，若k属于不属于其中的顶点，那么可以分为i v1 e1 …vs-1 vs k 和 k vs+1 es+1 … ep-1 vp j，这两条路分别对应Dik(k-1) 和Dkj(k-1)。
+  </br>
+ </p>
+ <p>
+  典型题目：
+  <br>
+   POJ 2502, POJ 1125, POJ 2240, POJ 1975, POJ 1178, HDOJ 2290
+  </br>
+ </p>
+ <p>
+  基本模板：
+ </p>
+ <p>
+  void floyd()
+  <br>
+   {
+   <br>
+    for (int k = 0; k &lt; n; ++k)
+    <br>
+     for (int i = 0; i &lt; n; ++i)
+     <br>
+      for (int j = 0; j &lt; n; ++j)
+      <br>
+       if (g[i][k] != inf &amp;&amp; g[k][j] != inf)
+       <br>
+        g[i][j] = min(g[i][j], g[i][k] + g[k][j]);
+        <br>
+         }
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b921fbf0-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

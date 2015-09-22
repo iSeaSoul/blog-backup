@@ -1,0 +1,206 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/cplusplus-string>http://ryan-daily.diandian.com/cplusplus-string</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Implement an C++ string class
+  </a>
+ </h3>
+ <p class="date ">
+  11th of November 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+  <a href="/?tag=interview" target="_blank">
+   interview
+  </a>
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  Last time I has been though a frustrated interview, and I did a terrible implementation for this problem which seems extremely simple.
+ </p>
+ <p>
+  As the basic knowledge of C++ is very weak, I has to fix this issues as soon as possible. It's really shameful to failed in such low-level question.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+#ifndef MYSTRING_H
+#define MYSTRING_H
+
+#include &lt;string.h&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class MyString {
+friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp;, const MyString&amp;);
+
+public:
+    MyString() {}
+    MyString(const char*);
+    MyString(const MyString&amp;);
+    ~MyString();
+
+    MyString&amp; operator=(const char*);
+    MyString&amp; operator=(const MyString&amp;);
+    MyString&amp; append(const char*);
+    MyString&amp; append(const MyString&amp;);
+    MyString&amp; insert(const char*, int);
+    MyString&amp; insert(const MyString&amp;, int);
+
+private:
+    char *m_data;
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp;, const MyString&amp;);
+
+#endif
+</pre>
+ <p>
+  The head file.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+#include "MyString.h"
+
+MyString::MyString(const char* cstr) {
+    int str_len = strlen(cstr) + 1;
+    m_data = new char[str_len];
+    snprintf(m_data, str_len, "%s", cstr);
+}
+
+MyString::MyString(const MyString&amp; str) {
+    int str_len = strlen(str.m_data) + 1;
+    m_data = new char[str_len];
+    snprintf(m_data, str_len, "%s", str.m_data);
+}
+
+MyString::~MyString() {
+    if (m_data != NULL) {
+        delete []m_data;
+    }
+}
+
+MyString&amp; MyString::operator=(const char* cstr) {
+    int str_len = strlen(cstr) + 1;
+    m_data = new char[str_len];
+    snprintf(m_data, str_len, "%s", cstr);
+    return *this;
+}
+
+MyString&amp; MyString::operator=(const MyString&amp; str) {
+    if (this != &amp;str) {
+        // delete old buffer string
+        delete []m_data;
+        int str_len = strlen(str.m_data) + 1;
+        m_data = new char[str_len];
+        snprintf(m_data, str_len, "%s", str.m_data);
+    }
+    return *this;
+}
+
+MyString&amp; MyString::append(const char* cstr) {
+    char *temp = new char[strlen(m_data) + 1];
+    strcpy(temp, m_data);
+    delete []m_data;
+    int str_len = strlen(temp) + strlen(cstr) + 1;
+    m_data = new char[str_len];
+    snprintf(m_data, strlen(temp) + 1, "%s", temp);
+    strncat(m_data, cstr, strlen(cstr));
+    delete []temp;
+    return *this;
+}
+
+MyString&amp; MyString::append(const MyString&amp; rhs) {
+    char *temp = new char[strlen(m_data) + 1];
+    strcpy(temp, m_data);
+    delete []m_data;
+    int str_len = strlen(temp) + strlen(rhs.m_data) + 1;
+    m_data = new char[str_len];
+    snprintf(m_data, strlen(temp) + 1, "%s", temp);
+    strncat(m_data, rhs.m_data, strlen(rhs.m_data));
+    delete []temp;
+    return *this;
+}
+
+MyString&amp; MyString::insert(const char* cstr, int pos) {
+    int ori_strlen = strlen(m_data);
+    int ins_strlen = strlen(cstr);
+    if (pos &gt; ori_strlen) {
+        // Error:: out of boundary
+        return *this;
+    }
+    char *temp = new char[ori_strlen + 1];
+    strcpy(temp, m_data);
+    delete []m_data;
+    m_data = new char[ori_strlen + ins_strlen + 1];
+    snprintf(m_data, pos + 1, "%s", temp);
+    snprintf(m_data + pos, ins_strlen + 1, "%s", cstr);
+    snprintf(m_data + pos + ins_strlen, ori_strlen - pos + 1, "%s", temp + pos);
+    delete []temp;
+    return *this;
+}
+
+MyString&amp; MyString::insert(const MyString&amp; str, int pos) {
+    int ori_strlen = strlen(m_data);
+    int ins_strlen = strlen(str.m_data);
+    if (pos &gt; ori_strlen) {
+        // Error:: out of boundary
+        return *this;
+    }
+    char *temp = new char[ori_strlen + 1];
+    strcpy(temp, m_data);
+    delete []m_data;
+    m_data = new char[ori_strlen + ins_strlen + 1];
+    snprintf(m_data, pos + 1, "%s", temp);
+    snprintf(m_data + pos, ins_strlen + 1, "%s", str.m_data);
+    snprintf(m_data + pos + ins_strlen, ori_strlen - pos + 1, "%s", temp + pos);
+    delete []temp;
+    return *this;
+}
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const MyString&amp; str) {
+    os &lt;&lt; str.m_data;
+    return os;
+}
+
+int main() {
+    MyString a = "abc";
+    MyString b("def");
+    std::cout &lt;&lt; a &lt;&lt; ' ' &lt;&lt; b &lt;&lt; ' ' &lt;&lt; a.append(b) &lt;&lt; std::endl;
+    a = b;
+    std::cout &lt;&lt; a &lt;&lt; ' ' &lt;&lt; a.append("str").append(a) &lt;&lt; std::endl;
+    a = b;
+    std::cout &lt;&lt; a.insert("abc", 1) &lt;&lt; ' ' &lt;&lt; a.insert(b, 0).insert("#", 9) &lt;&lt; std::endl;
+    return 0;
+}
+</pre>
+ <p>
+  As last article infers, avoid using dangerous function
+  <code>
+   strcpy
+  </code>
+  and be very careful about the memory control.
+ </p>
+ <p>
+  diandian网点wang点
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=d66c2a50-6984-11e4-a010-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

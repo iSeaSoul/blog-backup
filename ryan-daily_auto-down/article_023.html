@@ -1,0 +1,90 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/MPI-learning>http://ryan-daily.diandian.com/MPI-learning</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   MPI入门笔记
+  </a>
+ </h3>
+ <p class="date ">
+  5th of February 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=MPI" target="_blank">
+   MPI
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  MPI即Message-Passing Interface。是一种distributed-memory并行计算架构，运行相同的指令在不共享的数据存储（SPMD）之上，常用作解决Large Scale并且复杂的计算需求。
+ </p>
+ <p>
+  学习MPI的思想并不难，简单来说，只要定义好send和recv的协议，就可以实现数据交互与并行计算了。这个协议最好同时包括阻塞和非阻塞两种模式，因为数据同步的需求是并行计算的一个重要问题。为了辨识数据的含义，给每个process一个编号用做通讯标志也是很必要的。
+ </p>
+ <p>
+  做好这两点，就可以实现一个简单的MPI程序了。
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+#include &lt;mpi.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+const int MAX_SLEN = 100;
+
+int main() {
+    char greeting[MAX_SLEN];
+    int comm_sz;
+    int my_rank;
+
+    MPI_Init(NULL, NULL);
+    MPI_Comm_size(MPI_COMM_WORLD, &amp;comm_sz);
+    MPI_Comm_rank(MPI_COMM_WORLD, &amp;my_rank);
+
+    if (my_rank != 0) {
+        sprintf(greeting, "Greeting from process %d of %d.",
+            my_rank, comm_sz);
+        MPI_Send(greeting, strlen(greeting) + 1, MPI_CHAR, 0, 0,
+            MPI_COMM_WORLD);
+    } else {
+        printf("Greeting from %d of %d.\n", my_rank, comm_sz);
+        for (int idx = 1; idx &lt; comm_sz; ++idx) {
+            MPI_Recv(greeting, MAX_SLEN, MPI_CHAR, 
+                idx /*MPI_ANY_SOURCE*/ ,
+                0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            printf("%s\n", greeting);
+        }
+    }
+
+    MPI_Finalize();
+    return 0;
+}
+</pre>
+ <p>
+  这个程序包括了MPI程序设计的基本思路：用一个process做输入输出分发工作，然后所有机器进行并行操作。
+ </p>
+ <p>
+  MPI提供了大量的接口来满足不同情况下的数据传输需求，这也是熟练掌握MPI写出清晰而简洁的程序的核心。
+ </p>
+ <p>
+  『凡所有相，皆是虚妄。若见诸相非相，则见如来。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=ec664ef0-ad34-11e4-a690-90b11c0ed01e&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

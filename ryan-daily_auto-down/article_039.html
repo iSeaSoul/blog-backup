@@ -1,0 +1,91 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/copy-in-python>http://ryan-daily.diandian.com/copy-in-python</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Python的copy
+  </a>
+ </h3>
+ <p class="date ">
+  17th of December 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=python" target="_blank">
+   python
+  </a>
+  <a href="/?tag=bugs" target="_blank">
+   bugs
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  先上代码：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+class A(object):
+    def __init__(self, arr = []):
+        print arr
+        self.arr = arr
+    def append(self, x):
+        self.arr.append(x)
+
+a = A()
+# []
+a.append(2)
+b = A()
+# [2]
+b.append(3)
+</pre>
+ <p>
+  这段代码在第二次构造函数调用时出现了我们不希望的情况：使用了错误的默认构造参数。在声明一个新的类的对象时，当然我们希望arr是空的，而这里则变成了上次self.arr的内容。
+ </p>
+ <p>
+  这是为什么呢？
+ </p>
+ <p>
+  弄明白这些，首先来看看python的复制与引用。
+ </p>
+ <pre config="brush:python;toolbar:false;">
+list_a = [1]
+list_b = list_a
+</pre>
+ <p>
+  这里list
+  <em>
+   b与list
+  </em>
+  a只是一个引用关系，操作任何一个都会影响另一个。事实上，它们只是一个列表的不同名字罢了。
+ </p>
+ <p>
+  对于python的非基本类型，任何直接的assign操作都是引用关系。这也是上面的代码会出错的原因所在：self.arr和arr是引用关系，因此arr作为默认参数也被同时修改了。
+ </p>
+ <p>
+  要避免这个问题，可以使用copy模块的copy和deepcopy。
+ </p>
+ <pre config="brush:python;toolbar:false;">
+list_a = [1]
+list_b = copy.copy(list_a)
+</pre>
+ <p>
+  copy函数生成了一个新的对象，但是新对象内部的属性和内容仍然是旧对象的引用。这就意味着，如果有嵌套的非基本类型存在，使用deepcopy。
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=50e3fc40-85b9-11e4-ac93-90b11c0ed01e&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

@@ -1,0 +1,127 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/python-crawler>http://ryan-daily.diandian.com/python-crawler</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Python Crawler
+  </a>
+ </h3>
+ <p class="date ">
+  12th of June 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=python" target="_blank">
+   python
+  </a>
+  <a href="/?tag=crawler" target="_blank">
+   crawler
+  </a>
+  <a href="/?tag=record" target="_blank">
+   record
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  今天搞了搞Astar的Rank生成，学了学爬虫。留个代码记录作为参考。
+ </p>
+ <p>
+  BeautifulSoup + Chrome 开发者工具真是神器。
+ </p>
+ <pre config="brush:python;toolbar:false;">
+# -*- encoding: utf-8 -*-
+
+cheaters = []
+
+import os
+import urllib, urllib2
+import cookielib
+from bs4 import BeautifulSoup
+
+LOGIN_URL = "http://bestcoder.hdu.edu.cn/contests/login.php?action=login&amp;cid=602"
+RANK_URL = "http://bestcoder.hdu.edu.cn/contests/contest_ranklist.php?cid=602&amp;page=%d"
+
+def purify(raw_rank):
+    top_names = []
+
+    for name in raw_rank[:604]:
+        if name in cheaters:
+            print "drop ", name
+        else:
+            top_names.append(name)
+            # if len(top_names) &gt;= 50:
+            #     break
+
+    for idx in xrange(len(top_names)):
+        print idx + 1, top_names[idx]
+
+def process(page_result, raw_rank):
+    soup = BeautifulSoup(page_result)
+    for link in soup.find_all('a'):
+        if link.get('class') and len(link['class']) == 1 and isinstance(link.contents[0], unicode):
+            raw_rank.append(link.contents[0].encode("gbk"))
+
+def get_structure_headers():
+    form_data = urllib.urlencode({
+        "username": "admin",
+        "password": r"Sw%swwE@qw1"
+    })
+
+    user_agent = ("Mozilla/5.0 (Windows NT 6.1; WOW64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/43.0.2357.124 Safari/537.36")
+    request_header = {
+        "Referer": "http://bestcoder.hdu.edu.cn/contests/login.php?cid=602", 
+        "User-Agent": user_agent, 
+    }
+    return form_data, request_header
+
+def main():
+    cookie = cookielib.CookieJar()
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
+    urllib2.install_opener(opener)
+    form_data, request_header = get_structure_headers()
+    req = urllib2.Request(url = LOGIN_URL, data = form_data, headers = request_header)
+    try :
+        result = urllib2.urlopen(req)
+        if result.getcode() == 200 :
+            print "login ok..."
+        raw_rank = []
+        for page in xrange(1, 26):
+            print 'process page %d...' % (page, )
+            result = urllib2.urlopen(RANK_URL % (page, ))
+            process(result, raw_rank)
+        # print raw_rank, len(names)
+        purify(raw_rank)
+
+    except urllib2.URLError as e :
+        if hasattr(e, "code"):
+            print "The server couldn't fulfill the request. Please check your url and read the Reason"
+            print "Error code: %s" % e.code
+        elif hasattr(e, "reason"):
+            print "We failed to reach a server. Please check your url and read the Reason"
+            print "Reason: %s" % e.reason
+        sys.exit(2)
+
+if __name__ == '__main__':
+    main()
+</pre>
+ <p>
+  点点dian网dianwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=96ca6e00-10fc-11e5-a10f-90b11c0ed01e&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

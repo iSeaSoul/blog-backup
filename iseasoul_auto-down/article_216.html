@@ -1,0 +1,391 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-03-02/17992374>http://iseasoul.diandian.com/post/2010-03-02/17992374</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   单源最短路Dijkstra SPFA （一）
+  </a>
+ </h3>
+ <p class="date ">
+  2th of March 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  对于没有负权边的图，dijkstra对bellman ford无疑是一个十分巨大的改进，这个贪心加动态规划的改进，每一次选取最小距离的点，并更新记录用当前已达到最优点得到的最短路，给了单源最短路问题新的生机。
+  <br>
+   初始化distance[s] 为0，对图G = (v, e) 做|v|次更新操作：
+   <br>
+    寻找当前distance最小且未被选取的点，标记，更新adj(k)中点的distance。
+   </br>
+  </br>
+ </p>
+ <p>
+  Q1 为什么可以贪心选取当前distance最小的点？
+  <br>
+   当前distance最小的点即使可以被其他点更新，也不会小于此值，因此一定是最短距离。
+  </br>
+ </p>
+ <p>
+  Q2 为什么选取后更新一次就无须再像bellman ford中那样重复更新了？
+  <br>
+   已经可以保证当前选取的点的distance是最小的，不能再通过这个点找到更短的路径。
+  </br>
+ </p>
+ <p>
+  Q3 为什么dijkstra不能对有负权边的图使用？
+  <br>
+   有负权边的图在进行更新操作中会使distance变小，不满足贪心性质。
+  </br>
+ </p>
+ <p>
+  典型题目：
+  <br>
+   POJ 2387, POJ 1062, POJ 2253, POJ 3463
+  </br>
+ </p>
+ <p>
+  基本模板：
+ </p>
+ <p>
+  void dijkstra()
+  <br>
+   {
+   <br>
+    for (int i = 0; i &lt; n; ++i) {
+    <br>
+     dis[i] = g[s][i];
+     <br>
+      v[i] = false;
+      <br>
+       }
+       <br>
+        v[s] = true;
+        <br>
+         for (int i = 1, k; i &lt; n; ++i) {
+         <br>
+          int mind = inf;
+          <br>
+           for (int j = 0; j &lt; n; ++j)
+           <br>
+            if (!v[j] &amp;&amp; dis[j] &lt; mind) {
+            <br>
+             mind = dis[j];
+             <br>
+              k = j;
+              <br>
+               }
+               <br>
+                if (mind == inf)
+                <br>
+                 return ;
+                 <br>
+                  v[k] = true;
+                  <br>
+                   for (int j = 0; j &lt; n; ++j)
+                   <br>
+                    if (!v[j] &amp;&amp; g[k][j] != inf &amp;&amp; dis[j] &gt; dis[k] + g[k][j])
+                    <br>
+                     dis[j] = dis[k] + g[k][j];
+                     <br>
+                      }
+                      <br>
+                       }
+                      </br>
+                     </br>
+                    </br>
+                   </br>
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  在寻找当前distance最小点时，朴素的dijkstra是线性的扫描，而这时是可以通过堆来优化的，但是下面的更新操作时需要更改堆里面distance的值，而STL中的priority无法实现内部访问，这时可以无视后面较大的值，虽然这样会很大程度上增加树的高度，实现起来却十分方便，效率似乎也还不错。
+ </p>
+ <p>
+  利用STL中priority queue优化的dijkstra：
+ </p>
+ <p>
+  struct node {
+  <br>
+   int v, d;
+   <br>
+    node(int _v = 0, int _d = 0): v(_v), d(_d) {
+    <br>
+     }
+     <br>
+      bool operator&lt;(const node&amp; n) const {
+      <br>
+       return d &gt; n.d;
+       <br>
+        }
+        <br>
+         };
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void dijkstra()
+  <br>
+   {
+   <br>
+    priority_queue &lt;node&gt; pq;
+    <br>
+     for (int i = 1; i &lt;= n; ++i) {
+     <br>
+      dis[i] = inf;
+      <br>
+       v[i] = false;
+       <br>
+        }
+        <br>
+         dis[s] = 0;
+         <br>
+          pq.push(node(s, 0));
+          <br>
+           for (int i = 1, k; i &lt;= n; ++i) {
+           <br>
+            do {
+            <br>
+             k = pq.top().v;
+             <br>
+              pq.pop();
+              <br>
+               }while (v[k]);
+               <br>
+                v[k] = true;
+                <br>
+                 for (vector&lt;pair&lt;int, int&gt; &gt; :: iterator it = g[k].begin(); it != g[k].end(); ++it) {
+                 <br>
+                  int d = dis[k] + it-&gt;second;
+                  <br>
+                   int b = it-&gt;first;
+                   <br>
+                    if (!v[b] &amp;&amp; dis[b] &gt; d) {
+                    <br>
+                     dis[b] = d;
+                     <br>
+                      pq.push(node(b, d));
+                      <br>
+                       }
+                       <br>
+                        }
+                        <br>
+                         }
+                         <br>
+                          }
+                         </br>
+                        </br>
+                       </br>
+                      </br>
+                     </br>
+                    </br>
+                   </br>
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  而要实现最好的堆优化，就必须手写能内部访问的priority queue，设置一个pos数组，用来记录相应值在queue中的位置，这样就可以快速访问调整了。
+  <br>
+   手写priority queue优化的dijkstra：
+  </br>
+ </p>
+ <p>
+  struct priority_q {
+  <br>
+   int n, pos[maxn];
+   <br>
+    pair&lt;int, int&gt; nd[maxn];
+    <br>
+     void adjust() {
+     <br>
+      for (int i = 0, l = 1, r = 2, k_min = i; i &lt; n; i = k_min, l = (i &lt;&lt; 1) + 1, r = l + 1) {
+      <br>
+       if (l &lt; n &amp;&amp; nd[l].second &lt; nd[k_min].second)
+       <br>
+        k_min = l;
+        <br>
+         if (r &lt; n &amp;&amp; nd[r].second &lt; nd[k_min].second)
+         <br>
+          k_min = r;
+          <br>
+           if (k_min == i)
+           <br>
+            return;
+            <br>
+             swap(pos[nd[i].first], pos[nd[k_min].first]);
+             <br>
+              swap(nd[i], nd[k_min]);
+              <br>
+               }
+               <br>
+                }
+                <br>
+                 void dec(int id, int key) {
+                 <br>
+                  for (nd[id].second = key; id &gt; 0 &amp;&amp; nd[id].second &lt; nd[(id - 1) &gt;&gt; 1].second; id = (id - 1) &gt;&gt; 1) {
+                  <br>
+                   swap(pos[nd[id].first], pos[nd[(id - 1) &gt;&gt; 1].first]);
+                   <br>
+                    swap(nd[id], nd[(id - 1) &gt;&gt; 1]);
+                    <br>
+                     }
+                     <br>
+                      }
+                      <br>
+                       void pop() {
+                       <br>
+                        swap(pos[nd[0].first], pos[nd[n - 1].first]);
+                        <br>
+                         swap(nd[0], nd[--n]);
+                         <br>
+                          adjust();
+                          <br>
+                           }
+                           <br>
+                            };
+                           </br>
+                          </br>
+                         </br>
+                        </br>
+                       </br>
+                      </br>
+                     </br>
+                    </br>
+                   </br>
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void dijkstra()
+  <br>
+   {
+   <br>
+    priority_q pq;
+    <br>
+     pq.n = n;
+     <br>
+      for (int i = 0; i &lt; n; ++i) {
+      <br>
+       dis[i] = inf;
+       <br>
+        pq.nd[i] = pair&lt;int, int&gt; (i, inf);
+        <br>
+         pq.pos[i] = i;
+         <br>
+          }
+          <br>
+           pq.dec(s, 0);
+           <br>
+            while (pq.n) {
+            <br>
+             int x = pq.nd[0].first, d = pq.nd[0].second;
+             <br>
+              dis[x] = d;
+              <br>
+               pq.pop();
+               <br>
+                for (vector&lt;pair&lt;int, int&gt; &gt; :: iterator it = g[x].begin(); it != g[x].end(); ++it) {
+                <br>
+                 if (d + it-&gt;second &lt; pq.nd[pq.pos[it-&gt;first]].second)
+                 <br>
+                  pq.dec(pq.pos[it-&gt;first], d + it-&gt;second);
+                  <br>
+                   }
+                   <br>
+                    }
+                    <br>
+                     }
+                    </br>
+                   </br>
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b9010670-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

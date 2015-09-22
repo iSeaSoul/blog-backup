@@ -1,0 +1,196 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/reflection-in-cplusplus-ultimate>http://ryan-daily.diandian.com/reflection-in-cplusplus-ultimate</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   C++反射 - 終極版
+  </a>
+ </h3>
+ <p class="date ">
+  22th of January 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  在
+  <a href="http://ryan-daily.diandian.com/reflection-in-cplusplus-plus">
+   利用模板和虚函数实现C++反射 - 進階版
+  </a>
+  中，提供了两种获取模板子类值的方法：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   利用基类的统一接口：
+   <code>
+    void
+   </code>
+   指针和虚函数
+  </li>
+  <li>
+   <code>
+    dynamic_cast
+   </code>
+   转化
+  </li>
+ </ul>
+ <p>
+  但是这个程序仍然有一个设计上的问题：在
+  <code>
+   _term_map
+  </code>
+  中，存储了每一个名字对应的对象的指针，这样在
+  <code>
+   create
+  </code>
+  时候来查询获取对应值。然而，这样每次得到的指针指向的地址都是同一个，如果希望每次创建时获取不同的对象，就要借助
+  <code>
+   function
+  </code>
+  了。
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+#include &lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+template&lt;class T&gt;
+class Factory {
+public:
+    typedef std::function&lt;shared_ptr&lt;T&gt;()&gt; producer_t;
+
+    template&lt;class TT&gt;
+    void add(const std::string&amp; name) {
+        add(name, []() -&gt; shared_ptr&lt;TT&gt; {
+            return std::make_shared&lt;TT&gt;();
+        });
+    }
+    void add(const std::string&amp; name, producer_t producer) {
+        _items.insert({name, producer});
+    }
+    template&lt;class TT = T&gt;
+    shared_ptr&lt;TT&gt; produce(const std::string&amp; name) {
+        auto it = _items.find(name);
+        if (it == _items.end()) {
+            std::cout &lt;&lt; "Factory item not found: " &lt;&lt; name &lt;&lt; std::endl;
+        }
+        shared_ptr&lt;T&gt; obj = it-&gt;second();
+        // cout &lt;&lt; typeid(*obj).name() &lt;&lt; ' ' &lt;&lt; typeid(TT).name() &lt;&lt; endl;
+        shared_ptr&lt;TT&gt; x = std::dynamic_pointer_cast&lt;TT&gt;(obj);
+        return x;
+    }
+private:
+    std::map&lt;std::string, producer_t&gt; _items;
+};
+
+class BasicTerm : public std::enable_shared_from_this&lt;BasicTerm&gt; {
+public:
+    virtual void print() {
+        std::cout &lt;&lt; "BasicTerm" &lt;&lt; std::endl;
+    }
+
+    template&lt;class T = BasicTerm&gt;
+    shared_ptr&lt;T&gt; shared_from_this() {
+        return std::dynamic_pointer_cast&lt;T&gt;
+            (std::enable_shared_from_this&lt;BasicTerm&gt;::shared_from_this());
+    }
+};
+
+class TermA : public BasicTerm {
+public:
+    void print() {
+        std::cout &lt;&lt; "TermA" &lt;&lt; std::endl;
+    }
+};
+
+class TermB : public BasicTerm {
+public:
+    void print() {
+        std::cout &lt;&lt; "TermB" &lt;&lt; std::endl;
+    }
+};
+
+int main() {
+    Factory&lt;BasicTerm&gt; *term_factory = new Factory&lt;BasicTerm&gt;;
+    term_factory-&gt;add&lt;BasicTerm&gt;("term_basic");
+    term_factory-&gt;add&lt;TermA&gt;("term_a");
+    term_factory-&gt;add&lt;TermB&gt;("term_b");
+
+    shared_ptr&lt;BasicTerm&gt; term = term_factory-&gt;produce("term_basic");
+    term-&gt;print();
+
+    shared_ptr&lt;TermA&gt; term_a = term_factory-&gt;produce&lt;TermA&gt;("term_a");
+    term_a-&gt;print();
+
+    shared_ptr&lt;TermB&gt; term_b = term_factory-&gt;produce&lt;TermB&gt;("term_b");
+    term_b-&gt;print();
+
+    return 0;
+}
+</pre>
+ <p>
+  简单的说说这个程序：
+ </p>
+ <ol class="edui-filter-decimal">
+  <li>
+   <code>
+    add
+   </code>
+   函数绑定了一个
+   <code>
+    lambda
+   </code>
+   函数，这个函数返回调用时传入类的智能指针对象
+  </li>
+  <li>
+   <code>
+    produce
+   </code>
+   函数用来生产一个类的智能指针对象。传入时如果为空，默认
+   <code>
+    class TT = T
+   </code>
+   ，首先会隐式转化成最基类的对象指针，然后用
+   <code>
+    dynamic_pointer_cast
+   </code>
+   将其转化为子类指针。
+  </li>
+  <li>
+   注意程序使用的两个问题：
+   <code>
+    dynamic_cast
+   </code>
+   转化必须需要基类有虚函数；基类要从
+   <code>
+    enable_shared_from_this&lt;T&gt;
+   </code>
+   继承
+  </li>
+ </ol>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=3e4161d0-a216-11e4-af31-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

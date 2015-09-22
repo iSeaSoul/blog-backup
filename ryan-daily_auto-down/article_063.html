@@ -1,0 +1,167 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/codeforces-sol-270>http://ryan-daily.diandian.com/codeforces-sol-270</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   [CodeForces Solution] CodeForces 270
+  </a>
+ </h3>
+ <p class="date ">
+  29th of September 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=codeforces" target="_blank">
+   codeforces
+  </a>
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=tutorial" target="_blank">
+   tutorial
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <h3>
+  Problem (Contest) Link
+ </h3>
+ <p>
+  <a href="http://codeforces.com/contest/472">
+   Codeforces Round #270
+  </a>
+ </p>
+ <h3>
+  Problem Official Tutorial
+ </h3>
+ <p>
+  <a href="http://codeforces.com/blog/entry/14028">
+   Codeforces Round #270 Editorial
+  </a>
+ </p>
+ <h3>
+  Problem Personal Solution
+ </h3>
+ <h4>
+  <strong>
+   <em>
+    A. Design Tutorial: Learn from Math
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Divide a integer into two composite numbers.
+ </p>
+ <p>
+  As N &lt;= 10^6, we can simply generate all primes and iterate them. Actually, for a even number, divide it into 4 and n - 4, for a odd number, divide it into 9 and n - 9.
+ </p>
+ <h4>
+  <strong>
+   <em>
+    B. Design Tutorial: Learn from Life
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Transport N people to the corresponding floors and then return the elevator to the first floor, with a constraint that K people for each turn.
+ </p>
+ <p>
+  Sort the floors the people want to move, and transport them greedily: the maximum K people in the left group till nobody was left.
+ </p>
+ <h4>
+  <strong>
+   <em>
+    C. Design Tutorial: Make It Nondeterministic
+   </em>
+  </strong>
+ </h4>
+ <p>
+  There are N people, each person will use either his/her first name or last name as a handle. Can the lexicographical order of the handles be exactly equal to the given permutation p?
+ </p>
+ <p>
+  Always choose the lexicographical smallest name while iterate the given permutation. If no possible name can be chosen, impossible.
+ </p>
+ <h4>
+  <strong>
+   <em>
+    D. Design Tutorial: Inverse the Problem
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Given an n×n distance matrix. Determine if it is the distance matrix of a weighted tree (all weights must be positive integers).
+ </p>
+ <p>
+  During the contest, I use a strange method: try to generate the tree recursively, for a state
+  <code>
+   build_tree(x, f)
+  </code>
+  , find edge (V, dis) with the minimum length in which dis[x] is less than dis[f], add this edge to the tree. Formally, it's a variety of building the MST : )
+ </p>
+ <h4>
+  <strong>
+   <em>
+    F. Design Tutorial: Change the Goal
+   </em>
+  </strong>
+ </h4>
+ <p>
+  Given n integers
+  <em>
+   x1,x2,...,xn
+  </em>
+  and n integers
+  <em>
+   y1,y2,...,yn
+  </em>
+  as goal, use the operation
+  <em>
+   xi ^= xj
+  </em>
+  to make them equal.
+ </p>
+ <p>
+  I haven't solved it during the contest, so I learned from the solutions and editorial after the ending of the contest. The basic idea is simple and brilliant.
+ </p>
+ <p>
+  Generate the vector space of Xi and Yi first, by Gauss elimination. As Gauss elimination only needs two kinds of operations:
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   Swap two numbers Xi and Xj: Xi ^= Xj ^= Xi ^= Xj
+  </li>
+  <li>
+   XOR two numbers Xi and Xj: Xi ^= Xj
+  </li>
+ </ul>
+ <p>
+  And this operation is inversible. So we can only use operation
+  <em>
+   xi ^= xj
+  </em>
+  change them to two base (only with rank rows) matrix. Now the left task is checking whether the first base MX can change to the second base MY. For any key column in the base matrix MX, if there is a different state between MXi and MYi in this bit, we need XOR the MXi with MX_withthisbit. Then check the identity of the two base matrix.
+ </p>
+ <p>
+  My solution:
+  <a href="https://gist.github.com/iSeaSoul/4a972d1d23bfda5feaf0">
+   link
+  </a>
+ </p>
+ <p>
+  点rM点i443jRwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=fdd9c4f0-47a9-11e4-ad60-782bcb383994&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

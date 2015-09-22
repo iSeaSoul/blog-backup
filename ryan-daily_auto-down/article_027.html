@@ -1,0 +1,131 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/cpp-trick-01>http://ryan-daily.diandian.com/cpp-trick-01</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   C++技巧系列01 - 注册初始化函数
+  </a>
+ </h3>
+ <p class="date ">
+  23th of January 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+  <a href="/?tag=trick" target="_blank">
+   trick
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  许多时候，程序需要在某个阶段调用大量函数，如何表现的比较清晰一些呢？这里提供了一种有趣的方法。
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+int G_STATUS = 0;
+
+inline std::vector&lt;std::function&lt;void()&gt; &gt;&amp; initializer() {
+    static std::vector&lt;std::function&lt;void()&gt; &gt; gx;
+    return gx;
+}
+
+template&lt;class T&gt;
+struct InitializerRegister {
+    static bool dummy;
+};
+
+template&lt;class T&gt;
+bool InitializerRegister&lt;T&gt;::dummy = T::static_init();
+
+#define REGISTER_INITIALIZER(FUNC_NAME) \
+    inline void FUNC_NAME(); \
+    struct FUNC_NAME##_t { \
+        static bool static_init() { \
+            initializer().push_back(&amp;FUNC_NAME); \
+            return InitializerRegister&lt;FUNC_NAME##_t&gt;::dummy; \
+        } \
+    }; \
+    inline void FUNC_NAME()
+
+REGISTER_INITIALIZER(test) {
+    G_STATUS = 1;
+}
+
+REGISTER_INITIALIZER(test2) {
+    G_STATUS = 2;
+}
+
+int main() {
+    // test_t::static_init();
+
+    for (std::function&lt;void()&gt; initer : initializer()) {
+        initer();
+    }
+    cout &lt;&lt; G_STATUS &lt;&lt; endl;
+
+    return 0;
+}
+</pre>
+ <p>
+  简要说明：
+ </p>
+ <ol class="edui-filter-decimal">
+  <li>
+   <code>
+    initializer
+   </code>
+   保存了初始化函数的列表
+  </li>
+  <li>
+   <code>
+    InitializerRegister
+   </code>
+   对于每个使用它的
+   <code>
+    template
+   </code>
+   调用一次
+   <code>
+    static_init
+   </code>
+   ，也就是向
+   <code>
+    initializer
+   </code>
+   中加入一个初始化函数
+  </li>
+  <li>
+   利用宏实现了这些函数的模板化定义，这里的宏
+   <code>
+    FUNC_NAME##_t
+   </code>
+   引用了名字并拼接，也就是创建了
+   <code>
+    test_t
+   </code>
+   类
+  </li>
+ </ol>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=f4de17c0-a2df-11e4-af31-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

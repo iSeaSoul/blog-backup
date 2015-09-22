@@ -1,0 +1,138 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/decorator-pattern>http://ryan-daily.diandian.com/decorator-pattern</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Decorator
+  </a>
+ </h3>
+ <p class="date ">
+  21th of September 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+  <a href="/?tag=design-pattern" target="_blank">
+   design-pattern
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  Decorator is a structural pattern, which modifies the behavior of an object by some added "decorated" codes. For example, in Java, such code is very common:
+ </p>
+ <pre config="brush:java;toolbar:false;">
+PrintWriter pw = new PrintWriter(new BufferdWriter(new OutputStreamWriter(System.out)));
+</pre>
+ <p>
+  This is a typical Decorator pattern, the original
+  <code>
+   Writer
+  </code>
+  is
+  <code>
+   System.out
+  </code>
+  , other class are its decorator which make its function more customized.
+ </p>
+ <p>
+  The following code is a C++ sample of Decorator.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class ComponentBase {
+public:
+    virtual void operation() = 0;
+};
+
+class ConcreteComponent : public ComponentBase {
+public:
+    void operation() {
+        std::cout &lt;&lt; "------\nConcreteComponent operation." &lt;&lt; std::endl;
+    }
+};
+
+class DecoratorBase : public ComponentBase {
+public:
+    DecoratorBase(shared_ptr&lt;ComponentBase&gt; component): _component(component) {
+    }
+    void operation() {
+        _component-&gt;operation();
+    }
+private:
+    shared_ptr&lt;ComponentBase&gt; _component;
+};
+
+class ConcreteDecorator1 : public DecoratorBase {
+public:
+    ConcreteDecorator1(shared_ptr&lt;ComponentBase&gt; component): DecoratorBase(component) {
+    }
+    void operation() {
+        DecoratorBase::operation();
+        std::cout &lt;&lt; "ConcreteDecorator1 operation." &lt;&lt; std::endl;
+    }
+};
+
+class ConcreteDecorator2 : public DecoratorBase {
+public:
+    ConcreteDecorator2(shared_ptr&lt;ComponentBase&gt; component): DecoratorBase(component) {
+    }
+    void operation() {
+        DecoratorBase::operation();
+        std::cout &lt;&lt; "ConcreteDecorator2 operation." &lt;&lt; std::endl;
+    }
+};
+
+int main() {
+    shared_ptr&lt;ComponentBase&gt; component = make_shared&lt;ConcreteComponent&gt;();
+    component-&gt;operation();
+    component = make_shared&lt;ConcreteDecorator1&gt;(component);
+    component-&gt;operation();
+    component = make_shared&lt;ConcreteDecorator2&gt;(make_shared&lt;ConcreteDecorator1&gt;(component));
+    component-&gt;operation();
+    return 0;
+}
+</pre>
+ <p>
+  It outputs following strings:
+ </p>
+ <pre>------
+ConcreteComponent operation.
+------
+ConcreteComponent operation.
+ConcreteDecorator1 operation.
+------
+ConcreteComponent operation.
+ConcreteDecorator1 operation.
+ConcreteDecorator1 operation.
+ConcreteDecorator2 operation.
+</pre>
+ <p>
+  One small point, here we got two
+  <code>
+   Decorator1
+  </code>
+  , so decorators are just like ornaments on a Christmas tree, they just add one more little thing on the object, no matter what ornaments are already on it.
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=0c996970-6057-11e5-9c3f-782bcb0c92a4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

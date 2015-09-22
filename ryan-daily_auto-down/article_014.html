@@ -1,0 +1,83 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/cpp-trick-06>http://ryan-daily.diandian.com/cpp-trick-06</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   C++技巧系列06 - emplace_back VS push_back
+  </a>
+ </h3>
+ <p class="date ">
+  7th of May 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+  <a href="/?tag=trick" target="_blank">
+   trick
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  <a href="http://en.cppreference.com/w/cpp/container/vector/emplace_back">
+   http://en.cppreference.com/w/cpp/container/vector/emplace_back
+  </a>
+  讲的已经够清楚了。
+ </p>
+ <p>
+  简单的讲：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   <p>
+    <code>
+     emplace_back
+    </code>
+    会将所有参数forward给构造函数生成一个对象然后
+    <code>
+     push_back
+    </code>
+    到容器中。
+   </p>
+  </li>
+  <li>
+   <p>
+    <code>
+     push_back
+    </code>
+    则必须接受一个构造好的对象。
+   </p>
+  </li>
+ </ul>
+ <p>
+  这样后者会多一次copy操作，如果不是右值引用的话。
+ </p>
+ <p>
+  我为什么要写这种文章呢？就是希望能回来重新开个头。
+ </p>
+ <p>
+  Find the pace.
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=371d3510-f48b-11e4-ae73-90b11c0ed01e&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

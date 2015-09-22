@@ -1,0 +1,142 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/beijing-2015-online-sol>http://ryan-daily.diandian.com/beijing-2015-online-sol</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   [Regional] Beijing 2015 Online Solution (Partial)
+  </a>
+ </h3>
+ <p class="date ">
+  21th of September 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=tutorial" target="_blank">
+   tutorial
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  部分题解。大部分是水题。
+ </p>
+ <h5>
+  B Mission Impossible 6
+ </h5>
+ <p>
+  模拟。
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+struct editor {
+    int caret, copy_start_caret;
+    int buflen, maxlen;
+    string buf, copy_content;
+    bool insert_mode;
+    bool in_copy_status;
+}
+</pre>
+ <p>
+  记录这些东西，然后按题意模拟。也没啥trick？
+ </p>
+ <h5>
+  F Couple Trees
+ </h5>
+ <p>
+  树的dfs序 + 可持久化线段树。
+ </p>
+ <p>
+  首先，记两棵树分别为$T
+  <em>
+   1, T
+  </em>
+  2$，将$T
+  <em>
+   2$求出dfs序，每个点表示为$$，分别为dfs时开始和结束的时间戳，根据树的性质，那么对于一个节点$V$，它的祖先节点$PV$（包含自己）一定满足$In
+  </em>
+  {pv} \leq In
+  <em>
+   v \leq Out
+  </em>
+  {pv}$。
+ </p>
+ <p>
+  再考虑$T
+  <em>
+   1$上的节点$U$，假设它到根节点的路径为$U-&gt;U
+  </em>
+  1-&gt;U
+  <em>
+   2-&gt; \dots -&gt;U
+  </em>
+  n$。假设其中$P={U
+  <em>
+   {p1}, U
+  </em>
+  {p2}, \dots , U_{pn}}$都是$T2$中$V$的祖先节点。如果每个节点像前段一样表示为一个区间，那么$V$被这些线段覆盖了$|P|$次。
+ </p>
+ <p>
+  对于每个询问，目标是求出$U_{p1}$。也就是找到$U$的最早的一个祖先节点，使得$V$被这些线段覆盖了$|P|$次。类似于LCA的记录$2^i$层祖先的做法，这个过程可以使用这种$O(logN)$的枚举方法。
+ </p>
+ <p>
+  那么，剩下的问题，就是如何快速求出每个节点到根节点的路径上，这些点表示的线段覆盖了$V$多少次。形如$[L, R)$的覆盖问题，可以用左端点$X
+  <em>
+   L += 1$，右端点$X
+  </em>
+  R -= 1$然后求$sigma(Xi)$的方法快速实现。这就要求每个节点维护一个线段树，由于相对自己的父亲节点，每个节点最多做两次更新操作，可以使用可持久化线段树来实现这个过程。
+ </p>
+ <p>
+  参考： [1]
+  <a href="https://en.wikipedia.org/wiki/Persistent_data_structure">
+   Persistent data structure
+  </a>
+ </p>
+ <h5>
+  G Boxes
+ </h5>
+ <p>
+  DP/bfs。
+ </p>
+ <p>
+  $dp[pos
+  <em>
+   1][pos
+  </em>
+  2]...[pos
+  <em>
+   n]$表示第$i$大的数字在$pos
+  </em>
+  i$位置上最小步数，由于过程是可逆的，可以先从结束状态bfs出所有可行状态的最小步数。
+ </p>
+ <p>
+  之所以可以这样表示，是由于顺序是固定的，因此状态是一一对应的。
+ </p>
+ <h5>
+  H Fractal
+ </h5>
+ <p>
+  变成整数后，枚举$2^i$这条线，比较大小，统计一下。
+ </p>
+ <p>
+  喏。其实很显然，写题解是为了记录下F题的思路，余者都是凑数的。
+ </p>
+ <p>
+  点3OME点u6awang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=3a5ef720-603a-11e5-9c3f-782bcb0c92a4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

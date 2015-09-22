@@ -1,0 +1,159 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-07-21/17995205>http://iseasoul.diandian.com/post/2010-07-21/17995205</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   另一个第一次
+  </a>
+ </h3>
+ <p class="date ">
+  21th of July 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=Funny%20Contest" target="_blank">
+   Funny Contest
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  ------记多校联训 WHU Site
+ </p>
+ <p>
+  组织一场比赛确实不容易，虽然题目还是比较水的...
+  <br>
+   比赛前的预测各种不准不靠谱，就题目再写下总结吧：
+  </br>
+ </p>
+ <p>
+  A 标准的字符串水题
+ </p>
+ <p>
+  看题目很容易往trie上想，建一棵trie，将每个节点遍历一次，最后一次走到最深的叶子上，步数+词数也就是答案
+  <br>
+   但是实现起来，排序后统计相邻的公共前缀就可以了
+  </br>
+ </p>
+ <p>
+  赛前预计是最简单的题目，可能对于新人来说，还是难想了点...
+ </p>
+ <p>
+  B 天王准备校赛的题目，很巧妙
+ </p>
+ <p>
+  题解：可以发现答案一定是26的x次方，一般情况是加入一条线段x--，例外是此线段已经被其他所覆盖，可以用并查集解决问题，对于线段[L， R]， 合并L与R+1
+  <br>
+   简要说明：例如三段操作：[1, 2] [3, 4] [1, 4]第三段区间的操作是可以被1和2替代的
+   <br>
+    能被前面操作替代的区间一定是之前区间的组合，因此并查集可以解决这个问题
+   </br>
+  </br>
+ </p>
+ <p>
+  和天王预估这题应该通过20%左右，结果远远低了点，思维题，大家看来都不怎么感冒
+ </p>
+ <p>
+  C tricky的问题，改编自GCJ的一道题目
+ </p>
+ <p>
+  一个路口可以拆为4个点，加一维表示时候闯红灯，然后可以依照规则建边，构出图，再用加堆的Dijkstra求解
+  <br>
+   实现起来有点绕，但是理清楚了就不难
+  </br>
+ </p>
+ <p>
+  预计此题也应有几队出，还是难写了点，恶心到大家了
+ </p>
+ <p>
+  D 比较意外的一题，HDU的服务器就是好啊
+ </p>
+ <p>
+  标程方法是暴力偶数的，DP奇数的，大约复杂度 O(10000 * 2000)
+  <br>
+   本地跑了O(2600 ^ 3)优化的暴力，5s左右，而再小优化下，交上去就可以过了 = =
+  </br>
+ </p>
+ <p>
+  估计会不少人做这个题TLE掉，但是在强大的表和卡时下，成为了通过最多的
+ </p>
+ <p>
+  E 天王的神题，不解释
+ </p>
+ <p>
+  可惜UESTC-23的了，前面的都求对了，没发现循环直接递归RE了...
+ </p>
+ <p>
+  F 中档题，还是完成了消耗时间的任务
+ </p>
+ <p>
+  按xl排序后，求xr的逆序对，BIT和归并都可以
+  <br>
+   写的时候有不少细节容易错，对几何要小心再小心
+  </br>
+ </p>
+ <p>
+  代码题，赛前预估过的人主要是前面的，看来大家的code能力还是被低估了
+ </p>
+ <p>
+  G 唯一预测较准的一道题，贪心后DP
+ </p>
+ <p>
+  怎么贪心？问题化小，2个物品去推，就很容易得到结论
+  <br>
+   这里要膜拜继续膜拜UESTC-23，把所有的都排一遍，取最大的
+  </br>
+ </p>
+ <p>
+  故意搞人的题目，样例给的怎么排都可以过，嘿嘿...果然大家都中计了
+ </p>
+ <p>
+  H 模板题，圆的面积交
+ </p>
+ <p>
+  玩DotA时想的题目，交给哑熊写的
+ </p>
+ <p>
+  幸好有队过，证明我们数据没错，再次可惜UESTC-23，只有一个-0.00
+ </p>
+ <p>
+  I 这个题是最让我意外的题，竟然没什么人过
+ </p>
+ <p>
+  很明显的BFS+二分匹配
+  <br>
+   这题开始的版本比较难，我们没想好优美的方法，就被我搞成这么一个水题
+   <br>
+    描述的确实蛮绕口，对不起大家了
+   </br>
+  </br>
+ </p>
+ <p>
+  有点硬凑的题目，没什么意思，区域赛也应该不会有这么无聊的题...
+ </p>
+ <p>
+  题目准备的时间有一点点紧，庆幸的是，经过反复校对，数据和描述没有重大的问题，虽然我知道英文错误其实一大堆，也知道这套题目质量真的一般（当然除了天王的神题），还是要纪念一下啦~
+ </p>
+ <p>
+  7.20，hehe，love you, honey~
+ </p>
+ <p>
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b7882210-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

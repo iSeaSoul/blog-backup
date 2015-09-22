@@ -1,0 +1,167 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/python-multi-threads>http://ryan-daily.diandian.com/python-multi-threads</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Python多线程
+  </a>
+ </h3>
+ <p class="date ">
+  9th of December 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=multi-threads" target="_blank">
+   multi-threads
+  </a>
+  <a href="/?tag=python" target="_blank">
+   python
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  和许多高级编程语言一样，Python提供了比较高级的多线程编程接口。
+ </p>
+ <h3>
+  <a href="https://docs.python.org/2/library/threading.html?highlight=thread#thread-objects">
+   Thread Objects
+  </a>
+ </h3>
+ <p>
+  这是Python多线程编程中最常用的类。
+ </p>
+ <pre config="brush:python;toolbar:false;">
+class threading.Thread(target=None, name=None, args=(), kwargs={})
+</pre>
+ <p>
+  如果不继承重写，那么指定target为希望的run函数就可以声明一个Thread了。
+ </p>
+ <p>
+  多数情况需要继承，因为Thread需要维护一些线程持有的数据。这个时候重写
+  <code>
+   __init__
+  </code>
+  和
+  <code>
+   run
+  </code>
+  函数。
+ </p>
+ <h3>
+  互斥锁
+ </h3>
+ <p>
+  用RLock来保护共享数据不被同时操作。
+ </p>
+ <pre config="brush:python;toolbar:false;">
+rLock = threading.RLock() 
+rLock.acquire()
+rLock.release()
+</pre>
+ <h3>
+  多线程处理文件
+ </h3>
+ <p>
+  一个多线程使用的例子：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+rlock = threading.RLock()
+cur_position = 0
+
+divide_file_path = DividedProductDataDir
+
+if not os.path.exists(divide_file_path):
+    os.makedirs(divide_file_path)
+
+class DividerThread(threading.Thread):
+    def __init__(self, resource, thrd_no):
+        self._resource = resource
+        self.thrd_no = thrd_no
+        threading.Thread.__init__(self)
+
+    def run(self):
+        global cur_position
+        file_handle = open(self._resource.file_name, 'r')
+        path, raw_file_name = os.path.split(self._resource.file_name)
+        divided_file = open(divide_file_path + raw_file_name + str(self.thrd_no), 'w')
+        try:
+            while True:
+                rlock.acquire()
+                start_position = cur_position
+                end_position = min(start_position + self._resource.block_size, self._resource.file_size)
+                cur_position = end_position
+                rlock.release()
+
+                if start_position == self._resource.file_size:
+                    break
+
+                if start_position != 0:
+                    file_handle.seek(start_position)
+                    file_handle.readline()
+                pos = file_handle.tell()
+                while pos &lt; end_position:
+                    line = file_handle.readline()
+                    pos = file_handle.tell()
+        finally:
+            file_handle.close()
+
+class FileResource(object):
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.block_size = 10000000
+        self.get_file_size()
+
+    def get_file_size(self):
+        file_handle = open(self.file_name, 'r')
+        file_handle.seek(0, os.SEEK_END)
+        self.file_size = file_handle.tell()
+        file_handle.close()
+
+def divide_file(file_name, thread_num = 4):
+    file_res = FileResource(file_name)
+    threads = []
+    for i in xrange(thread_num):
+        thrd = DividerThread(file_res, i)
+        threads.append(thrd)
+    for i in xrange(thread_num):
+        threads[i].start()
+    for i in xrange(thread_num):
+        threads[i].join()
+</pre>
+ <h3>
+  为什么使用线程
+ </h3>
+ <p>
+  Python的线程并没有真正意义上的使用到多核。
+ </p>
+ <p>
+  使用线程也并不意味着一定可以提高程序运行速度。
+ </p>
+ <p>
+  事实上，我今天的工作就是：把一个大文件用多线程分割成小文件，然后每个线程处理一个文件（因为无法直接多线程处理，需要file句柄，否则就要line by line的加锁，没有多线程的意义了）。这个方法还不如单线程。
+ </p>
+ <p>
+  或许存在更好的以行为单位的文件分割方法？
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=9aa5d4c0-7f83-11e4-aeae-782bcb383994&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

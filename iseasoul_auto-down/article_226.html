@@ -1,0 +1,382 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2009-09-13/18788698>http://iseasoul.diandian.com/post/2009-09-13/18788698</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   矩阵乘法 Counting
+  </a>
+ </h3>
+ <p class="date ">
+  13th of September 2009
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  今天哈尔滨网络赛的B题，留作矩阵乘法的模板~~
+ </p>
+ <p>
+  #include &lt;cstdio&gt;
+  <br>
+   #include &lt;cstring&gt;
+   <br>
+    #include &lt;algorithm&gt;
+    <br>
+     #include &lt;vector&gt;
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  using namespace std;
+ </p>
+ <p>
+  typedef long long int64;
+  <br>
+   const int mod = 99991;
+  </br>
+ </p>
+ <p>
+  int ori[17], pre[35], v, m;
+  <br>
+   vector &lt;int&gt; nbit;
+   <br>
+    char nstr[52];
+   </br>
+  </br>
+ </p>
+ <p>
+  struct ma {
+  <br>
+   int a[17][17];
+   <br>
+    ma() {
+    <br>
+     for (int i = 0; i &lt; 17; ++i)
+     <br>
+      for (int j = 0; j &lt; 17; ++j)
+      <br>
+       a[i][j] = 0;
+       <br>
+        }
+        <br>
+         };
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  ma a;
+ </p>
+ <p>
+  inline ma mul(const ma&amp; a, const ma&amp; b)
+  <br>
+   {
+   <br>
+    ma res;
+    <br>
+     for (int i = 0; i &lt;= m + 1; ++i) {
+     <br>
+      for (int j = 0; j &lt;= m + 1; ++j) {
+      <br>
+       int t = 0;
+       <br>
+        for (int k = 0; k &lt;= m + 1; ++k)
+        <br>
+         t = ((int64)a.a[i][k] * b.a[k][j] + t) % mod;
+         <br>
+          res.a[i][j] = t;
+          <br>
+           }
+           <br>
+            }
+            <br>
+             return res;
+             <br>
+              }
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  inline ma cal(int num)
+  <br>
+   {
+   <br>
+    ma res, t = a;
+    <br>
+     for (int i = 0; i &lt;= m + 1; ++i)
+     <br>
+      res.a[i][i] = 1;
+      <br>
+       while (num--) {
+       <br>
+        if (nbit[num])
+        <br>
+         res = mul(res, t);
+         <br>
+          t = mul(t, t);
+          <br>
+           }
+           <br>
+            <br>
+             return res;
+             <br>
+              }
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void inita()
+  <br>
+   {
+   <br>
+    for (int i = 0; i &lt;= m + 1; ++i)
+    <br>
+     for (int j = 0; j &lt;= m + 1; ++j)
+     <br>
+      a.a[i][j] = 0;
+      <br>
+       for (int i = 1; i &lt;= m; ++i)
+       <br>
+        a.a[0][i] = a.a[i][i - 1] = 1;
+        <br>
+         <br>
+          a.a[0][0] = a.a[m + 1][m] = a.a[m + 1][m + 1] = 1;
+          <br>
+           }
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void init()
+  <br>
+   {
+   <br>
+    int a, b;
+    <br>
+     for (int i = 0; i &lt; v; ++i)
+     <br>
+      pre[i] = 0;
+      <br>
+       for (int i = 0; i &lt;= m + 1; ++i)
+       <br>
+        ori[i] = 0;
+        <br>
+         for (int i = 0; i &lt; v - 1; ++i) {
+         <br>
+          scanf ("%d%d", &amp;a, &amp;b);
+          <br>
+           ++pre[a];
+           <br>
+            }
+            <br>
+             for (int i = 0; i &lt; v; ++i) {
+             <br>
+              if (pre[i] &gt; m + 1)
+              <br>
+               pre[i] = m + 1;
+               <br>
+                ++ori[pre[i]];
+                <br>
+                 }
+                 <br>
+                  }
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void str2bit(char *s)
+  <br>
+   {
+   <br>
+    nbit.clear();
+    <br>
+     int i, j, nmod;
+     <br>
+      for (i = 0; ; ++i) {
+      <br>
+       for (j = 0; s[j]; ++j)
+       <br>
+        if (s[j] != '0')
+        <br>
+         break;
+         <br>
+          if (s[j] == '\0')
+          <br>
+           break;
+           <br>
+            nmod = 0;
+            <br>
+             for (; s[j]; ++j) {
+             <br>
+              int t = nmod * 10 + s[j] - '0';
+              <br>
+               s[j] = (char)(t / 2 + '0');
+               <br>
+                nmod = t % 2;
+                <br>
+                 }
+                 <br>
+                  nbit.push_back(nmod);
+                  <br>
+                   }
+                   <br>
+                    reverse(nbit.begin(), nbit.end());
+                    <br>
+                     }
+                    </br>
+                   </br>
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void solve()
+  <br>
+   {
+   <br>
+    str2bit(nstr);
+    <br>
+     inita();
+     <br>
+      ma res = cal(nbit.size());
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  int ans = 0;
+  <br>
+   for (int i = 0; i &lt;= m + 1; ++i) {
+   <br>
+    int t = 0;
+    <br>
+     for (int j = 0; j &lt;= m + 1; ++j)
+     <br>
+      t = ((int64)ori[j] * res.a[i][j] + t) % mod;
+      <br>
+       ans = (ans + t) % mod;
+       <br>
+        }
+        <br>
+         <br>
+          printf ("%d\n", ans);
+          <br>
+           }
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  int main()
+  <br>
+   {
+   <br>
+    while (scanf ("%d%d%s", &amp;v, &amp;m, nstr), v) {
+    <br>
+     init();
+     <br>
+      solve();
+      <br>
+       }
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  return 0;
+  <br>
+   }
+  </br>
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b9791ca0-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

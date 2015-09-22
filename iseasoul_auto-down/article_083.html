@@ -1,0 +1,153 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2011-10-26/18188599>http://iseasoul.diandian.com/post/2011-10-26/18188599</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Free Journey : 3 : 10 : 3 (下)
+  </a>
+ </h3>
+ <p class="date ">
+  26th of October 2011
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=Legend%20Murmur" target="_blank">
+   Legend Murmur
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  在写完上文未写此文的间隔里，上海的G题rejudge了，许多队被卡了一场纷纷AC，排名已经面目全非，而我们队却恰好因为少考虑了一种情况而早早过了此题，让人不得不感慨，ACM虽然已经够公平公正了，但很多时候运气还是最重要的，多攒攒RP总是没错的，而北京，就是一个很好的佐证。
+ </p>
+ <p>
+  北京赛区是我们随便选的一个赛区，一直我们都把大连当做主要赛区，而大连挂了后，看了看北京的名单，也感觉只能破釜沉舟了。来北京后见到不少WHUACM一些熟悉的老面孔，聚在一起开开心心的吃了顿饭，董老师说，“大家对你们期望很高，应该压力很大吧”，我摇摇头，“不大不大”，真的，这么多人曾经一起为之奋斗，失败和成功都是一个代号罢了，而努力过，足矣。
+ </p>
+ <p>
+  翻开题目，我依旧从前面开始看，瞄了瞄各种中国风的东西，就忽略前N段直接读题了，A可以做，B也可以做，就把几何交给加菲了，由于第一道开几何是冒着极大风险的，我反复和加菲确认了题目意思和做法，他也仔细想了一些可能的bug才开始code，然后我给金毅说了A题的一个想法，证明没有问题后，就趁着间隔时间也开始写，第一次B的提交WA掉了，加菲想了一会，去重后AC，这时金毅说E是裸的费用流，我不是很相信这样过的人还这么少，但没仔细看，所以加菲拍了一个不过样例的费用流，又是一个巨大的失误。中间A轻松过了，奇怪的是，这么慢的两题居然排第一了那么久。可能大家又被几何的坑卡了吧，我们的运气确实好的不行，两场都直接跳过了坑题。
+ </p>
+ <p>
+  这里说句题外话，鉴于前面两场比赛的代码状态都不是很好，周六睡觉前，我特意找了道题目练练手：
+ </p>
+ <p>
+  4804343 2011-10-22 20:27:19 Accepted
+  <a href="http://acm.hdu.edu.cn/showproblem.php?pid=4074">
+   4074
+  </a>
+  562MS 4392K 1411B C++
+  <a href="http://acm.hdu.edu.cn/userstatus.php?user=isea">
+   iSea
+  </a>
+ </p>
+ <p>
+  本来是准备做
+  <a href="http://acm.hdu.edu.cn/showproblem.php?pid=4073" target="_blank">
+   4073
+  </a>
+  的，但是想了一会不会做，就做这道了，就是这道啊，概率问题，帮我轻松做出了北京的I题，所以说RP好是无敌的。这个概率题是一个环，标准的做法是设一个未知数求出级数，我是迭代出来的，方法和此题如出一辙。
+ </p>
+ <p>
+  再回来，过完A后我们纠结了一会E是否可以改费用流，发现根本构不出图来。加菲就去做几何题G了，由于变换的形式如 A * X + B，在A * (A * X + B) + B中，是满足结合律的，所以可以用快速幂，只是这个题考虑的问题较多，不是很好写，所以依旧是间隙，我上去写了写I，由于有点水的心态，犯了个很2的错误，改了后过了，G题中间遇到了-0.00的问题，一个处理方法就是sprintf到一个ans数组中特判掉，但还是WA，最后终于找到一个问题，改正后AC。此时4题，尽管后面两题罚时有点多，但是由于做的比较顺，总体名次还是很靠前的。
+ </p>
+ <p>
+  但是这时E还是没思路，在我写完I后，加菲让我想了想E是否可以DP，我一直思考如何表示状态，没有想到集合DP，又一次郁闷的翻到其他题目，场上已经有不少绿色气球了，J题，搜索是显然的，可是没什么好剪枝，复杂度看上去也很高。过掉G后，又是还有100分钟左右，我决定这回自己去写J了。写啊写啊写，写完了，调啊调啊调，调出样例了，测了测8*8的，还行，就果断交了 - - 2个RE，第一次数组小了，第二次不知道为啥，看了很久，发现有bug导致空递归，改了之后TLE了，瞬间心就凉了，还是TLE了啊。同时他们讨论出一个E的集合DP的做法，和最后讲的好像差不多，加菲上去写了，我虽然不报太大希望了，但是写好的代码总不能就这样吧，就抢了一回机器，加了个剪枝（其实很挫的剪枝），测了几组8*8的，貌似比之前快了点，于是交了，继续修改，加东西，突然judge返回了一个结果，我不小心给压了下去，没看清。切到PC^2，居然不是长长的一串，而是3个字母：Yes！哈哈，在两场最后一百分钟没有建树之后，终于过题了，这回可以无憾了。平息了一下，帮加菲继续调他的E，可惜最后还是木有出样例。
+ </p>
+ <p>
+  这场比赛做的还是很开心的，不仅完成了出线任务，也拿到了武汉大学ACM正式参赛的最好名次，第3名。而额外得到一次参赛机会的六队也最后半小时过两题，第一站拿了块铜牌。比赛完，大家都喜笑颜开，和来观战的杰瑜一起逛了逛周围，夜晚吃了好几斤羊蝎子，在到处都人满为患的紫荆城，我们的Free Journey区域赛之旅，也到此划上句点。
+ </p>
+ <p>
+  而第二个数字，10，我的第十场区域赛，由于福州没有名额，也是我的最后一场队员身份的区域赛，同时划上句点。
+ </p>
+ <p>
+ </p>
+ <p>
+  Contest Team Rank Official
+ </p>
+ <p>
+  2009宁波 Hibix 12（银） Y
+ </p>
+ <p>
+  2009上海 Hibix 8（金） Y
+ </p>
+ <p>
+  2009哈尔滨 FreeHibix 14（银）
+ </p>
+ <p>
+ </p>
+ <p>
+  2010哈尔滨 OpenLegend 1（金）
+ </p>
+ <p>
+  2010天津 OpenLegend 8（金） Y
+ </p>
+ <p>
+  2010杭州OpenLegend 2（金）
+ </p>
+ <p>
+  2010成都 OpenLegend 4（金） Y
+ </p>
+ <p>
+ </p>
+ <p>
+  2011大连 FreeJourney 9（金） Y
+ </p>
+ <p>
+  2011上海 FreeJourney 7（金）
+ </p>
+ <p>
+  2011北京 FreeJourney 3（金） Y
+ </p>
+ <p>
+  (注：以上都是ICPC学校排名)
+ </p>
+ <p>
+ </p>
+ <p>
+  从第一年青涩的Hibix，见证WHUACM一站三金的辉煌，和哑熊一起小小的一鸣惊人。
+ </p>
+ <p>
+  到第二年随天王，OpenLegend的几场比赛，传奇也平凡的落幕。
+ </p>
+ <p>
+  至第三年的FreeJourney，公费旅游的三个老人，相濡以沫，不如相忘于江湖。
+ </p>
+ <p>
+  倒真的印了这个副标题：Chasing Thinking Enjoying.
+ </p>
+ <p>
+  盘点这十站，想起以前写的一篇
+  <a href="http://hi.baidu.com/%D2%BB%CE%BB%C1%E3/blog/item/358fd045ad456544500ffee7.html" target="_blank">
+   小小的梦想
+  </a>
+  。如今我也算是”前辈“了，想到的却还是那句老话：ACM也是一个梦想的舞台，梦有多高，就可以飞多远。
+ </p>
+ <p>
+  而最后的这个3，既用来纪念这个第三名，更是ACM亦如人生旅程这三段路：追寻，思考，享受。如王国维人间词话所讲。
+ </p>
+ <p>
+  昨夜西风凋碧树，独上高楼，望尽天涯路。
+ </p>
+ <p>
+  衣带渐宽终不悔，为伊消得人憔悴。
+ </p>
+ <p>
+  众里寻她千百度，蓦然回首，那人却在、灯火阑珊处。
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b1d73950-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

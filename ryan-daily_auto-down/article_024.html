@@ -1,0 +1,146 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/hadoop-learning>http://ryan-daily.diandian.com/hadoop-learning</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Hadoop入门笔记
+  </a>
+ </h3>
+ <p class="date ">
+  4th of February 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=hadoop" target="_blank">
+   hadoop
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  之前写过一篇
+  <a href="http://ryan-daily.diandian.com/map-reduce-learning">
+   MapReduce学习
+  </a>
+  的笔记。但是实际上自己并没有真正操作过，大多是对论文的总（fan）结（yi）。
+ </p>
+ <p>
+  Hadoop是MapReduce模式的一个实践应用。简单来说，它的执行模式是：
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+(input files as)stdin ---(mapper)---&gt; 
+&lt;key, value&gt;(line:key \t value) ---(sort key)---&gt; 
+(sorted KV pairs divided as)stdin ---(reducer)---&gt;
+output files
+</pre>
+ <p>
+  所以，操作者的工作可以分为三个：
+ </p>
+ <ol class="edui-filter-decimal">
+  <li>
+   指定mapper工作
+  </li>
+  <li>
+   指定reducer工作
+  </li>
+  <li>
+   配置环境：输入、输出等等
+  </li>
+ </ol>
+ <p>
+  這裡的Hadoop是指
+  <a href="http://hadoop.apache.org/docs/r1.2.1/streaming.html">
+   Hadoop Streaming
+  </a>
+  ，它允许使用一些可执行脚本或可执行文件来充当mapper和reducer的工作。
+ </p>
+ <p>
+  也分为这三个步骤来讨论一个Hadoop任务的设计。就用最常见的词频统计。
+ </p>
+ <h4>
+  <strong>
+   指定mapper工作
+  </strong>
+ </h4>
+ <p>
+  这里不需要对输入做任何事情，直接cat可以了。如果是一行，那就每个单词输出一次。
+ </p>
+ <p>
+  一定要注意用
+  <code>
+   \t
+  </code>
+  分割key和vaule。
+ </p>
+ <h4>
+  <strong>
+   指定reducer工作
+  </strong>
+ </h4>
+ <p>
+  对排序好的单词key，进行统计，然后输出。
+ </p>
+ <p>
+  由于key是有序的，map-reduce模式通常不需要额外的内存进行存储工作。有序的很多问题都只需要存储上一次不一样的位置就够了。
+ </p>
+ <h4>
+  <strong>
+   配置环境
+  </strong>
+ </h4>
+ <pre config="brush:bash;toolbar:false;">
+#!/bin/bash
+
+hadoop fs -rmr /output
+#hadoop fs -put ./input-file /input
+hadoop streaming \
+-D mapred.reduce.tasks=10 \
+-D mapred.map.tasks=10 \
+-D mapred.job.name="hello-hadoop" \
+-file ./mapper.py \
+-file ./reducer.py \
+-mapper "python mapper.py" \
+-reducer "python reducer.py" \
+-input /input \
+-output /output
+</pre>
+ <p>
+  依照这个范式，基本的任务就ok了。注意input可以直接指定HDFS里面的文件。如果是个文件夹，其所有内容（不能含有sub-dir）都会作为
+  <code>
+   stdin
+  </code>
+  输入给mapper。
+ </p>
+ <p>
+  Hadoop的工作大部分集中于文件处理与统计，迭代式的复杂逻辑不适合其计算模式。
+ </p>
+ <p>
+  如果需要本地调试程序，可以创建一些小型的input-file。然后
+ </p>
+ <pre config="brush:bash;toolbar:false;">
+cat input-file | mapper | sort | reducer
+</pre>
+ <p>
+  执行结果和hadoop是（除了sort方式的细微差别）一样的。
+ </p>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=df8d9b20-ac53-11e4-9f5b-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

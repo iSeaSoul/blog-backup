@@ -1,0 +1,132 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-02-23/14398787>http://iseasoul.diandian.com/post/2010-02-23/14398787</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   从Bellman ford到差分约束（一）
+  </a>
+ </h3>
+ <p class="date ">
+  23th of February 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  最短路算法是图论中一个重要的板块，Bellman ford算法是基于一个比较基础的不断寻找可收缩边进行收缩的思想之上的：
+  <br>
+   对于G = (v, e)，做|v|-1 次relax操作；
+   <br>
+    relax操作：对所有的e = (v, u, w)，如果可收缩，则进行收缩；
+    <br>
+     这样进行|v|-1次之后，若仍有可收缩的e，则有负环的存在。
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  Q1 为什么进行|v|-1次relax操作后一定保证能找到所有点到源点的最短路？
+  <br>
+   假设从a到b的最短路为a e1 v1 … ei vi b，首先最短路中经过的顶点v(1..i) 是没有重复的，那么，i的最大值也只能是|v|-1，这样，在|v|-1次寻找中，一定可以找到这条最短路。
+   <br>
+    Q2 为什么进行|v|-1次之后，若仍有可收缩的e可断定负环的存在？
+    <br>
+     负环的定义是，图中存在a e1 v1 … ei vi a这样的回路，且回路中边权值的和为负，由于所有点到源点的最短路已经找到，在第|v|次relax操作中，如果仍有可收缩的边，那么这条最短路a e1 v1 … ei vi b中一定至少有两个相同的点，并且这个点形成的回路使以前通路上所有边权值之和变小了，那么这个回路的边权之和一定为负，即存在负环。
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  典型题目：
+  <br>
+   POJ 3259, POJ 1860
+  </br>
+ </p>
+ <p>
+  基本模板：
+ </p>
+ <p>
+  bool bellman_ford()
+  <br>
+   {
+   <br>
+    for (int i = 1; i &lt;= n; ++i) {
+    <br>
+     bool flag = false;
+     <br>
+      for (vector &lt;edge&gt; :: iterator it = g.begin(); it != g.end(); ++it) {
+      <br>
+       if (dis[it-&gt;u] != inf &amp;&amp; dis[it-&gt;u] + it-&gt;t &lt; dis[it-&gt;v]) {
+       <br>
+        dis[it-&gt;v] = dis[it-&gt;u] + it-&gt;t;
+        <br>
+         flag = true;
+         <br>
+          }
+          <br>
+           }
+           <br>
+            if (!flag)
+            <br>
+             return false;
+             <br>
+              }
+              <br>
+               return true;
+               <br>
+                }
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  <br>
+   差分约束系统是一类特殊的线性规划问题，它的每个约束条件都是形为xi – xj &lt;= a的线性不等式，这样问题可以转化为：
+   <br>
+    假象源点为x0，到所有的点距离都为0，那么对一组约束条件{xi – xj &lt;= a|1&lt;=i,j&lt;=n}，等价为每个xi都是一个顶点，a为j到i的距离，求所有点到x0的最短路，且图中无负环存在。
+    <br>
+     这样，处理好初值和边，上面的bellman ford又可以继续派上用场了。
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  典型题目：
+  <br>
+   POJ 2983, POJ 1201(1716), POJ 1364, POJ 3169
+  </br>
+ </p>
+ <p>
+  点FyF7点pmwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b9083260-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

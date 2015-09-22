@@ -1,0 +1,121 @@
+<h3>Original Link: <a href=http://raindreamer.diandian.com/python-note-2>http://raindreamer.diandian.com/python-note-2</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Python學習筆記2：json轉換
+  </a>
+ </h3>
+ <p class="date ">
+  21th of August 2013
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  【Background】
+ </p>
+ <p>
+  json是一種輕量級的數據交互方式，多用於web、S2C的數據傳播。Python自2.6版本就有了對json的支持，加上python動態語言的緣故，使得轉換過程非常靈活，使用起來也非常方便。
+ </p>
+ <p>
+  【Usage】
+ </p>
+ <p>
+  python的json轉換十分簡單，loads(str)，dumps(obj)足以應付所有自帶類型的情況。
+ </p>
+ <p>
+  在一些特定的情況下，需要用到自定義的class，可以考慮使用擴展的JSONEncoder和JSONDecoder。如：
+ </p>
+ <pre config="color:#000000;word-wrap:break-word;white-space:pre-wrap;">class json_encoder(json.JSONEncoder):
+    
+    def default(self, obj):
+        d = {}
+        d['__class__'] = obj.__class__.__name__
+        d['__module__'] = obj.__module__
+        d.update(obj.__dict__)
+        return d
+    
+class json_decoder(json.JSONDecoder):
+    
+    def __init__(self):
+        json.JSONDecoder.__init__(self,object_hook=self.dict2object)
+        
+    def dict2object(self, d):
+        if'__class__' in d:
+            class_name = d.pop('__class__')
+            module_name = d.pop('__module__')
+            module = __import__(module_name)
+            class_ = getattr(module, class_name)
+            args = dict((key.encode('ascii'), value) for key, value in d.items())
+            inst = class_(**args)
+        else:
+            inst = d
+        return inst
+</pre>
+ <p>
+  【Addition】
+ </p>
+ <p>
+  但在一些非動態語言中，如C#中，json過於靈活的表示導致轉換過程要複雜很多。
+ </p>
+ <p>
+  以C#為例做個簡單的說明，這裡使用了Newtonsoft.Json，具體可參見reference的link。
+ </p>
+ <p>
+  對於object的序列化，JsonConvert.SerializeObject是可以序列化C#可定義的類型的，Json大多的處理對象是Dict&lt;string, object&gt;，可以轉化為這種字典的嵌套類型來處理。或者使用Newtonsoft.Json中內置的DataTableConverter來處理。
+ </p>
+ <p>
+  而對于jstring的反序列化，JsonConvert.DeserializeObject大部份時候需要定義好具體的對於類，并在類的屬性前加上頭
+ </p>
+ <p>
+  [JsonProperty(PropertyName = "pname")]
+  <br/>
+ </p>
+ <p>
+  如此傳入類參數，來處理反序列化，但是可能存在多重嵌套這裡定義很深的類層次，因此這個處理方法在python隨意定義的結構面前也非常麻煩。面對這種狀況，只能用半動態的var和JArray來逐步處理。
+ </p>
+ <p>
+  動態語言在這一點上優勢竟露無遺。
+ </p>
+ <p>
+  【Reference】
+ </p>
+ <p>
+  <a href="http://docs.python.org/2/library/json.html">
+  </a>
+  <a href="http://docs.python.org/2/library/json.html">
+   http://docs.python.org/2/library/json.html
+  </a>
+ </p>
+ <p>
+  <a href="http://docs.python.org/2/library/json.html">
+  </a>
+  <a href="http://json.codeplex.com/">
+   http://json.codeplex.com/
+  </a>
+  <br/>
+ </p>
+ <p>
+  点f点642Pbf网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=7b91d470-0a46-11e3-8fb1-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

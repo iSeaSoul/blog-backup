@@ -1,0 +1,140 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/interviewstreet-problems-dp-1>http://iseasoul.diandian.com/interviewstreet-problems-dp-1</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Interviewstreet DP Problems - 1
+  </a>
+ </h3>
+ <p class="date ">
+  13th of August 2012
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  Got an interview this Thursday, though this set haven't been finished, write a simple solution to help me trimming the thought.
+ </p>
+ <p>
+  And saving some RP, maybe : )
+ </p>
+ <p>
+  Grid Walking
+ </p>
+ <p>
+  See previous article.
+ </p>
+ <p>
+  String Transmission
+ </p>
+ <p>
+  Non-self-repeated string is not direct, so try get the number of self-repeated string first. Here we enumerate all possible sub-string lengths, use a DP to calculate the ways to change the string to a periodic string with no more than K steps. But there are duplicated countings, for example, a string 111111 is both a 2-repeated and 3-repeated string. As the length of string is no bigger than 1000, we need to get all its factors in which no one can divide another, fortunately, the number is not too big, maybe less than 16 (not sure). Then the inclusion-exclusion principle works. It's an interesting problem, contains plenty of problem sloving methods. I wonder whether there are some simpler solutions.
+ </p>
+ <p>
+  String Reduction
+ </p>
+ <p>
+  See previous article.
+  <br/>
+ </p>
+ <p>
+  Lego Blocks
+ </p>
+ <p>
+  Also, try to solve the version in which blocks can be divided by a vertical line. Use the place of the first divided line to partition different types of the invalid cases. Then the DP formula can be found easily.
+ </p>
+ <p>
+  Substring Diff
+ </p>
+ <p>
+  Enumerate the start position difference of two strings, use a array to record if the character is the same, then do a partial sum, enumerate start point, and upper_bound is enough then.
+ </p>
+ <p>
+  Vertical Sticks
+ </p>
+ <p>
+  For each stick, if we know its place and its current value, then only by combination number can we get the total ways to form this case, so, enumerate it, as usual.
+ </p>
+ <p>
+  Lucky Numbers
+ </p>
+ <p>
+  Typical DP position by position, the state can be &lt;length, sum_digit, sum_digit_pow&gt;, when transfering, use a boolean to record if the number is already less than the bound, if less than, then the answer will be the same, a memo DP satisfied, if not, enumerare all digits and goto the next level, this step needn't be shown in memo DP. By doing this, a deplicated DP in every testcase isn't essential, saving a lot of time. The method is provided by God Dai : )
+ </p>
+ <p>
+  Fairy Chess
+ </p>
+ <p>
+  Rotate the chess board by 45 degree, the manhattan distance become a square. Traverse all grids to calculate current ways, do a partical sum, again and again, till we solve it!
+ </p>
+ <p>
+  Billboards
+ </p>
+ <p>
+  The O(N^2) DP solution is quite straight-forward, then optimize it with sliding window, another name is monotonous queue.
+ </p>
+ <p>
+  Square Subsequences
+ </p>
+ <p>
+  At first I misunderstood the subsequence to substring, and try to use rabin-karp. Subsequence seems to be much more tricky. An O(n^5) solution is like this, enumerate the start point of the second string, use DP[the first string end at i][the second string end at j] to record the number of valid same pair strings, then sum up are possible sucessd state while transfering. Yes, you may discover, the partical sum also works at there, optimize the complexity to O(N^3).
+ </p>
+ <p>
+  Kingdom Connectivity
+ </p>
+ <p>
+  Only DP in Topsort doesn't work accurately at there, though I still couldn't detect the bugs. Use trajan to get SCC first, and use the result to identify if there is a circle between the two vertices, then find the answer.
+ </p>
+ <p>
+  Hyper Strings
+ </p>
+ <p>
+  It's the most awesome problem in this part. The definition of Super String seems very strange at first. We must find the inner properties. As the characters in Super String are always increasing, if a hyper string is like ...ca..., the original super string to concatenate it must divide between 'c' and 'a', and there should never be any equaivalent concatenation to form this. So, we can divide the hyper string to shorter super strings, and it won't affect the final answer. And as the characters are limited in 'a' - 'j', we can calculate all possible super strings via a bitmask DP. Then a linear DP to find the ways to obtain a hyper string.
+ </p>
+ <p>
+  Matrix
+ </p>
+ <p>
+  Tree DP, dp[i][0..1] indicate the lowest cost to separate all other machines and the top of this chain has or hasn't a machine. Easy to transfer.
+ </p>
+ <p>
+  Interval Selection
+ </p>
+ <p>
+  Also an awesome problem. Need discover a important property first. If P intervals were already selected, and the select condition for a new interval sould like that: use max_end and second_max_end indicate the maximum end and sub-maximum of all selected intervals, the begin of the new interval should be larger than the second_max_end. By means of this, we can desigh a algorithm dp[max][sub-max] with complexity O(N^3). If sort those intervals by their end points, the algorithm can be optimized to O(N^2) by a smart assisted record.
+ </p>
+ <p>
+  Unfair Nim
+ </p>
+ <p>
+  Actually, I still don't pass all the testcases in interviewstreet. There is a smaller version in HDOJ, I already optimized the transfer cost to the lowest, and the run time is only 109ms, compare to most solutions with 1s+. The state is like dp[now_bitmask][previous_carry], and transfer by enumerate the carry of next bit, there are plenty of restricts while calculating, operate them first and enumerate the subset will save many time. But 32 * 3^15 is still too big, I guess there are some greedy strategies for it.
+ </p>
+ <p>
+  『云何应住？云何降伏其心？』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <style>
+     .cmt-inline-6de659b0-e551-11e1-9cee-782bcb38253b-1440653911636 {display:none;}
+    </style>
+    <ul class="cmt-inline-6de659b0-e551-11e1-9cee-782bcb38253b-1440653911636">
+     <li>
+      <a href="http://homeyvr.diandian.com">
+       Yunli Qiu
+      </a>
+      Did you pass all the testcases for hyperstring in interviewstreet? I am struggling with this challenge. What's the complexity for your solution O(NM)? Do you mind share more details?
+     </li>
+    </ul>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=6de659b0-e551-11e1-9cee-782bcb38253b&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

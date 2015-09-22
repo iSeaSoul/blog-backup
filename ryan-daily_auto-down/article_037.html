@@ -1,0 +1,244 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/python-notes>http://ryan-daily.diandian.com/python-notes</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Python Notes
+  </a>
+ </h3>
+ <p class="date ">
+  13th of January 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=python" target="_blank">
+   python
+  </a>
+  <a href="/?tag=tips" target="_blank">
+   tips
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  <strong>
+   1. 仅可使用以下基本类型字面常量或常量作为默认参数：整数、bool、浮点、字符串、None
+  </strong>
+ </p>
+ <p>
+  这也是
+  <a href="http://ryan-daily.diandian.com/copy-in-python">
+   http://ryan-daily.diandian.com/copy-in-python
+  </a>
+  的错误来源。最好：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+def foo(a, b=None):
+    if b is None:
+        b = []
+</pre>
+ <p>
+  <strong>
+   2. 对容器或文件的只读遍历，应该使用内置的迭代方法，不要使用返回list的方式遍历
+  </strong>
+ </p>
+ <p>
+  否则开销太大。
+ </p>
+ <p>
+  类似的，
+  <strong>
+   一些自定义的函数返回过长list时也应该使用
+   <code>
+    yield
+   </code>
+  </strong>
+  ：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+def gen_list(length):
+    for i in xrange(length):
+        yield i
+</pre>
+ <p>
+  同样类似的，
+  <strong>
+   判断元素是否存在使用
+   <code>
+    in
+   </code>
+   ，而不使用
+   <code>
+    has_key
+   </code>
+  </strong>
+  。
+ </p>
+ <p>
+  <strong>
+   3. 保护namespace
+  </strong>
+ </p>
+ <blockquote>
+  <p>
+   Namespaces are one honking great idea ‐‐ let's do more of those!
+  </p>
+ </blockquote>
+ <p>
+  <strong>
+   不要使用
+   <code>
+    from xxx import yyy(*)
+   </code>
+   来引入类和函数
+  </strong>
+  。这样会破坏命名空间。
+ </p>
+ <p>
+  <strong>
+   4. 防止隐式转换的未知错误
+  </strong>
+ </p>
+ <p>
+  在python中，0，空的字符串和容器都会隐式转换成
+  <code>
+   False
+  </code>
+  ，所以：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   对于使用
+   <code>
+    is None
+   </code>
+   判断None类型
+  </li>
+  <li>
+   使用
+   <code>
+    not E
+   </code>
+   或者
+   <code>
+    E
+   </code>
+   判断bool类型
+  </li>
+  <li>
+   使用
+   <code>
+    == 0
+   </code>
+   判断int类型
+  </li>
+ </ul>
+ <p>
+  <strong>
+   5. 关闭句柄
+  </strong>
+ </p>
+ <p>
+  使用完后关闭file和socket的句柄。可以使用
+  <code>
+   with
+  </code>
+  代替：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+with open('my.file') as myfile:
+    process(myfile)
+</pre>
+ <p>
+  <strong>
+   6. 文件编码设定为UTF8
+  </strong>
+ </p>
+ <p>
+  python默认使用ASCII编码解析，不声明的话任何非ASCII都会出错。
+ </p>
+ <pre config="brush:python;toolbar:false;">
+# ‐*‐ coding: utf‐8 ‐*‐
+</pre>
+ <p>
+  <strong>
+   7. 命名规则
+  </strong>
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   类：
+   <code>
+    MyClass
+   </code>
+  </li>
+  <li>
+   常量：
+   <code>
+    CONST_NAME
+   </code>
+  </li>
+  <li>
+   其他：
+   <code>
+    other_func
+   </code>
+   ,
+   <code>
+    mudule_name
+   </code>
+  </li>
+  <li>
+   成员变量：
+   <code>
+    _protected_member_name
+   </code>
+   ,
+   <code>
+    __privated_member_name
+   </code>
+  </li>
+ </ul>
+ <p>
+  <strong>
+   8. 修饰器
+  </strong>
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   <code>
+    @property
+   </code>
+   ：函数-&gt;属性
+  </li>
+  <li>
+   <code>
+    @classmethod
+   </code>
+   ：类.方法
+  </li>
+  <li>
+   <code>
+    @staticmethod
+   </code>
+   ：静态方法
+  </li>
+ </ul>
+ <p>
+  『做烈士不算什么,做战士才聪明。我不只是一般的战士,还是神气活现的战士,快快乐乐的战士,使你哭笑不得的战士!』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=e0d43440-9ae1-11e4-af31-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

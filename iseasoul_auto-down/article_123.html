@@ -1,0 +1,163 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2011-05-09/14511654>http://iseasoul.diandian.com/post/2011-05-09/14511654</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   武汉大学第9届ACM校赛预赛 简单报告
+  </a>
+ </h3>
+ <p class="date ">
+  9th of May 2011
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=Last%20Acm" target="_blank">
+   Last Acm
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  本来报告是准备决赛后一起发布的，但是不少人问，就先写个简单的。
+ </p>
+ <p>
+  第一档 A J
+ </p>
+ <p>
+  这两题都是水题，就是A题有个空行有些浏览器显示有问题导致许多PE
+ </p>
+ <p>
+  第二档 B D I
+ </p>
+ <p>
+  B题的标程是模拟退火
+ </p>
+ <p>
+  但是很多程序是直接迭代逼近的，只要3行，Orz
+ </p>
+ <p>
+  D题天王的本意是一个复杂的容斥原理，但是开场不久被秒杀，才发现又一个比较简单的状态DP方法
+ </p>
+ <p>
+  dp[state] 表示前i位用了状态state里面的被标识位的非合法数字
+ </p>
+ <p>
+  这也导致D和E在知识点上重复了，我们的疏忽
+ </p>
+ <p>
+  I是一个构造题目 1/i*(i+1) = 1/i - 1/(i+1) 这样来构造，注意6和12有重复
+ </p>
+ <p>
+  但是还有不少很好的思路，比如迭代加深 (据说是黑书例题?)，用1440的因子去背包
+ </p>
+ <p>
+  这也很合我当时出题的本意，就是把规模放小让大家尽情发挥想象力的
+ </p>
+ <p>
+  第三档 C E H
+ </p>
+ <p>
+  这三道题目如果是现场赛，应该是金奖的关键题
+ </p>
+ <p>
+  C题是一个看似很长，规模很恐怖的问题，但作为典型的大规模背包问题，加上一些序的调整和剪枝，可以跑得非常快
+ </p>
+ <p>
+  在HDOJ的提交记录里面，就有31ms的，搜索的优化是无止境的
+ </p>
+ <p>
+  E题是以前为eming预赛准备的题目，当时没人做，就继续加到这场比赛了
+ </p>
+ <p>
+  这个题目的第一次状态DP很明显，关键在于字典序
+ </p>
+ <p>
+  解决这样问题的常用方法是三次DP，第一次求最优解，第二次逆序只保存在最优解路上的所有点，第三次正序扫描输出
+ </p>
+ <p>
+  而这个问题可以更简单一点，首先把所有状态[state][last]的最优解求出来
+ </p>
+ <p>
+  接着比较每个状态的字典序关系，对于(state1, last1) 和 (state2, last2)，先看两个状态下的DP值，然后根据转移关系回溯判断字典序，由于字典序是要正向保证的，所以这个回溯也要是正向的，因此只要第一遍DP是逆向的，在其中记录转移关系就好了
+ </p>
+ <p>
+  找到了字典序最小的状态，输出就不是问题了
+ </p>
+ <p>
+  H题是一道典型的SRM DIV I 500分类的题目，代码短，需要YY结论
+ </p>
+ <p>
+  这里每个stone被选取的合并概率总是一样的，所以要求的只是每项的系数
+ </p>
+ <p>
+  第一种系数是xi*xi，第二种是2*xi*xj (i != j)，分别设为DP1[i]和DP2[i]
+ </p>
+ <p>
+  第一个转移比较明显，在第一次合并被选取的概率为2/i，因此增加1的概率是2/i，所以DP1[i] = 2/i + DP1[i-1]
+ </p>
+ <p>
+  第二个转移也是类似的，在第一次合并被选取的概率为
+  <span>
+   2
+  </span>
+  /i*(i-1)，此后(Si+Sj)被当做一个Stone，剩下i-1个石子合并的过程中(Si+Sj)^2出现的系数概率为DP1[i-1]，加上第一次，则为DP1[i-1]+1
+ </p>
+ <p>
+  因此，DP2[i] =
+  <span>
+   2
+  </span>
+  /i*(i-1) * (DP1[i-1] + 1) + (1 -
+  <span>
+   2
+  </span>
+  /i*(i+1)) * DP2[i-1]
+ </p>
+ <p>
+  第四档 F G
+ </p>
+ <p>
+  F是哑熊出的show幸福巨复杂几何题
+ </p>
+ <p>
+  G是momo的很多trick的计算几何题，负责的momo甚至把每个数据都手工画出，赞一个
+ </p>
+ <p>
+  这两个几何题，在我这儿，还是无视算了 = =
+ </p>
+ <p>
+  总结
+ </p>
+ <p>
+  这套题目我们预先估计是比较难的，但是恰恰由于D的简单做法，拉低了整套题目的难度，使整套题目区分度还是不错的
+ </p>
+ <p>
+  board上，除了F 0提交0AC外，其他题目都有人通过，8题1个7题3个
+ </p>
+ <p>
+  主要缺陷是基本全为数学题和几何题，无数据结构无图论，可能让某些队伍不太适应，决赛会平衡这一点
+ </p>
+ <p>
+  最后祝大家在最后的决赛都能取得满意的成绩
+ </p>
+ <p>
+  希望大家玩的开心，比赛一切顺利 : )
+ </p>
+ <p>
+  点点wangdian网dian
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b39cde20-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

@@ -1,0 +1,94 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/topcoder-sol-1>http://iseasoul.diandian.com/topcoder-sol-1</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   TopCoder解题报告系列：1 - TCO 2012 R2C
+  </a>
+ </h3>
+ <p class="date ">
+  5th of June 2012
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  有不少空闲时间没有具体的事情做，还是做做TC吧，尽管退役，TC还是要继续做的。
+  <br/>
+ </p>
+ <p>
+  做SRM也很久了，总是得过且过的感觉，就从今天开始写解题报告吧，只做DIV 1的，如果DIV 2有别人推荐的不错题目，也会尽力写上。但由于水平有限，1000估计要点时间。
+ </p>
+ <p>
+  上周末的这场，自己做的很不好，900思路很混乱不说，明明可以做出来的500居然也没出，智商真是硬伤啊，有没有。
+ </p>
+ <p>
+ </p>
+ <p>
+  300 - 一个完全有向图，边权范围 [1, 9999]，某人要遍历所有的点，开始在0点，每次贪心的选取一个最近的未被访问的点，最后的总代价为走过的边权之和。有一次修改边权的机会，问最坏情况下的代价，点数&lt;=30。
+ </p>
+ <p>
+  枚举每条边有意义的变换值，然后枚举。在X点时，边修改的意义是决定下个点的选择，如果有两个权值V1和V2，那么有意义的只有自己或+1或-1（可能更少），其他的不会影响决策，不会是最坏情况。那么枚举这些事件点，记得边权的限制，就可以了。
+ </p>
+ <p>
+ </p>
+ <p>
+  500 - 平面上N个点，有多少的三元组(r, g, b)满足x[r] &lt; x[g] &lt; x[b] 且 y[r] &lt; y[b] &lt; y[g]。没有相同的x坐标或y坐标。N &lt;= 300 000。
+ </p>
+ <p>
+  考虑r的选取，另外的两个点x坐标与y坐标都要大于r，且是逆关系，即x[1] &lt; x[2] &amp;&amp; y[1] &gt; y[2]。如果没有这个关系，那么扫描过去，求出当前在右边且y坐标大于y[r]的点个数就可以了，树状数组可以完成这个问题。
+ </p>
+ <p>
+  求出来的三元对有两种：1) x[1] &lt; x[2] &amp;&amp; y[1] &gt; y[2] 2) x[1] &lt; x[2] &amp;&amp; y[1] &lt; y[2]。现在去掉第二种，也就是去掉 x[0] &lt; x[1] &lt; x[2] &amp;&amp; y[0] &lt; y[1] &lt; y[2] 的。怎么去？还是树状数组。考虑1的选取，扫描的时候累加当前点左边的y坐标小的个数乘以右边的y坐标大的个数。
+ </p>
+ <p>
+ </p>
+ <p>
+  900 - 一个环形的数组height[N]，每时刻如果height[i] &gt; 0，则height[i]--，height[(i + 1) % n]++。求T时刻后的height数组。N &lt;= 50， |height[i]|， T &lt;= 10^16。
+ </p>
+ <p>
+  对于当前的数组，可以求出最长的维持一种操作的时间。维持一种操作指，连续的Tx个时刻内，操作完全相同，某些height+1，某些height-1。连续的N个正数，只有第一个变化，连续的负数也是如此。在其中取一个最小值即可求出最长延续操作的时间。一直做下去，直到数组全为0 1为止，这个时候每次操作相当于数组循环右移。
+ </p>
+ <p>
+  那么，剩下的任务，在于证明这种方法的复杂度。大概可以估测操作次数在2 * N左右，但尚无法给出具体的证明过程，只能简略写一写。
+ </p>
+ <blockquote>
+  <p>
+   每次操作要么将正数变0 要么将负数变1
+  </p>
+  <p>
+   之后这些数都不会变负 而这些时间点的数目为O(n)级别
+  </p>
+  <p>
+   要么存在一个很大的正数，那么很快就会变为全正
+  </p>
+  <p>
+   要么存在一个很大的负数，那么就会很快变为全0或负数
+  </p>
+ </blockquote>
+ <p>
+ </p>
+ <p>
+  <span>
+   
+  </span>
+  版权所有，转载注明iSea则不究。
+ </p>
+ <p>
+  点dian网点dianwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=fd7817a0-aec2-11e1-a3aa-782bcb383994&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

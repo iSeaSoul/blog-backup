@@ -1,0 +1,90 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2011-04-12/18309643>http://iseasoul.diandian.com/post/2011-04-12/18309643</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Codeforces 66
+  </a>
+ </h3>
+ <p class="date ">
+  12th of April 2011
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=Last%20Acm" target="_blank">
+   Last Acm
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  做了这么多CF，自己还是没有一点长进，真是没有比这更让人伤感的事了。
+ </p>
+ <p>
+  B题写了两种贪心的方法，第一种是对的，第二种是错的，一个共同的bug是用错了一个long long，而最后自己却陷到错误的程序中，导致此题始终不能过pretest，而D题大体也在，只是慌慌张张的自己完全无法静下来思考，错误的事情总是一个接一个，E题也因此没看，所以如此看来，悲剧也许是在所难免了。
+ </p>
+ <p>
+  有些时候，差的不是知识和能力，只是心态与思维。
+ </p>
+ <p>
+  是要去多反思一下自己了。
+ </p>
+ <p>
+  好了，还是简要说一下题目：
+ </p>
+ <p>
+  A 小学生的智力题，3刀怎么把蛋糕切成8块，于是知道越平均越好，注意别处理错细节。
+ </p>
+ <p>
+  B 贪心，先把字典序处理好，我是采用加权的形式，所以会用到上面说的long long，贪心是对称的，并且很优美：
+ </p>
+ <p>
+  最好的：对于当前分数小于他的，尽量拿大的得分。而对于大于他的，设置一个指针，初始指向剩余最大得分，如果和仍然比我的最后得分大，就把这个得分给更高的人（因为必定会超过），一直到低于或者得分分完为止。
+ </p>
+ <p>
+  C 典型DP，记录最后字母和改变次数。
+ </p>
+ <p>
+  D 需要YY的题目，先求出每个连通块的点个数，对于点数&gt;=2的，除掉两边的tunnels，尽可能多的连接孤立点。
+ </p>
+ <p>
+  剩余的孤立点，两两配对即可。特殊处理K=1的情况。
+ </p>
+ <p>
+  E 选出一些数，用来区分2~X内所有的数。区分方法是知道所有的ALL_NUMBER/ NUM_OF_CHOOSE（整数除法）。
+ </p>
+ <p>
+  显然选出的数必须是素数，素数Prime的结果强于Prime*i (&gt;1)，而且选择Prime*i (&gt;1)而不选择Prime意味着无法区分2-Prime内的数。
+ </p>
+ <p>
+  那么再进一步，需要选择那些素数呢？
+ </p>
+ <p>
+  答案是，任何小于X的素数都必须选择，如果不选择Prime_Xi，那么Prime_Xi-1和Prime_Xi+1区间内的数不足以区分。
+ </p>
+ <p>
+  F 给出一些炮塔，位置和初始方向及旋转速度，某人需要从一点跑到另一点，如果被炮塔发现，就要被攻击，最多能被攻击K次，求此人逃跑的最小速度。
+ </p>
+ <p>
+  对于每个炮塔，分别求出方向上逃离的最小速度，这个可能需要二分。但题意有点模糊，加上是几何，尚未完成。
+ </p>
+ <p>
+ </p>
+ <p>
+  点d点Siwwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b489fd40-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

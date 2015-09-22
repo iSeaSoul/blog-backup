@@ -1,0 +1,131 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2011-11-03/18314765>http://iseasoul.diandian.com/post/2011-11-03/18314765</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   SEERC 2009 简单报告
+  </a>
+ </h3>
+ <p class="date ">
+  3th of November 2011
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=Funny%20Contest" target="_blank">
+   Funny Contest
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  SEERC 的题目很短，属于乌克兰、罗马利亚那边的区域赛，不算太难，数学性比较浓，经典问题很多，还有点诡异。
+ </p>
+ <p>
+  （说起来和中国的区赛倒是挺像的... ）
+ </p>
+ <p>
+  A 分解RSA的 n =p * q，题目加了个限制，|q - k * p| &lt;= 10^5
+ </p>
+ <p>
+  其实呢，就是q^2 = k * n + M * q (|M| &lt;= 10^5)，说明 q 就在 sqrt(k*n) 附近，果断枚举之
+ </p>
+ <p>
+  B 模拟 按照说的做
+ </p>
+ <p>
+  C 二分匹配，不用管什么10000个点...
+ </p>
+ <p>
+  D 求一个图中的最大环，并且很特殊，一个点最多在一个环上
+ </p>
+ <p>
+  直接dfs，遇到后向边就找到了一个环，找个最大的就OK了
+ </p>
+ <p>
+  问题，如果没有一个点在一个环上的限制呢？求出所有点双，最大个数就是了
+ </p>
+ <p>
+  E 有点卡时，但DP的方法很不错
+ </p>
+ <p>
+  大意是两个task都有N(N &lt;= 300)个procedure需要依次完成，有M(M &lt;= 10)台处理器，每个处理器在一个时间段可以处理一个procedure，给出每个procedure需要的时间和处理器，如何安排顺序使最短时间内完成两个task
+ </p>
+ <p>
+  DP[i][j] 表示第一个任务完成到第i个procedure第二个任务完成到第j个procedure的最短时间
+ </p>
+ <p>
+  如果没有处理器冲突，扫描完成就OK，遇到矛盾 P(1, k) = P(2, s)时，考虑两个procedure的先后顺序，此时不能双线同时进行了，需要等待处理器空闲出来
+ </p>
+ <p>
+  总体复杂度 O(N ^ 3) 有些常数时间，且数据量非常巨大，TLE时想想多余的计算，优化掉就差不多了
+ </p>
+ <p>
+  F 二分比例，带优先队列bfs之
+ </p>
+ <p>
+  G 带WildCard的匹配，先dp出匹配的最短字符串长度
+ </p>
+ <p>
+  注意一种情况：***x*x? xxx 初始化时处理前导*的匹配问题
+ </p>
+ <p>
+  H 很有意思的一道区间统计题目
+ </p>
+ <p>
+  方法来自于
+  <a href="http://hi.baidu.com/billdu/blog/item/a7df7bd82f03da3a11df9b93.html" target="_blank">
+   这位神牛
+  </a>
+ </p>
+ <p>
+ </p>
+ <p>
+  I 背包，搜索，剪枝
+ </p>
+ <p>
+  剪枝1：按vi/wi排序，并且尽量取性价比的高的越多越好
+ </p>
+ <p>
+  剪枝2：如果剩余的都去也不会比ans大，return
+ </p>
+ <p>
+  剪枝3：如果按当前性价比取最大可取W也不会比ans大，return
+ </p>
+ <p>
+  J 巨烦的状态DP，抽个时间专门再搞
+  <span>
+   (UnAC)
+  </span>
+ </p>
+ <p>
+  K 此题略恶心，无算法，纯YY
+ </p>
+ <p>
+  先特判-1的情况：三种
+ </p>
+ <p>
+  然后处理一种 K &gt;= M，其余的贪心掉，注意一种
+ </p>
+ <p>
+  4 14 5 -&gt; 5 (testfrom POJ BBS)
+ </p>
+ <p>
+ </p>
+ <p>
+  dian点点网dianwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b2032b50-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

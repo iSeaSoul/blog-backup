@@ -1,0 +1,229 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-11-28/18456180>http://iseasoul.diandian.com/post/2010-11-28/18456180</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   FOJ 1983
+  </a>
+ </h3>
+ <p class="date ">
+  28th of November 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=Last%20Acm" target="_blank">
+   Last Acm
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  博弈类型的DP，需要一个小优化。
+  <br>
+   下午写完基本的DP就急急忙忙走了，回来的路上细想了下，发现中间的冗余计算。
+  </br>
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+  首先分析下如何设计DP：
+  <br>
+   对于当前的局面，状态是很明显的：取到第i个物品，上次对手取了j个。
+   <br>
+    考虑剩下的物品，如果知道两个人取完剩下物品后得分的差值，就可以知道每个人的得分。当前的玩家一定是希望自己的得分-对方的得分这一差值最大，我们就用dp[i][j]来记录这个最大差值。
+    <br>
+     利用记忆化的方式，得到基本的转移方程：
+     <br>
+      dp[i][j] = max{sum[i..i+k-1] - dp[i+k][k] | 1 &lt;= k &lt;= 2*j}
+      <br>
+       状态有N * N / 2，转移O(N) ，复杂度O(N^3)。
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+  显然需要简单的转移或优化：
+  <br>
+   可以观察，dp[i][j + 1] 一定是大于dp[i][j]的，因为可取的物品更多，一定会选取更优的解。
+   <br>
+    所以我们稍微改变i和j的含义为：取到第i个物品，上次对手取了小于等于j个。
+    <br>
+     这个时候转移就变成了：
+     <br>
+      dp[i][j] = max{dp[i][j-1], max{sum[i..i+k-1] - dp[i+k][k] | 2*j-1 &lt;= k &lt;= 2*j}}
+      <br>
+       降低了转移的复杂度，因此为O(N^2)的算法。
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+  附上代码，感觉处理的还好：
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+  int dp[maxn][maxn];
+  <br>
+   int sum[maxn], a[maxn], n;
+  </br>
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+  int cal(int x, int y) {
+  <br>
+   if (dp[x][y] != -1)
+   <br>
+    return dp[x][y];
+    <br>
+     int &amp;res = dp[x][y];
+     <br>
+      if (n - x + 1 &lt;= y * 2)
+      <br>
+       return res = sum[n] - sum[x - 1];
+       <br>
+        res = -inf;
+        <br>
+         if (y &gt; 1) res = cal(x, y - 1);
+         <br>
+          FOR(i,y*2-1,y*2) {
+          <br>
+           int now = sum[x + i - 1] - sum[x - 1];
+           <br>
+            int opp = cal(x + i, i);
+            <br>
+             res = max(res, now - opp);
+             <br>
+              }
+              <br>
+               return res;
+               <br>
+                }
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+  int main() {
+  <br>
+   int t, Case = 1;
+   <br>
+    scanf ("%d", &amp;t);
+    <br>
+     while (t--) {
+     <br>
+      scanf ("%d", &amp;n);
+      <br>
+       sum[0] = 0;
+       <br>
+        FOR(i,1,n) {
+        <br>
+         scanf ("%d", &amp;a[i]);
+         <br>
+          sum[i] = sum[i - 1] + a[i];
+          <br>
+           }
+           <br>
+            memset (dp, -1, sizeof(dp));
+            <br>
+             int ans = cal(1, 1);
+             <br>
+              printf ("Case %d: ", Case++);
+              <br>
+               if (ans == 0)
+               <br>
+                puts("[white eye picture]");
+                <br>
+                 else if (ans &gt; 0)
+                 <br>
+                  puts("AC wins!");
+                  <br>
+                   else
+                   <br>
+                    puts("PH wins!");
+                    <br>
+                     }
+                     <br>
+                      return 0;
+                      <br>
+                       }
+                      </br>
+                     </br>
+                    </br>
+                   </br>
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+  网dian点wangdian点
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b649d5b0-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

@@ -1,0 +1,100 @@
+<h3>Original Link: <a href=http://raindreamer.diandian.com/cf-journey-halfpast1>http://raindreamer.diandian.com/cf-journey-halfpast1</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   從零開始刷CF 1.5：CF 209(Div 2)
+  </a>
+ </h3>
+ <p class="date ">
+  2th of November 2013
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+  <a href="/?tag=codeforces" target="_blank">
+   codeforces
+  </a>
+  <a href="/?tag=algo" target="_blank">
+   algo
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  【Record】
+ </p>
+ <p>
+  時間：Nov. 2rd, 2013
+ </p>
+ <p>
+  一場只有Div 2的比賽，因此只能unoffical的參加了。
+ </p>
+ <p>
+  可惜又做的很糟糕，大概水平也就退化到這種程度了，無從非議。
+ </p>
+ <p>
+  題二構造。寫的慢了些。
+ </p>
+ <p>
+  題三不錯的想法題，也想的寫的複雜了。
+ </p>
+ <p>
+  題四用了類似brute force的簡單優化水了，結果少寫了一個等於號掛掉。賽後resub就過了。
+ </p>
+ <p>
+  題五再次沒有時間看。
+ </p>
+ <p>
+  Python用的還是不能得心應手，殘念。
+ </p>
+ <p>
+  【Solution】
+ </p>
+ <p>
+  （B）我使用的是 i, i + 2, i + 3, i + 1 -&gt; 貢獻 2 * 2，i, i + 1, i + 3, i + 2 -&gt; 貢獻 2 * 1，i, i + 1, i + 2, i + 3 -&gt; 貢獻 2 * 0 來組合構造的。
+ </p>
+ <p>
+  還需要特判一下n = k且n為奇的情況。
+ </p>
+ <p>
+  學到一種簡單的構造 i + 1, i -&gt; 貢獻 2 * 1。腦子真是不好啊。
+ </p>
+ <p>
+  （C）考慮提取一個 a ^ (sum(xi) - max(xi))先，其他的a ^ (max(xi) - xi)一定可以整除a，所以依次累計當前剩下的1，來嘗試除掉更多的a。如果當前最小冪次可以被除盡到1，則繼續累加剩下的1。
+ </p>
+ <p>
+  （D）正解似乎是要線段樹。或者RMQ的gcd形式。（妙絕，將max和sum推廣至gcd）
+ </p>
+ <p>
+  我的水法是對每個數，左右擴展能夠整除它的範圍。這樣做在相等的數過多的情況下就會退化到N^2，於是標記擴展中遇到的相等的數，不用再process這個數。
+ </p>
+ <p>
+  【Result】
+ </p>
+ <p>
+  Unofficial：Rank 135
+ </p>
+ <p>
+  No rating changed
+ </p>
+ <p>
+  点dian点网dianwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=3a9c2c70-43d7-11e3-b2f0-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

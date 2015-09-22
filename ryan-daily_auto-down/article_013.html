@@ -1,0 +1,83 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/cpp-trick-07>http://ryan-daily.diandian.com/cpp-trick-07</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   C++技巧系列07 - template类的定制函数
+  </a>
+ </h3>
+ <p class="date ">
+  7th of May 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+  <a href="/?tag=trick" target="_blank">
+   trick
+  </a>
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  如果一个template类需要一个处理函数，函数的返回值是随着template类型变化的，简称作template类的定制函数。
+ </p>
+ <p>
+  下面演示了使用
+  <code>
+   typename
+  </code>
+  来推断函数模板返回值的方法。
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+struct type_t {
+};
+
+ostream&amp; operator&lt;&lt;(ostream&amp; os, const type_t&amp; t) {
+    return os &lt;&lt; "this is type_t";
+}
+
+template &lt;class T1, class T2&gt;
+struct cls {
+    typedef T1 t1;
+    typedef T2 t2;
+};
+
+template &lt;class CLS&gt;
+auto func1(CLS cls) -&gt; typename CLS::t1{
+    return typename CLS::t1();
+}
+
+template &lt;class CLS&gt;
+auto func2(CLS cls) -&gt; typename CLS::t2{
+    return typename CLS::t2();
+}
+
+int main() {
+    cls&lt;int, type_t&gt; x;
+    cout &lt;&lt; func1(x) &lt;&lt; ", " &lt;&lt; func2(x) &lt;&lt; std::endl;
+    return 0;
+}
+</pre>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=3d47d950-f499-11e4-830d-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

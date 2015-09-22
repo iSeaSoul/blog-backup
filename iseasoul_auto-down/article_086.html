@@ -1,0 +1,126 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2011-10-11/14483016>http://iseasoul.diandian.com/post/2011-10-11/14483016</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   NWERC 2009 &amp; 2010
+  </a>
+ </h3>
+ <p class="date ">
+  11th of October 2011
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=Funny%20Contest" target="_blank">
+   Funny Contest
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  欧洲最简单的就是NWERC的题目了，所以从这个开始搞。
+ </p>
+ <p>
+  不过09的以前做过，还写了
+  <a href="http://hi.baidu.com/%D2%BB%CE%BB%C1%E3/blog/item/c251fc650d6f19fef736548f.html" target="_blank">
+   报告
+  </a>
+  。
+ </p>
+ <p>
+  于是就做剩下的，加上10当时组队做的时候我没做的题目。
+ </p>
+ <p>
+  题目还是不错的，没有陈的算法，大部分需要自己YY，写个简单总结。
+ </p>
+ <p>
+ </p>
+ <p>
+  NWERC 2009
+ </p>
+ <p>
+  A和C是水题，D用complex很简单
+ </p>
+ <p>
+  B 树的Hash，这个题目数据很强，第一次做树的Hash还可以冲突...
+ </p>
+ <p>
+  没办法，不停的改Hash的小参数吧，RP好了就过了
+ </p>
+ <p>
+  E、F和G都是很经典的题目
+ </p>
+ <p>
+  H模拟，I简单的极角排序就可以了
+ </p>
+ <p>
+  J 找到所有的负环，把这个负环上的点一次性回到这条路上最晚出现的黑洞时间
+ </p>
+ <p>
+  直到找不到负环，复杂度 O(n ^ 4)
+ </p>
+ <p>
+ </p>
+ <p>
+  NWERC 2010
+ </p>
+ <p>
+  前面4题基本思路都是贪心，以及处理一些细节，注意D题精度问题
+ </p>
+ <p>
+  E拓扑排序，F网络流
+ </p>
+ <p>
+  G是一道很不错的单调队列题目
+ </p>
+ <p>
+  对于一列的free格子，很容易求出这一列往上扩展的最大高度
+ </p>
+ <p>
+  然后维护一个递增的height序，因为如果 i &lt; j AND h[i] &gt; h[j] ，i是没有意义的
+ </p>
+ <p>
+  那么 maxC[i] = max(i - back[j] + 1 + height[j])
+ </p>
+ <p>
+  back[i] 表示这个高度最多往左扩展的位置，于是单调队列就派上用场了
+ </p>
+ <p>
+  H 模拟，J也是一道很有意思的贪心
+ </p>
+ <p>
+  唯一还剩一道I，不会
+ </p>
+ <p>
+ </p>
+ <p>
+  可以发现，尤其是2010的题目，很多都是自行YY以及各种细节的贪心，这种题目质量还是很不错的，远好于中国的区域赛。
+ </p>
+ <p>
+  比如刚过去的大连，充斥了太多过于具体的知识点，什么AC自动机、容斥原理、线段树、矩形面积并之类的，知道与不知道就是两个分水岭。
+ </p>
+ <p>
+  做做题嘛，想的开心就可以了，要那么多模板是做甚么。
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b2a2edc0-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

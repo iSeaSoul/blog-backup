@@ -1,0 +1,102 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/different-newlines>http://ryan-daily.diandian.com/different-newlines</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   换行符问题及python下的解决方法
+  </a>
+ </h3>
+ <p class="date ">
+  4th of December 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=experience" target="_blank">
+   experience
+  </a>
+  <a href="/?tag=tips" target="_blank">
+   tips
+  </a>
+  <a href="/?tag=python" target="_blank">
+   python
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  换行符问题是一个操作系统设计上不同理念的古老遗留问题。参考
+  <a href="http://en.wikipedia.org/wiki/Line_breaking_character">
+   wiki
+  </a>
+  。
+ </p>
+ <p>
+  大致来说，三个常用的OS的换行符正好全都不一样（约好的吗）。
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   Windows使用了
+   <code>
+    CR+LF: \r\n
+   </code>
+  </li>
+  <li>
+   MacOS使用
+   <code>
+    CR: \r
+   </code>
+  </li>
+  <li>
+   Linux使用
+   <code>
+    LF: \n
+   </code>
+  </li>
+ </ul>
+ <p>
+  这就导致出了各种奇葩的问题，和编码问题差不多。
+ </p>
+ <p>
+  使用python阅读文件时，如果在windows系统下读Linux或MacOS的文件，就只读出一行。这显然是无法容忍的，一个naive的做法是用vim等编辑器转换一下文件换行格式，Sublime就直接自带了转换（在View-Line Endings选项里面）。
+ </p>
+ <p>
+  Python官方提供了一个更优雅的做法：在open时候加入参数'U'，表示universal newlines。
+  <a href="https://docs.python.org/2/library/functions.html#open">
+   https://docs.python.org/2/library/functions.html#open
+  </a>
+  。
+ </p>
+ <p>
+  这里有一个参考示例，注意中文名字也是需要转化编码的。
+ </p>
+ <pre config="brush:python;toolbar:false;">
+# -*- encoding: utf-8 -*-
+
+uni_path = unicode('中文名字.csv', 'utf8')
+
+for line in open(uni_path, 'U'):
+    # print line
+    contents = line.strip().split(',')
+    print contents
+</pre>
+ <p>
+  人造的东西就是这样吧。还都觉得不错，懒得改。
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=ae82d9e0-7b62-11e4-9603-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

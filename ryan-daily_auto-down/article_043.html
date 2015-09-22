@@ -1,0 +1,753 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/json-rpc-tranlation>http://ryan-daily.diandian.com/json-rpc-tranlation</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   RPC / JSON-RPC译文
+  </a>
+ </h3>
+ <p class="date ">
+  3th of December 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=translation" target="_blank">
+   translation
+  </a>
+  <a href="/?tag=json" target="_blank">
+   json
+  </a>
+  <a href="/?tag=rpc" target="_blank">
+   rpc
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  源地址：
+  <a href="http://www.simple-is-better.org/rpc/">
+   http://www.simple-is-better.org/rpc/
+  </a>
+  。
+ </p>
+ <h3>
+  1 引语
+ </h3>
+ <h4>
+  1.1 为什么使用RPC？/ 将应用程序划分为独立的子块
+ </h4>
+ <p>
+  通常将应用程序划分为几个（独立的！）部分是一个很明智的选择。正常情况下，这一做法将带来更加清晰的设计，减小问题复杂度，提高可维护性并且增强安全性。
+ </p>
+ <p>
+  尤其是对于网络应用程序，将前端（数据表现，用户IO）划分出“真实”的应用是很明智的。这样做会很明了地从逻辑中划分出表现层，并且（如上所述）简化了前端的创建与使用过程，最后但同样重要的一点，它提高了安全性因为前端（通常用网络服务器权限）没有直接操作数据，而只是调研了另一个进程的一些函数。（这叫做
+  <a href="http://en.wikipedia.org/wiki/Multitier_architecture">
+   多层架构
+  </a>
+  。)
+ </p>
+ <p>
+  你或许会认为这个方法的“缺点”是要定义这些子块之间的接口。但是实际上，思考这些接口（通常会引导出更清晰的设计）并
+  <em>
+   清晰地
+  </em>
+  定义它们是一个
+  <em>
+   优势
+  </em>
+  。记住你
+  <em>
+   总是
+  </em>
+  需要一个接口来连接应用的各个模块，虽然它们大部分时候含蓄不明确的。引用一下
+  <a href="https://www.python.org/dev/peps/pep-0020/">
+   Python之禅
+  </a>
+  的一条：
+  <em>
+   "清晰胜于复杂"
+  </em>
+  。
+ </p>
+ <p>
+  为了
+  <em>
+   真正地
+  </em>
+  分离这些模块，你可能会希望在不同的（用不同的用户/权限）进程中来启动这些模块。但这就意味着这些进程必须用某种方式相互交流。这个过程叫做
+  <a href="http://zh.wikipedia.org/wiki/%E8%A1%8C%E7%A8%8B%E9%96%93%E9%80%9A%E8%A8%8A">
+   进程间通信
+  </a>
+  （IPC），一个有效的方法是使用
+  <a href="http://zh.wikipedia.org/wiki/%E9%81%A0%E7%A8%8B%E9%81%8E%E7%A8%8B%E8%AA%BF%E7%94%A8">
+   远程进程调用
+  </a>
+  （RPC）。
+ </p>
+ <h4>
+  1.2 为什么使用JSON-RPC？
+ </h4>
+ <p>
+  一个RPC系统应当（我的观点）：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   简单轻量（但是强大）
+  </li>
+  <li>
+   透明（这样双方进程都可以将RPC视作一个正常的函数调用）
+  </li>
+  <li>
+   只增加了很小的开支
+  </li>
+ </ul>
+ <p>
+  额外的，这样会更棒（除了一些嵌入式或高速的应用）：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   使用易懂的/自带的/ASCII格式
+  </li>
+ </ul>
+ <p>
+  对于一个简单的、易懂的/ASCII的RPC，许多人的第一印象是XML-RPC。但它
+  <em>
+   不是真的
+  </em>
+  简单。XML一方面有些大材小用了，另一方面，它也不是真正的适合数据序列化，因为许多“特殊字符”需要被剔除。在
+  <a href="http://www.python.org/doc/lib/module-xmlrpclib.html">
+   python的xmlrpclib库
+  </a>
+  中明确的指出调用者要负责“保证字符串中不包含XML不允许的字符”，这就意味着你要么需要使用二进制的修饰器，要么使用一些类似base64-oven-xmlrpc之类的工具，都有一些奇怪。
+ </p>
+ <p>
+  但是这里有一个简单优秀
+  <em>
+   很多
+  </em>
+  的用于数据序列化格式：
+  <a href="http://www.json.org/">
+   JSON
+  </a>
+  。它非常清晰，默认支持unicode编码，并且在各种语言比如python和javascript中使用都相当简单。
+ </p>
+ <p>
+  JSON-RPC——使用JSON来序列化数据——或许是最简单的、最轻量干净的、ASCII格式的RPC了。它有许多优势：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   unicode：JSON和JSON-RPC都轻松支持unicode编码
+  </li>
+  <li>
+   小巧而简单
+  </li>
+  <li>
+   非常紧凑
+  </li>
+  <li>
+   传输方法独立的：JSON-RPC可以用于任意一种传输方式：例如Unix主机的socket，TCP/IP，http，https，
+   <a href="http://zh.wikipedia.org/wiki/%E4%BF%A1%E9%B8%BDIP%E9%80%9A%E8%AE%AF">
+    信鸽通讯
+   </a>
+   ...
+  </li>
+  <li>
+   JSON可以直接支持空值
+  </li>
+  <li>
+   支持关键字参数
+  </li>
+  <li>
+   通知
+  </li>
+  <li>
+   内置的请求响应匹配机制（ID域）
+  </li>
+  <li>
+   ...
+  </li>
+ </ul>
+ <p>
+  <strong>
+   所以，必须值得一看！
+  </strong>
+ </p>
+ <h4>
+  1.3 关于RPC系统的思考
+ </h4>
+ <p>
+  在我看来，一个RPC系统通常包含这几个独立部分：
+ </p>
+ <ol class="edui-filter-decimal">
+  <li>
+   数据结构（请求、响应与错误的信息组织方式）
+  </li>
+  <li>
+   系列化方法（比如JSON，XML，URI……）
+  </li>
+  <li>
+   传输方式（比如Unix主机socket，TCP/IP，HTTP）
+  </li>
+  <li>
+   代理/调度者（将函数调用映射到RPC以及反过来）
+  </li>
+ </ol>
+ <p>
+  不幸的是，这些部分不是总是被视作独立的，这样会通常导致不必要的复杂结果。一个RPC描述应该只需要定义第一点（数据结构），并告知用户如何序列化数据。
+ </p>
+ <h3>
+  2 JSON-RPC详述
+ </h3>
+ <p>
+  官方的JSON-RPC页面有：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   JSON-RPC网站：
+   <a href="http://www.json-rpc.org/">
+    http://www.json-rpc.org/
+   </a>
+   ，不幸地已经很久没更新了
+  </li>
+  <li>
+   JSON-RPC谷歌小组：
+   <a href="https://groups.google.com/forum/#!forum/json-rpc">
+    https://groups.google.com/forum/#!forum/json-rpc
+   </a>
+  </li>
+  <li>
+   <a href="http://www.jsonrpc.org/">
+    http://www.jsonrpc.org/
+   </a>
+   ，包含了JSON-RPC最重要的信息和说明
+  </li>
+  <li>
+   <a href="http://www.simple-is-better.org/json-rpc/">
+    http://www.simple-is-better.org/json-rpc/
+   </a>
+   ，JSON-RPC的信息收集
+  </li>
+ </ul>
+ <p>
+  <a href="http://json-rpc.org/wiki/specification">
+   JSON-RPC 1.0
+  </a>
+  是第一个官方发布的说明。 但是现在改进许多的
+  <a href="http://www.jsonrpc.org/specification">
+   JSON-RPC 2.0
+  </a>
+  更加稳定，已经发布一段时间了。我推荐使用JSON-RPC 2.0。
+ </p>
+ <h4>
+  2.1 JSON-RPC 1.0/2.0
+ </h4>
+ <blockquote>
+  <p>
+   “JSON-RPC是一个轻量的RPC协议。它就是为简单而设计的！”[JSON-RPC 1.0 说明]
+  </p>
+ </blockquote>
+ <p>
+  这很好。
+ </p>
+ <p>
+  但是不幸的是，一些有用的东西被
+  <a href="http://json-rpc.org/wiki/specification">
+   JSON-RPC 1.0
+  </a>
+  遗漏了，尤其是命名的参数和一些错误信息的定义。所以，我写了一个新的JSON-RPC说明，以
+  <a href="http://www.jsonrpc.org/specification">
+   JSON-RPC 2.0
+  </a>
+  的名义发布，加入了一些小修正。
+ </p>
+ <p>
+  请阅读这些说明，看它们究竟有多
+  <em>
+   简单
+  </em>
+  ！
+ </p>
+ <h4>
+  2.2 版本1.0和2.0的区别
+ </h4>
+ <p>
+  对于已经知道JSON-RPC 1.0的你们，这是一些主要的变动：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   <strong>
+    从P2P架构变为C/S架构
+   </strong>
+   ： JSON-RPC 2.0使用了C/S（客户端/服务器）架构。 1.0版本使用的是P2P结构，每个主机都既是服务器又是客户端。
+  </li>
+  <li>
+   <strong>
+    传输层独立
+   </strong>
+   ： JSON-RPC 2.0没有定于任何与传输相关的东西，鉴于RPC与传输是独立的。 1.0版本则定义如果传输层关闭必须抛出异常，并且不合法的请求和应答将会关闭连接（并抛出异常）。
+  </li>
+  <li>
+   <strong>
+    加入了命名参数
+   </strong>
+   （见下面的例子）
+  </li>
+  <li>
+   <strong>
+    减少的域
+   </strong>
+   ：
+   <ul class="edui-filter-disc">
+    <li>
+     请求：
+     <code>
+      params
+     </code>
+     可以省略
+    </li>
+    <li>
+     通知：不再包含一个
+     <code>
+      id
+     </code>
+    </li>
+    <li>
+     回复：只包含
+     <code>
+      result
+     </code>
+     或者
+     <code>
+      error
+     </code>
+     （不会同时有两个）
+    </li>
+   </ul>
+  </li>
+  <li>
+   <strong>
+    “jsonrpc”域添加
+   </strong>
+   ：在请求和应答中都添加了一个版本参数来解决与1.0版本的兼容性问题。
+  </li>
+  <li>
+   <strong>
+    可选参数
+   </strong>
+   ：定义了未声明的可选参数
+   <strong>
+    应该
+   </strong>
+   使用默认值。
+  </li>
+  <li>
+   <strong>
+    错误定义添加
+   </strong>
+  </li>
+  <li>
+   <strong>
+    扩展
+   </strong>
+   ：增加了可选的扩展，比如，对于服务描述或者多调用，将“类提示”从基本说明中移到（可选的）扩展中。
+  </li>
+ </ul>
+ <h3>
+  3 实现
+ </h3>
+ <p>
+  我用python写了一个 “JSON-RPC”（包括1.0和2.0版本），基于关于RPC系统的思考提到的方法。
+ </p>
+ <p>
+  这些代码充分应用了python的文档字符串（译注：
+  <code>
+   __doc__
+  </code>
+  ）。所以阅读这些文档内容，你将能完全理解如何使用（甚至如何扩展）它。
+ </p>
+ <p>
+  如果你有任何问题、评论或建议，请
+  <strong>
+   不要犹豫
+  </strong>
+  地给我发送email。如果你使用我的jsonrpc模块，给我一个告知也是极好的。
+ </p>
+ <h4>
+  3.1 状态
+ </h4>
+ <p>
+  我的模块现在支持：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   JSON-RPC 1.0 序列化 （但不包含P2P架构，传输层定义和类提示）
+  </li>
+  <li>
+   JSON-RPC 2.0 请求、提醒、回复和错误 （但目前代理不会生成提醒）
+  </li>
+  <li>
+   log文件（标准输出，日志文件或带有时间戳的日志文件）
+  </li>
+  <li>
+   通过Unix主机端口或者TCP/IP端口交互
+  </li>
+ </ul>
+ <p>
+  这些特性可能将来更新：
+ </p>
+ <ul class="edui-filter-disc">
+  <li>
+   服务器：多线程
+  </li>
+  <li>
+   客户端：多调用（发送多个请求）
+  </li>
+  <li>
+   传输：SSL端口，比如HTTP和HTTPS
+  </li>
+  <li>
+   类型：支持日期/时间（ISO 8601）
+  </li>
+  <li>
+   错误：可定制的错误码/异常
+  </li>
+  <li>
+   添加系统描述
+  </li>
+ </ul>
+ <h4>
+  3.2 示例
+ </h4>
+ <p>
+  一个JSON-RPC 2.0的服务器通过TCP/IP（包括日志文件）：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+# create a JSON-RPC-server
+import jsonrpc
+server = jsonrpc.Server(jsonrpc.JsonRpc20(), jsonrpc.TransportTcpIp(addr=("127.0.0.1", 31415), logfunc=jsonrpc.log_file("myrpc.log")))
+
+# define some example-procedures and register them (so they can be called via RPC)
+def echo(s):
+    return s
+
+def search(number=None, last_name=None, first_name=None):
+    sql_where = []
+    sql_vars  = []
+    if number is not None:
+        sql_where.append("number=%s")
+        sql_vars.append(number)
+    if last_name is not None:
+        sql_where.append("last_name=%s")
+        sql_vars.append(last_name)
+    if first_name is not None:
+        sql_where.append("first_name=%s")
+        sql_vars.append(first_name)
+    sql_query = "SELECT id, last_name, first_name, number FROM mytable"
+    if sql_where:
+        sql_query += " WHERE" + " AND ".join(sql_where)
+    cursor = ...
+    cursor.execute(sql_query, *sql_vars)
+    return cursor.fetchall()
+
+server.register_function( echo )
+server.register_function( search )
+
+# start server
+server.serve()
+</pre>
+ <p>
+  客户端示例：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+# create JSON-RPC client
+import jsonrpc
+server = jsonrpc.ServerProxy(jsonrpc.JsonRpc20(), jsonrpc.TransportTcpIp(addr=("127.0.0.1", 31415)))
+
+# call a remote-procedure (with positional parameters)
+result = server.echo("hello world")
+
+# call a remote-procedure (with named/keyword parameters)
+found = server.search(last_name='Python')
+</pre>
+ <p>
+  在客户端和服务器之间传输的数据格式是：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+{"jsonrpc": "2.0", "method": "echo", "params": ["hello world"], "id": 0}
+{"jsonrpc": "2.0", "result": "hello world", "id": 0}
+
+{"jsonrpc": "2.0", "method": "search", "params": {"last_name": "Python"}, "id": 0}
+{"jsonrpc": "2.0", "result": [{"first_name": "Brian", "last_name": "Python", "id": 1979, "number": 42}, {"first_name": "Monty", "last_name": "Python", "id": 4, "number": 1}], "id": 0}
+</pre>
+ <p>
+  同时日志文件
+  <code>
+   myrpc.log
+  </code>
+  包括：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+listen ('127.0.0.1', 31415)
+('127.0.0.1', 36000) connected
+('127.0.0.1', 36000) --&gt; '{"jsonrpc": "2.0", "method": "echo", "params": ["hello world"], "id": 0}'
+('127.0.0.1', 36000) &lt;-- '{"jsonrpc": "2.0", "result": "hello world", "id": 0}'
+('127.0.0.1', 36000) close
+('127.0.0.1', 48336) connected
+('127.0.0.1', 48336) --&gt; '{"jsonrpc": "2.0", "method": "search", "params": {"last_name": "Python"}, "id": 0}'
+('127.0.0.1', 48336) &lt;-- '{"jsonrpc": "2.0", "result": [{"first_name": "Brian", "last_name": "Python", "id": 1979, "number": 42}, {"first_name": "Monty", "last_name": "Python", "id": 4, "number": 1}], "id": 0}'
+('127.0.0.1', 48336) close
+close ('127.0.0.1', 31415)
+</pre>
+ <p>
+  这里，你可以直接看到模块的架构如关于RPC系统的思考所描述的一样。
+ </p>
+ <p>
+  并且你可以发现命名参数的调用
+  <em>
+   非常强大和有用
+  </em>
+  ，在其他的RPC系统中这大概不可能实现！ 命名参数使得可选参数的设计和部分使用很简单。同时它也简化了不改变原有系统（更不用创建不同版本）增加参数的过程，让调用变得比较冗长（这样你就可以直接看到发生了什么），并且使得参数熟悉不再重要（所以你无须记住参数顺序了）。
+ </p>
+ <p>
+  你可以在代码的说明文档里面发现更多的例子（更有扩展性的，更具体的，带有错误信息的等等）。
+ </p>
+ <h4>
+  3.3 下载
+ </h4>
+ <p>
+  我的JSON-RPC实现只包括一个python文件，带有很详细的文档（在docstring里）：
+ </p>
+ <p>
+  <a href="http://www.simple-is-better.org/rpc/jsonrpc.py">
+   jsonrpc.py
+  </a>
+  （42 kB, 495行代码, 468行说明和注释 ;)）
+ </p>
+ <p>
+  发布日期：2008-08-31-beta
+ </p>
+ <p>
+  证书：BSD-like
+ </p>
+ <p>
+  要求：python（通过2.4测试），python-simplejson
+ </p>
+ <p>
+  <strong>
+   提醒：
+  </strong>
+  这是一个beta-code。如果有错误不要怪我……
+ </p>
+ <h4>
+  3.4 扩展JSON
+ </h4>
+ <p>
+  json序列化的类（simplejson）可以很轻松地实现扩展。因此比如你要添加一个日期/时间格式，或者直接序列化一个SQL询问的结果。这里有一个小例子：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+class JsonPgsqlEncoder(simplejson.JSONEncoder):
+    """JSON-encoder with additional support for some PgSQL-types.
+
+    Additional types supported:
+
+    - PgBoolean (-&gt;bool)
+    - PgResultSet (-&gt;dict)
+    - PgArray (-&gt;list)
+    - mx.DateTime (-&gt;str)
+    - PgMoney (-&gt;float)
+    - PgNumeric (-&gt; scaled int)
+    - PgBytea, PgOther (-&gt;str)
+
+    :SeeAlso: pyPgSQL-documentation, PEP-249 (DB-API 2.0)
+
+    :Note: the date/time here currently is not yet encoded in ISO 8601
+           as it should be.
+    """
+    def default(self, obj):
+        if   isinstance(obj, PgSQL.PgBooleanType):
+            return bool(obj)
+        elif isinstance(obj, PgSQL.PgResultSet):
+            return dict(obj)
+        elif isinstance(obj, PgSQL.PgArray):
+            return list(obj)
+        elif isinstance(obj, (DateTime.DateTimeType, DateTime.DateTimeDeltaType, DateTime.RelativeDateTime)):
+            return str(obj)
+        elif isinstance(obj, PgSQL.PgMoney):
+            return float(obj)
+        elif isinstance(obj, PgSQL.PgNumeric):
+            return long(obj*10**obj.getScale())
+        elif isinstance(obj, (PgSQL.PgBytea, PgSQL.PgOther)):
+            return str(obj)
+        return simplejson.JSONEncoder.default(self, obj)
+</pre>
+ <h3>
+  4 与其他RPCs比较
+ </h3>
+ <p>
+  这暂时还不是一个完全的比较。
+ </p>
+ <h4>
+  4.1 XML-RPC
+ </h4>
+ <p>
+  我已经在“为什么使用JSON-RPC”中写了一些关于XML-RPC的内容。
+ </p>
+ <p>
+  但是为了加深印象，来看一下上面的例子。在XML-RPC中第一次调用看上去是这样的：
+ </p>
+ <pre config="brush:xml;toolbar:false;">
+POST /RPC2 HTTP/1.0
+Host: 127.0.0.1:12345
+User-Agent: ...
+Content-Type: text/xml
+Content-Length: 159
+
+&lt;?xml version='1.0'?&gt;
+&lt;methodCall&gt;
+&lt;methodName&gt;echo&lt;/methodName&gt;
+&lt;params&gt;
+&lt;param&gt;
+&lt;value&gt;&lt;string&gt;hello world&lt;/string&gt;&lt;/value&gt;
+&lt;/param&gt;
+&lt;/params&gt;
+&lt;/methodCall&gt;
+
+
+HTTP/1.0 200 OK
+Server: ...
+Date: Tue, 02 Sep 2008 12:06:09 GMT
+Content-type: text/xml
+Content-length: 137
+
+&lt;?xml version='1.0'?&gt;
+&lt;methodResponse&gt;
+&lt;params&gt;
+&lt;param&gt;
+&lt;value&gt;&lt;string&gt;hello world&lt;/string&gt;&lt;/value&gt;
+&lt;/param&gt;
+&lt;/params&gt;
+&lt;/methodResponse&gt;
+</pre>
+ <p>
+  注意这里使用了http（不是其他的简单端口），由于XML-RPC要求必须http。
+ </p>
+ <p>
+  对比一下等价的json-rpc数据：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+{"jsonrpc": "2.0", "method": "echo", "params": ["hello world"], "id": 0}
+{"jsonrpc": "2.0", "result": "hello world", "id": 0}
+</pre>
+ <p>
+  第二次调用（带有命名参数的
+  <code>
+   search()
+  </code>
+  ）在标准的XML-RPC中甚至不可能实现。首先，在XML-RPC中没有命名参数，其次，XML-RPC不支持
+  <code>
+   Null
+  </code>
+  或者
+  <code>
+   None
+  </code>
+  。但是如果你要近似的表现它，大概可以是这样：
+ </p>
+ <pre config="brush:xml;toolbar:false;">
+POST /RPC2 HTTP/1.0
+Host: 127.0.0.1:31415
+User-Agent: ...
+Content-Type: text/xml
+Content-Length: 202
+
+&lt;?xml version='1.0'?&gt;
+&lt;methodCall&gt;
+&lt;methodName&gt;search&lt;/methodName&gt;
+&lt;params&gt;
+&lt;param&gt;
+&lt;value&gt;&lt;int&gt;-1&lt;/int&gt;&lt;/value&gt;
+&lt;/param&gt;
+&lt;param&gt;
+&lt;value&gt;&lt;string&gt;Python&lt;/string&gt;&lt;/value&gt;
+&lt;/param&gt;
+&lt;/params&gt;
+&lt;/methodCall&gt;
+
+
+HTTP/1.0 200 OK
+Server: ...
+Date: Tue, 02 Sep 2008 12:58:49 GMT
+Content-type: text/xml
+Content-length: 794
+
+&lt;?xml version='1.0'?&gt;
+&lt;methodResponse&gt;
+&lt;params&gt;
+&lt;param&gt;
+&lt;value&gt;&lt;array&gt;&lt;data&gt;
+&lt;value&gt;&lt;struct&gt;
+&lt;member&gt;
+&lt;name&gt;first_name&lt;/name&gt;
+&lt;value&gt;&lt;string&gt;Brian&lt;/string&gt;&lt;/value&gt;
+&lt;/member&gt;
+&lt;member&gt;
+&lt;name&gt;last_name&lt;/name&gt;
+&lt;value&gt;&lt;string&gt;Python&lt;/string&gt;&lt;/value&gt;
+&lt;/member&gt;
+&lt;member&gt;
+&lt;name&gt;id&lt;/name&gt;
+&lt;value&gt;&lt;int&gt;1979&lt;/int&gt;&lt;/value&gt;
+&lt;/member&gt;
+&lt;member&gt;
+&lt;name&gt;number&lt;/name&gt;
+&lt;value&gt;&lt;int&gt;42&lt;/int&gt;&lt;/value&gt;
+&lt;/member&gt;
+&lt;/struct&gt;&lt;/value&gt;
+&lt;value&gt;&lt;struct&gt;
+&lt;member&gt;
+&lt;name&gt;first_name&lt;/name&gt;
+&lt;value&gt;&lt;string&gt;Monty&lt;/string&gt;&lt;/value&gt;
+&lt;/member&gt;
+&lt;member&gt;
+&lt;name&gt;last_name&lt;/name&gt;
+&lt;value&gt;&lt;string&gt;Python&lt;/string&gt;&lt;/value&gt;
+&lt;/member&gt;
+&lt;member&gt;
+&lt;name&gt;id&lt;/name&gt;
+&lt;value&gt;&lt;int&gt;4&lt;/int&gt;&lt;/value&gt;
+&lt;/member&gt;
+&lt;member&gt;
+&lt;name&gt;number&lt;/name&gt;
+&lt;value&gt;&lt;int&gt;1&lt;/int&gt;&lt;/value&gt;
+&lt;/member&gt;
+&lt;/struct&gt;&lt;/value&gt;
+&lt;/data&gt;&lt;/array&gt;&lt;/value&gt;
+&lt;/param&gt;
+&lt;/params&gt;
+&lt;/methodResponse&gt;
+</pre>
+ <p>
+  再次，JSON-RPC的等价表示：
+ </p>
+ <pre config="brush:python;toolbar:false;">
+{"jsonrpc": "2.0", "method": "search", "params": {"last_name": "Python"}, "id": 0}
+{"jsonrpc": "2.0", "result": [{"first_name": "Brian", "last_name": "Python", "id": 1979, "number": 42}, {"first_name": "Monty", "last_name": "Python", "id": 4, "number": 1}], "id": 0}
+</pre>
+ <p>
+  『我不能等最后审判时才收拾所有的小人与敌人,在半道里,我也要随手宰他几个.』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=e634b8e0-7abd-11e4-9603-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

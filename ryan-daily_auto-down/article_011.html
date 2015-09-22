@@ -1,0 +1,115 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/cpp-primer-reading-note-1>http://ryan-daily.diandian.com/cpp-primer-reading-note-1</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   C++ Primer Reading Note 1 - Reference &amp; Pointer
+  </a>
+ </h3>
+ <p class="date ">
+  15th of May 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+  <a href="/?tag=primer" target="_blank">
+   primer
+  </a>
+  <a href="/?tag=reading-note" target="_blank">
+   reading-note
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  From now on, I will open a new article series: C++ Primer reading note. Some note and test code will be present, also as a backup for future reference.
+ </p>
+ <p>
+  <strong>
+   CAUTION: this series may be involved in very simple topic, but slow down, make it clear.
+  </strong>
+ </p>
+ <p>
+  Today, let's begin with a useful, interesting and tricky topic: Reference &amp; Pointer.
+ </p>
+ <p>
+  Reference is an
+  <strong>
+   alias
+  </strong>
+  of a variable.
+ </p>
+ <p>
+  Pointer can be treated as an address, and its type indicate the length of the data it points.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+namespace test_reference_and_pointer {
+
+void test() {
+    int x = -1;
+    int&amp; r_x = x, r_y = x; // int&amp; x &lt;=&gt; int &amp;x
+    r_x = 0;
+    cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; r_x &lt;&lt; ' ' &lt;&lt; r_y &lt;&lt; endl;
+    r_y = 10;
+    cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; r_x &lt;&lt; ' ' &lt;&lt; r_y &lt;&lt; endl;
+
+    // How to define a pointer by a ref or a variable
+    int *p_x = &amp;r_x;
+    *p_x = 10;
+    cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; r_x &lt;&lt; ' ' &lt;&lt; *p_x &lt;&lt; endl;
+    p_x = &amp;x;
+    *p_x = 12;
+    cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; r_x &lt;&lt; ' ' &lt;&lt; *p_x &lt;&lt; endl;
+
+    // How to define a ref by a pointer
+    int &amp;r_p_x = *p_x;
+    r_p_x = 15;
+    cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; r_x &lt;&lt; ' ' &lt;&lt; *p_x &lt;&lt; endl;
+
+    // the meaning of a pointer to be nullptr
+    int* p_x_2 = &amp;x;
+    x = 0;
+    if (p_x_2) {
+        cout &lt;&lt; "p_x_2 not empty" &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "p_x_2 empty" &lt;&lt; endl;
+    }
+    p_x_2 = NULL;
+    if (p_x_2) {
+        cout &lt;&lt; "p_x_2 not empty" &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "p_x_2 empty" &lt;&lt; endl;
+    }
+
+    // the ref of a pointer
+    int *&amp;r_p_x_2 = p_x_2;
+    r_p_x_2 = &amp;x;
+    if (p_x_2) {
+        cout &lt;&lt; "p_x_2 not empty" &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "p_x_2 empty" &lt;&lt; endl;
+    }
+}
+
+}
+</pre>
+ <p>
+  以上内容来自点点网，感谢传播者，谢谢观赏！
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=d302a190-fae4-11e4-a10f-90b11c0ed01e&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

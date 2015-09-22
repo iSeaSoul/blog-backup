@@ -1,0 +1,132 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-09-20/18725015>http://iseasoul.diandian.com/post/2010-09-20/18725015</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   NWERC09 简单报告
+  </a>
+ </h3>
+ <p class="date ">
+  20th of September 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=Funny%20Contest" target="_blank">
+   Funny Contest
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  断断续续总算把NWERC09的题做了大半，相比NEERC的难度，这套与之东西比邻的题目实在不足挂齿。
+ </p>
+ <p>
+  A An Industrial Spy
+ </p>
+ <p>
+  Idea：用给定的数字组成新的数，有多少个不同的素数，数字不超过7个
+  <br>
+   Solu：枚举，用next permutation
+  </br>
+ </p>
+ <p>
+  B Common Subexpression Elimination (UnAC)
+ </p>
+ <p>
+  Idea：一棵树的节点是一些单词，化简这棵树，合并结构相同的子树，并将新的树输出
+  <br>
+   Solu：Hash树的结构，感觉较烦，这种代码总是实现不好
+  </br>
+ </p>
+ <p>
+  C Divisible Subsequences
+ </p>
+ <p>
+  Idea：问一个序列有多少个子序列的和可以整除D
+  <br>
+   Solu：如果该序列可以整除D 则Sum[End] = Sum[Begin-1]，因此统计Sum种类即可
+  </br>
+ </p>
+ <p>
+  D Fractal
+ </p>
+ <p>
+  Idea：给一段折线，重复D次操作：将每段直线用折线的结构代替，求最后折线的长度*f的点的位置
+  <br>
+   Solu：利用complex实现比例操作，求出每层操作时点在哪条直线上
+  </br>
+ </p>
+ <p>
+  E Mountain Road
+ </p>
+ <p>
+  Idea：一条路同时只允许一个方向通行，两边各有一些车需要通过，已知到达时间和通过时间，求所有车通过的最早时间
+  <br>
+   Solu：DP[i][j][0..1]表示左边通过i辆右边通过j辆最后通过的为左或右，然后枚举该次通过的数目进行转移
+  </br>
+ </p>
+ <p>
+  F Moving to Nuremberg
+ </p>
+ <p>
+  Idea：一个点和边都有权的树，求所有节点带权到达某点的最小代价
+  <br>
+   Solu：树形DP，先求出每个节点的儿子数目和到达根节点的代价，每个节点的代价可以根据父亲节点的代价算出
+  </br>
+ </p>
+ <p>
+  G Room Assignments
+ </p>
+ <p>
+  Idea：N个人和N个房子，每个房子有权值，每个人有两个选择，其他N-1个人选择已知，求一种决策，使可能存在一一匹配，并且在所有可能的匹配中，得到的房子权值的期望最大
+  <br>
+   Solu：将人看做边，房子看做点，匹配就是边和点匹配，则这张图的每个分量里面的边都不能超过点，合法的图含且仅含一个树结构分量，选择包括这颗分量里的最大节点，另一个也可决定
+  </br>
+ </p>
+ <p>
+ </p>
+ <p>
+  H Settlers of Catan
+ </p>
+ <p>
+  Idea：在一个有许多正六边形的图上逆时针旋转依次填上1到5的数字，在满足相邻的数字不同前提下填当前出现最少的数字
+  <br>
+   Solu：模拟，空一些数组以组成正六边形
+  </br>
+ </p>
+ <p>
+  I Simple Polygon
+ </p>
+ <p>
+  Idea：求所有给定点都是顶点的简单多边形
+  <br>
+   Solu：按多边形内部某点极角排序
+  </br>
+ </p>
+ <p>
+  J Wormholes (UnAC)
+ </p>
+ <p>
+  Idea：三维空间上存着一些黑洞可以进行时空传送，每个黑洞有出现时间，求一点出发到达另一点最早时间
+  <br>
+   Solu：最短路，找到负环，不停进行relax操作直到早于出现时间，未写，未完全理清思路
+  </br>
+ </p>
+ <p>
+  『“铁杵磨成针”，但是木杵只能磨成牙签。材料不对，怎么磨也没用。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b72149f0-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

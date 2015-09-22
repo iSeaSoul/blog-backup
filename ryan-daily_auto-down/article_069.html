@@ -1,0 +1,182 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/leetcode-record-2>http://ryan-daily.diandian.com/leetcode-record-2</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   LeetCode Record - 2
+  </a>
+ </h3>
+ <p class="date ">
+  18th of September 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=leetcode" target="_blank">
+   leetcode
+  </a>
+  <a href="/?tag=programming" target="_blank">
+   programming
+  </a>
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=interview" target="_blank">
+   interview
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/best-time-to-buy-and-sell-stock/">
+   Best Time to Buy and Sell Stock
+  </a>
+ </h4>
+ <p>
+  Record minPrice before now and update maxProfit with minPrice.
+ </p>
+ <pre config="brush:python;toolbar:false;">
+class Solution:
+    # @param prices, a list of integer
+    # @return an integer
+    def maxProfit(self, prices):
+        maxProfit = 0
+        minPrice = prices[0] if len(prices) &gt; 0 else 0
+        for price in prices[1:]:
+            maxProfit = max(maxProfit, price - minPrice)
+            minPrice = min(minPrice, price)
+        return maxProfit
+</pre>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/">
+   Best Time to Buy and Sell Stock II
+  </a>
+ </h4>
+ <p>
+  Because one can sell and buy for unlimited time, so if there is any profit between adjacent stocks.
+ </p>
+ <pre config="brush:python;toolbar:false;">
+class Solution:
+    # @param prices, a list of integer
+    # @return an integer
+    def maxProfit(self, prices):
+        maxProfit = 0
+        for i in xrange(len(prices) - 1):
+            maxProfit += max(0, prices[i + 1] - prices[i])
+        return maxProfit
+</pre>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/">
+   Best Time to Buy and Sell Stock III
+  </a>
+ </h4>
+ <p>
+  Like I, record one more value maxNagPrice2 indicates the sum min price and the previous maximal profit, here negative the buying price for simple implement.
+ </p>
+ <pre config="brush:python;toolbar:false;">
+class Solution:
+    # @param prices, a list of integer
+    # @return an integer
+    def maxProfit(self, prices):
+        maxProfit, maxProfit2 = 0, 0
+        maxNagPrice = -prices[0] if len(prices) &gt; 0 else 0
+        maxNagPrice2 = maxNagPrice
+        for price in prices[1:]:
+            maxProfit = max(maxProfit, price + maxNagPrice)
+            maxProfit2 = max(maxProfit2, price + maxNagPrice2)
+            maxNagPrice = max(maxNagPrice, -price)
+            maxNagPrice2 = max(maxNagPrice2, -price + maxProfit)
+        return maxProfit2
+</pre>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/reverse-words-in-a-string/">
+   Reverse Words in a String
+  </a>
+ </h4>
+ <p>
+  Python is so simple!
+ </p>
+ <pre config="brush:python;toolbar:false;">
+class Solution:
+    def reverseWords(self, s):
+        words = s.split()
+        words.reverse()
+        return ' '.join(words)
+</pre>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/spiral-matrix-ii/">
+   Spiral Matrix II
+  </a>
+ </h4>
+ <p>
+  Move like a snake, turn right if no more movable grid.
+ </p>
+ <pre config="brush:python;toolbar:false;">
+class Solution:
+    # @return a list of lists of integer
+    def generateMatrix(self, n):
+        ret = [[0 for i in xrange(n)] for j in xrange(n)]
+        x, y, d = 0, 0, 0
+        di = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+
+        for step in xrange(n * n):
+            ret[x][y] = step + 1
+
+            for k in xrange(4):
+                if self.isValidGrid(x + di[d][0], y + di[d][1], n, ret):
+                    break
+                d = (d + 1) % 4
+
+            x += di[d][0]
+            y += di[d][1]
+
+        return ret
+
+    def isValidGrid(self, x, y, n, gridState):
+        return x &gt;= 0 and x &lt; n and y &gt;= 0 and y &lt; n and gridState[x][y] == 0
+</pre>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/sum-root-to-leaf-numbers/">
+   Sum Root to Leaf Numbers
+  </a>
+ </h4>
+ <p>
+  Do it recursively, if this is a leaf node, return its value, else sum up the value of the child, i.e. only leaf node counts.
+ </p>
+ <p>
+  And pass on the prefix value to its child, it's easy to shift for one bit.
+ </p>
+ <pre config="brush:python;toolbar:false;">
+class Solution:
+    # @param root, a tree node
+    # @return an integer
+    def sumNumbers(self, root):
+        return self.sumTree(root, 0) if root else 0
+
+    def sumTree(self, root, val):
+        if not root.left and not root.right:
+            return val * 10 + root.val
+        ret = 0
+        if root.left:
+            ret += self.sumTree(root.left, val * 10 + root.val)
+        if root.right:
+            ret += self.sumTree(root.right, val * 10 + root.val)
+        return ret
+</pre>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=d852b5f0-3f45-11e4-a010-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

@@ -1,0 +1,339 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2011-01-06/18143828>http://iseasoul.diandian.com/post/2011-01-06/18143828</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Fuzhou 2010 D
+  </a>
+ </h3>
+ <p class="date ">
+  6th of January 2011
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=Last%20Acm" target="_blank">
+   Last Acm
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  Link :
+  <a href="http://acmicpc-live-archive.uva.es/nuevoportal/data/problem.php?p=5101">
+   http://acmicpc-live-archive.uva.es/nuevoportal/data/problem.php?p=5101
+  </a>
+ </p>
+ <p>
+  福州现场赛的D题，Math teacher's homework
+ </p>
+ <p>
+  大意就是，N个有范围的非负数 (0 &lt;= Xi &lt;= mi) ，已知它们的异或值K，求解的个数。
+ </p>
+ <p>
+  亦是POI某年的原题。
+ </p>
+ <p>
+  表示不会做了很久，经过天王孜孜不倦的指导，终于搞懂了。
+ </p>
+ <p>
+  基本思想还是一位一位的DP。
+ </p>
+ <p>
+  首先把所有的数都化为二进制，对于每一位的N个01值，进行处理。
+ </p>
+ <p>
+  处理当前列时，假设前面列的取值的是对应的mi的二进制值，每次我们只改变本列的值，并且至少改变一次，这样就可以避免重复计算。当然，这样处理的前提是，前面所有列的异或值是与bitk[0...j-1]是相等的。否则无须处理。
+ </p>
+ <p>
+  对于当前列 j，如果Xij的值为0，我们只能取0，这样后面列符合题意的取法为Xi &amp; ((1 &lt;&lt; j) - 1)。
+ </p>
+ <p>
+  如果Xij的值为1，我们可以取1，后面列的取法也为Xi &amp; ((1 &lt;&lt; j) - 1)，如果取0，则当前数一定小于mi，后面列的取法为 (1 &lt;&lt; j)。
+ </p>
+ <p>
+  当某一Xij改变之后，由于该列之后数的取法为(1&lt;&lt;j)，其余所有数无论怎样取，都有一种方案使答案与 bitk[j+1...31]相等。
+ </p>
+ <p>
+  于是可以进行DP，dp[i][j]表示第i个数时已经进行了j次改变的方案数，由于所有的改变等价，在第一次 j 的值由0变1时，使用该列作为调整数。注意统计答案时，此列也需满足异或值相等于bitk[j]。
+ </p>
+ <p>
+  由于数的范围很极限，中间会出现溢出，最好使用unsigned int。
+ </p>
+ <p>
+  代码写了好久 = = 也附上吧
+ </p>
+ <p>
+ </p>
+ <p>
+  /*
+  <br>
+   * Author: iSea
+   <br>
+    * Created Time: 2011/1/6 20:44:29
+    <br>
+     * File Name: D_Fuzhou.cpp
+     <br>
+      */
+      <br>
+       #include &lt;cstdio&gt;
+       <br>
+        #include &lt;algorithm&gt;
+        <br>
+         #include &lt;cstring&gt;
+         <br>
+          #include &lt;cmath&gt;
+          <br>
+           #include &lt;queue&gt;
+           <br>
+            #include &lt;vector&gt;
+            <br>
+             #include &lt;map&gt;
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  using namespace std;
+ </p>
+ <p>
+  #define PB push_back
+  <br>
+   #define PII pair&lt;int, int&gt;
+   <br>
+    #define SZ(x) ((int)((x).size()))
+    <br>
+     #define OUT(x) printf(#x" %d\n", x)
+     <br>
+      #define REP(i,n) for(int i=0;i&lt;(n);++i)
+      <br>
+       #define FOR(i,a,b) for(int i=(a);i&lt;=(b);++i)
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  const int maxn = 50 + 10;
+  <br>
+   const int inf = (-1u) &gt;&gt; 1;
+   <br>
+    const int mod = 1000000003;
+   </br>
+  </br>
+ </p>
+ <p>
+  typedef long long int64;
+  <br>
+   typedef unsigned int uint;
+  </br>
+ </p>
+ <p>
+  int n, k, a[maxn];
+  <br>
+   int bita[maxn][32], bitk[32], dp[maxn][64];
+  </br>
+ </p>
+ <p>
+  void num2bit(int x, int y[32]) {
+  <br>
+   REP(i,32) {
+   <br>
+    y[i] = (x &gt;&gt; (31 - i)) &amp; 1;
+    <br>
+     }
+     <br>
+      }
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void update(int&amp; x, int y) {
+  <br>
+   x = (y + x) % mod;
+   <br>
+    }
+   </br>
+  </br>
+ </p>
+ <p>
+  uint choose(int x, int y, bool ch) {
+  <br>
+   y = 31 - y;
+   <br>
+    if (ch) {
+    <br>
+     return (1u &lt;&lt; y);
+     <br>
+      }
+      <br>
+       uint res = (1u &lt;&lt; y) - 1;
+       <br>
+        return (res &amp; x) + 1;
+        <br>
+         }
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  void solve() {
+  <br>
+   int ans = 0;
+   <br>
+    REP(i,32) {
+    <br>
+     int now = 0;
+     <br>
+      memset (dp, 0, sizeof(dp));
+      <br>
+       dp[0][0] = 1;
+       <br>
+        REP(j,n) {
+        <br>
+         now ^= bita[j][i];
+         <br>
+          REP(s,j+1) {
+          <br>
+           update (dp[j + 1][s], (int64)dp[j][s] * choose(a[j], i, 0) % mod);
+           <br>
+            if (bita[j][i]) {
+            <br>
+             if (s == 0) {
+             <br>
+              update (dp[j + 1][s + 1], dp[j][s]);
+              <br>
+               } else {
+               <br>
+                update (dp[j + 1][s + 1], (int64)dp[j][s] * choose(a[j], i, 1) % mod);
+                <br>
+                 }
+                 <br>
+                  }
+                  <br>
+                   }
+                   <br>
+                    }
+                    <br>
+                     FOR(j,1,n) if ((now ^ bitk[i]) ^ (!(j &amp; 1))) {
+                     <br>
+                      update(ans, dp[n][j]);
+                      <br>
+                       }
+                       <br>
+                        if (now ^ bitk[i]) {
+                        <br>
+                         printf ("%d\n", ans);
+                         <br>
+                          return ;
+                          <br>
+                           }
+                           <br>
+                            }
+                            <br>
+                             update(ans, 1);
+                             <br>
+                              printf ("%d\n", ans);
+                              <br>
+                               }
+                              </br>
+                             </br>
+                            </br>
+                           </br>
+                          </br>
+                         </br>
+                        </br>
+                       </br>
+                      </br>
+                     </br>
+                    </br>
+                   </br>
+                  </br>
+                 </br>
+                </br>
+               </br>
+              </br>
+             </br>
+            </br>
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+  int main() {
+  <br>
+   while (scanf ("%d%d", &amp;n, &amp;k), n || k) {
+   <br>
+    num2bit(k, bitk);
+    <br>
+     REP(i,n) {
+     <br>
+      scanf ("%d", &amp;a[i]);
+      <br>
+       num2bit(a[i], bita[i]);
+       <br>
+        }
+        <br>
+         solve();
+         <br>
+          }
+          <br>
+           return 0;
+           <br>
+            }
+           </br>
+          </br>
+         </br>
+        </br>
+       </br>
+      </br>
+     </br>
+    </br>
+   </br>
+  </br>
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+ </p>
+ <p>
+  Powered By 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b541db90-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

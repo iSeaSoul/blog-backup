@@ -1,0 +1,76 @@
+<h3>Original Link: <a href=http://raindreamer.diandian.com/srm-628-sol>http://raindreamer.diandian.com/srm-628-sol</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   SRM Solutions: 628
+  </a>
+ </h3>
+ <p class="date ">
+  24th of July 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=SRM" target="_blank">
+   SRM
+  </a>
+  <a href="/?tag=solution" target="_blank">
+   solution
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  <span class="edui-filter-line-through">
+   It's very upset to fail in an easy SRM.
+  </span>
+ </p>
+ <p>
+  250: find n such that n ^ divisor_num(n) = X with given X. (2 &lt;= X &lt;= 10^18)
+ </p>
+ <p>
+  Obviously number of interge(&gt;=2)'s divisor is no less than 2. Try enumerate n if divisor_num(n) &gt; 3, else find n such that n^(2|3) = X, and check if it valid.
+ </p>
+ <p>
+  Note using pow(X, 1/p) may cause floating number error, to avoid it, enumerate offset about [-2, 2] to fix it.
+ </p>
+ <p>
+  500: Given a full binary tree by a string, we can assign the value of the leaf nodes with the given array. For the non-leaf node, there are two types, A-type and B-type. A-type sum up the value of sub-trees, and the B-type retain the maximum value of sub-trees. Calculate the largestest value of the tree.
+ </p>
+ <p>
+  Build the tree with recursion. Notice that, a B-type node always abandons some nodes, and it will choose the node with bigger number of valid nodes if we assign the value of leaf node descendingly. So if we get the number of valid slots in the tree, what left is assignning the largest K value for them. Fortunately, both of them are very easy.
+ </p>
+ <p>
+  1000: A game has N levels, you can finish each level costing one minute with three result: p[i][0]-failed, p[i][1]-1 star, p[i][2]-2 stars. Calculate the expected minutes to finish all N levels and get no less than M stars.
+ </p>
+ <p>
+  That's a very typical
+  <strong>
+   EXCEPTATION DP
+  </strong>
+  !
+ </p>
+ <p>
+  And the solution is almost all the same idea, do DP in the reversed order. In this problem, we define the state as &lt;index_of_level, stars_has_got&gt; if we can decide in which order we can finish the level one by one and the result would be optimal. For example, if only one level left and we still got two stars to be collected, the excepted time is 1 / p[i][2], so the higher the p[i][2] is, the more valuable the level will be. By observing this, we sort all the levels with the p[i][2] in an increasing order.
+ </p>
+ <p>
+  While doing the dp progress, check if the maximal stars got from the left level can fit M stars, if the number is just right, that means we need get 2 stars in this level, else we gain two state depending on the probability of havesting 1 star or 2 stars. As we already sort them in p[i][2] increasing way, the better choice are retained for us.
+ </p>
+ <p>
+  网dian点点wangdian
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=dcf03f40-1319-11e4-8890-782bcb42b082&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

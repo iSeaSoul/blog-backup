@@ -1,0 +1,323 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/facebook-hackercup-2015-sol>http://ryan-daily.diandian.com/facebook-hackercup-2015-sol</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Facebook HackerCup 2015 Solution
+  </a>
+ </h3>
+ <p class="date ">
+  28th of February 2015
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=tutorial" target="_blank">
+   tutorial
+  </a>
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=hackercup" target="_blank">
+   hackercup
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <h3>
+  <strong>
+   Qualification Round
+  </strong>
+ </h3>
+ <p>
+  <strong>
+   Cooking the Books 15pts
+  </strong>
+ </p>
+ <p>
+  Simple Enumeration. O(length) is available.
+ </p>
+ <p>
+  <strong>
+   New Year's Resolution 30pts
+  </strong>
+ </p>
+ <p>
+  BitMask Enumeration or DFS.
+ </p>
+ <p>
+  <strong>
+   Laser Maze 55pts
+  </strong>
+ </p>
+ <p>
+  BFS using
+  <code>
+   (time % 4, position)
+  </code>
+  as state. Record the minimum step to achieve the state.
+ </p>
+ <p>
+  To accelerate, BFS to mark all valid grids that the laser cannot reach first.
+ </p>
+ <h3>
+  <strong>
+   Round 1
+  </strong>
+ </h3>
+ <p>
+  <strong>
+   Homework 10pts
+  </strong>
+ </p>
+ <p>
+  Generate all primacity by brute force: divide it into primes and count.
+ </p>
+ <p>
+  <strong>
+   Autocomplete 25pts
+  </strong>
+ </p>
+ <p>
+  Build a Trie by the given word order. For each word query, traverse on the tree till reach a node whose word count equals 1, and this's the minimum length for auto-complete this word.
+ </p>
+ <p>
+  <strong>
+   Winning at Sports 25pts
+  </strong>
+ </p>
+ <p>
+  As
+  <code>
+   scores &lt;= 2000
+  </code>
+  , straightforward
+  <code>
+   DP[score_1][score_2]
+  </code>
+  is acceptable.
+ </p>
+ <p>
+  For the first type,
+  <code>
+   score_1
+  </code>
+  always &gt;
+  <code>
+   score_2
+  </code>
+  .
+ </p>
+ <p>
+  For the second type,
+  <code>
+   score_1
+  </code>
+  always &lt;=
+  <code>
+   score_2
+  </code>
+  until
+  <code>
+   score_1 = score_2 = final_score_2
+  </code>
+  .
+ </p>
+ <p>
+  <strong>
+   Corporate Gifting 40pts
+  </strong>
+ </p>
+ <p>
+  Given a tree, assign a value for each node that value of any two adjacent nodes are not same. Maximize the sum of all value.
+ </p>
+ <p>
+  Two kinds of value is enough. Why we need more?
+ </p>
+ <p>
+  Consider the kind of tree:
+ </p>
+ <p>
+  <span class="text-img-holder">
+   <img height="243" src="http://m2.img.srcdd.com/farm5/d/2015/0228/18/863D620DCD61FEC45C9CDB2A57845443_B500_900_500_243.png" width="500"/>
+  </span>
+ </p>
+ <p>
+  If only two kinds of values are used, both the size of second layer and third layer is huge. But if assign node-1 with 3, node-2 with 2, others all with 1. The result is obviously better.
+ </p>
+ <p>
+  Now the new question comes, what's the bound of the value kind?
+ </p>
+ <p>
+  The answer is O(logN). Hence simple
+  <code>
+   DP[node_id][value]
+  </code>
+  is good enough.
+ </p>
+ <p>
+  Simple proof of the bound:
+ </p>
+ <ol class="edui-filter-decimal">
+  <li>
+   <p>
+    Root always has the maximal priced color, say K. (Otherwises switch them!)
+   </p>
+  </li>
+  <li>
+   <p>
+    So if root has one child, the sub-problem can be reduced to K-1; If root has two children, that means K-2, ..., and so on. That is,
+    <code>
+     Num(K) &gt;= Sigma(Num(i)) (0 &lt;= i &lt; k) &gt;= 2^K
+    </code>
+    .
+   </p>
+   <p>
+    (Here Num(K) means the total number of different kinds of tree structure with optimal answer no larger than K)
+   </p>
+  </li>
+ </ol>
+ <h3>
+  <strong>
+   Round 2
+  </strong>
+ </h3>
+ <p>
+  <strong>
+   Lazy Sort 10pts
+  </strong>
+ </p>
+ <p>
+  Enumerate whether the first chosen number is the top or the bottom. The the rest order is fixed. Simulate the process to check if it can be finished.
+ </p>
+ <p>
+  <strong>
+   All Critical 20pts
+  </strong>
+ </p>
+ <p>
+  Given the probability of collecting one star, and each time the (virtual) bag contains each star slot independently. Calculating the expectation of collecting all stars in each slot.
+ </p>
+ <p>
+  Use
+  <code>
+   probability[round, obtained_star]
+  </code>
+  to do dp until the
+  <code>
+   probability * round
+  </code>
+  are small enough. In each round, if new S stars are obtained from the unobtained K stars, the probability is
+  <code>
+   C[K][S] * P^S * (1-P)^(K-S)
+  </code>
+  .
+ </p>
+ <p>
+  <strong>
+   Autocomplete Strikes Back 25pts
+  </strong>
+ </p>
+ <p>
+  Also build a Trie first.
+ </p>
+ <p>
+  Choose K words so that the typing times is minimal. As K &lt;= 100, use
+  <code>
+   min_time[trie_node_id, chosen_word_number]
+  </code>
+  to dp is feasible. Combine subtrees like knapsack problems. For words end at this node, also combine them together.
+ </p>
+ <p>
+  If without autocomplete, this DP will result in the sum of the all choose words' length. But it's not much difficult to handle with that, just always mark
+  <code>
+   dp[tree_node_id][1] = 1
+  </code>
+  .
+ </p>
+ <p>
+  <strong>
+   Fox Socks 45pts (UNDONE)
+  </strong>
+ </p>
+ <p>
+  Typical Segment Tree problems. Adding an arithmetic sequence can be handled by segment tree. The extra trick maybe the parity count query.
+ </p>
+ <h3>
+  <strong>
+   Round 3
+  </strong>
+ </h3>
+ <p>
+  <strong>
+   Boomerang 10pts
+  </strong>
+ </p>
+ <p>
+  Enumerate the directory of the first run, sum up all touched points. Then sort the angle of every vector which starts at this position and ends at the given point, i.e. using
+  <a href="http://www.cplusplus.com/reference/cmath/atan2/">
+   atan2
+  </a>
+  . Deal with the same points specially.
+ </p>
+ <p>
+  <strong>
+   Lunch Scheduling 15pts
+  </strong>
+ </p>
+ <p>
+  Sort all the intervals with their start time ascending. Keep state
+  <code>
+   min_second_number[interval_idx, min_first_number]
+  </code>
+  to run DP. But Naive DP is O(N^3), some optimization is needed.
+ </p>
+ <p>
+  For an interval, the next chosen interval should be fixed: the interval begins before the lunchtime can be inserted and ends at the latest. So the DP transferring is O(1), which leads a total O(N^2).
+ </p>
+ <p>
+  <strong>
+   Gentrification 35pts
+  </strong>
+ </p>
+ <p>
+  Given a directed map, find the maximum size of subsets in which every two nodes are either strongly connected or disconnected.
+ </p>
+ <p>
+  Get SCC to shrink the map to a DAG first. Then a minimum cut can be used to find the maximum independent set in vertex-weighted DAG. The way to construct the map is like the way to build a bipartite map, N - maxflow is the final answer.
+ </p>
+ <p>
+  <strong>
+   Fox Rocks 45pts (UNDONE)
+  </strong>
+ </p>
+ <p>
+  Markov Chain?
+ </p>
+ <h3>
+  <strong>
+   Code Link
+  </strong>
+ </h3>
+ <p>
+  <a href="https://github.com/iSeaSoul/gcj/tree/master/GNYP/hackercup/2015">
+   https://github.com/iSeaSoul/gcj/tree/master/GNYP/hackercup/2015
+  </a>
+ </p>
+ <p>
+  『于一切法，应如是知，如是见，如是信解，不生法相。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b0a67fd0-b58f-11e4-ae73-90b11c0ed01e&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

@@ -1,0 +1,80 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/compare-strcpy-strncpy-snprintf>http://ryan-daily.diandian.com/compare-strcpy-strncpy-snprintf</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   Compare strcpy/strncpy/snprintf
+  </a>
+ </h3>
+ <p class="date ">
+  11th of November 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=learning-note" target="_blank">
+   learning-note
+  </a>
+  <a href="/?tag=cplusplus" target="_blank">
+   cplusplus
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  Actually, the following code has spoken.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+int main() {
+    char buf[4];
+    const char *src = "abcde";
+    // strcpy(buf, src); // -&gt; abcde
+    // strncpy(buf, src, sizeof(buf)); // -&gt; abcd
+    snprintf(buf, sizeof(buf), "%s", src); // -&gt;abc
+    cout &lt;&lt; buf &lt;&lt; endl;
+    return 0;
+}
+</pre>
+ <p>
+  For
+  <code>
+   strcpy
+  </code>
+  function, it hasn't check the bound, so it will copy all the string, regardless the length of the char* has applied.
+ </p>
+ <p>
+  For
+  <code>
+   strncpy
+  </code>
+  function, it has a bug in designing, if the buffer size is not enough to hold an end extra '\0' character, it will ignore. But it's very dangerous to end a string without a '\0' sign.
+ </p>
+ <p>
+  So, only the
+  <code>
+   snprintf
+  </code>
+  function give the right and safe answer.
+ </p>
+ <p>
+  <a href="http://www.360doc.com/content/11/0718/13/3038654_134267050.shtml">
+   Read more...
+  </a>
+ </p>
+ <p>
+  『所作福德，不应贪着。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=63b2df30-694e-11e4-ad60-782bcb383994&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

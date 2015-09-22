@@ -1,0 +1,177 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/srm-sol-636-637>http://ryan-daily.diandian.com/srm-sol-636-637</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   [SRM Solution] SRM 636 &amp; 637
+  </a>
+ </h3>
+ <p class="date ">
+  24th of October 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=srm" target="_blank">
+   srm
+  </a>
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=tutorial" target="_blank">
+   tutorial
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  这两场SRM的题目都挺不错，不过也被虐得蛮惨的。
+ </p>
+ <p>
+  尤其是看了
+  <strong>
+   Petr
+  </strong>
+  的代码之后，深感不可逾越的差距，那种就问题化繁为简的洞察力，要么浑然天成，要么千锤百炼。
+ </p>
+ <h3>
+  <strong>
+   <em>
+    SRM636 250P ChocolateDividingEasy
+   </em>
+  </strong>
+ </h3>
+ <p>
+  把一个数字矩阵划分为9块，使得最小一块的和最大。
+ </p>
+ <p>
+  由于N&lt;=50，可以枚举分界线，预处理一下二维数组的部分和，使其可以O(1)的计算任意子矩阵的数字和。总的复杂度
+  <code>
+   O(N^4)
+  </code>
+  。如果需要优化，最后一维可以三分。
+ </p>
+ <h3>
+  <strong>
+   <em>
+    SRM636 500P ClosestRabbit
+   </em>
+  </strong>
+ </h3>
+ <p>
+  在一个N*M的棋盘上放置K个兔子，每个兔子向欧几里得最近且字典序最小的点（兔子）连边，问得到的图的期望联通块个数。
+ </p>
+ <p>
+  这张图有K个点K条边，且任何一个联通块的点数和边数都相同。那么来分析一个联通块的性质。
+ </p>
+ <p>
+  首先，这个联通块必定有一个环。这个环上可能有2个点，但是大于两个点呢？假设有三个点A，B和C组成的环，假设A-&gt;B B-&gt;C C-&gt;A，这就意味着dis(AC) &lt; dis(AB) &lt; dis(BC) &lt; dis(AC)。矛盾。如果相同时，字典序会出现类似的矛盾。
+ </p>
+ <p>
+  确定了每个连通块有且仅有一个两个点组成的环，称它们为连通块的
+  <strong>
+   核
+  </strong>
+  。求出每个这样的核出现的期望，累加起来就是答案了。
+ </p>
+ <p>
+  枚举两个这样的点，只要保证棋盘上距离它们更近的点不能被选取，其余的点可以任意选取，即
+  <code>
+   C(blank_num - invalid_num, K - 2) / C(blank_num, K)
+  </code>
+  。
+ </p>
+ <p>
+  由于棋盘大小&lt;=20，可以全部枚举，复杂度
+  <code>
+   O(N^6)
+  </code>
+  。
+ </p>
+ <h3>
+  <strong>
+   <em>
+    SRM637 250P GreaterGame
+   </em>
+  </strong>
+ </h3>
+ <p>
+  有2*N个数，你获得N个数，其余的分配的对手，然后进行比大小，每轮获胜者加一分。现在你不仅知道自己的数，还知道某些轮对手出的数。安排你的比赛顺序，使得得分期望最大。
+ </p>
+ <p>
+  在双方安排顺序之后，就不能更改了。这实际上就是一个加强版的“田忌赛马”。先来看如何安排策略对于对手已知的数，也就是田忌先生遇到的问题。
+ </p>
+ <p>
+  对于一个数，如果你有比他大的数，就可以获得一分，并且为了将获胜代价降到最小，应该选取最小的比对手大的数。如果不能获胜，就有自己最小的数。
+ </p>
+ <p>
+  剩下的就是未知的数了，无论如何安排，期望都是一样的。任意两个数被分到一轮的期望都是一样的，对于你的每个数Ai，获得分数期望即，对手比Ai小的数的个数除以总数。
+ </p>
+ <h3>
+  <strong>
+   <em>
+    SRM637 500P PathGame
+   </em>
+  </strong>
+ </h3>
+ <p>
+  一个2*N的棋盘上，两个人轮流下子，阻断左右通路的一方输。
+ </p>
+ <p>
+  这个题目和我之前出的一道题很像：
+  <a href="http://acm.hdu.edu.cn/showproblem.php?pid=4559">
+   涂色游戏
+  </a>
+  。
+  <em>
+   （但我还是纠结了很久T.T）
+  </em>
+ </p>
+ <p>
+  主要原因是原题不需要表示状态，直接求SG值就可以了。这个题目需要记录两端的状态，而如何设计这个状态的涵义，使其表意清楚简洁，就没那么直接了。
+ </p>
+ <p>
+  为了使游戏目标更加适应Nim游戏，这里重新定义游戏：玩家
+  <strong>
+   不能
+  </strong>
+  放置阻断左右通路的子，放置最后一个合法位置的玩家获胜。
+ </p>
+ <p>
+  考虑任意一列上有被占据格子的情况，这个时候游戏就被分为两部分了，因为这个格子是无用的了。于是，状态可以表示为
+  <code>
+   DP[len][left_state][right_state]
+  </code>
+  ，表示长度为len的棋盘，左右两端状态分别为
+  <code>
+   left_state
+  </code>
+  与
+  <code>
+   right_state
+  </code>
+  ，state的取值含义为0-全空，1-上被占据，2-下被占据。当然，这里所有状态下的棋盘除了两端都是空的。
+ </p>
+ <p>
+  这样计算SG值就和前面的那道题目一模一样了。枚举截断点，切割游戏，计算mex值。转移两端的时候不要放置非法的位置。
+ </p>
+ <p>
+  一般来说，一个好的状态设计，是可以涵盖corner情况的。这里当len=0时，状态也是有意义的，就是长度为0的棋盘不会影响结果，SG值为0。在处理问题的时候，要始终尝试寻找这样一种简洁明了的思路，而不是总是修补。
+ </p>
+ <p>
+  点xHQP点cXYcwang
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=0deaef40-5b96-11e4-a010-d4ae52a7bec4&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

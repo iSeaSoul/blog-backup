@@ -1,0 +1,256 @@
+<h3>Original Link: <a href=http://ryan-daily.diandian.com/leetcode-record-1>http://ryan-daily.diandian.com/leetcode-record-1</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   LeetCode Record - 1
+  </a>
+ </h3>
+ <p class="date ">
+  17th of September 2014
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=leetcode" target="_blank">
+   leetcode
+  </a>
+  <a href="/?tag=programming" target="_blank">
+   programming
+  </a>
+  <a href="/?tag=algorithm" target="_blank">
+   algorithm
+  </a>
+  <a href="/?tag=interview" target="_blank">
+   interview
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/linked-list-cycle-ii/">
+   Linked List Cycle II
+  </a>
+ </h4>
+ <p>
+  Typical runner up method: first runner to detect cycle, then set the faster pointer to the head position to runner again.
+ </p>
+ <p>
+  Define L indicates the length of loop, T indicates the length the slow pointer scanned, so 2*T - T = L. If X is the position where loop begins, then Y = L - X indicates the position the meeting points in the cycle, so if move X steps from both the meeting points and the head, they will meet again, at the beginning points of the loop.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if (head == NULL) {
+            return NULL;
+        }
+
+        ListNode *fast = head;
+        ListNode *slow = head;
+
+        // runner
+        while (fast &amp;&amp; fast-&gt;next) {
+            fast = fast-&gt;next-&gt;next;
+            slow = slow-&gt;next;
+            if (fast == slow) {
+                break;
+            }
+        }
+
+        // no cycle
+        if (fast == NULL || fast-&gt;next == NULL) {
+            return NULL;
+        }
+
+        // catch up
+        fast = head;
+        while (fast != slow) {
+            slow = slow-&gt;next;
+            fast = fast-&gt;next;
+        }
+
+        return fast;
+    }
+};
+</pre>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/remove-duplicates-from-sorted-array-ii/">
+   Remove Duplicates from Sorted Array II
+  </a>
+ </h4>
+ <p>
+  Use a cnt to record current occurrence of the elements in array.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class Solution {
+public:
+    int removeDuplicates(int A[], int n) {
+        int ret = 0, cntOfElement = 0;
+        for (int i = 0; i &lt; n; ++i) {
+            if (i &gt; 0 &amp;&amp; A[i] == A[i - 1]) {
+                cntOfElement += 1;
+            } else {
+                cntOfElement = 1;
+            }
+            if (cntOfElement &lt;= 2) {
+                A[ret] = A[i];
+                ret += 1;
+            }
+        }
+        return ret;
+    }
+};
+</pre>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/flatten-binary-tree-to-linked-list/">
+   Flatten Binary Tree to Linked List
+  </a>
+ </h4>
+ <p>
+  Use a new recursion function to flatten tree with tail node returned. The function redirect the right pointer to the left child, then replace the tail pointer, link its right pointer to the root's right child.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class Solution {
+public:
+    void flatten(TreeNode *root) {
+        flattenWithTail(root);
+    }
+
+    TreeNode* flattenWithTail(TreeNode *root) {
+        if (root == NULL) {
+            return NULL;
+        }
+
+        TreeNode *tail = root;
+        TreeNode *right_child = root-&gt;right;
+
+        // link left child &amp; replace tail &amp; clear left
+        if (root-&gt;left) {
+            tail-&gt;right = root-&gt;left;
+            tail = flattenWithTail(root-&gt;left);
+            root-&gt;left = NULL;
+        }
+
+        // link right child &amp; replace tail
+        if (right_child) {
+            tail-&gt;right = right_child;
+            tail = flattenWithTail(right_child);
+        }
+        return tail;
+    }
+};
+</pre>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/">
+   Construct Binary Tree from Inorder and Postorder Traversal
+  </a>
+ </h4>
+ <p>
+  The root node always be the last in postorder, find the position of this element in the inorder, then the problem can be divide in sub-problems for left child and right child.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class Solution {
+public:
+    TreeNode *buildTree(vector&lt;int&gt; &amp;inorder, vector&lt;int&gt; &amp;postorder) {
+        int len = (int)(inorder.size());
+        return buildTreeWithInterval(inorder, 0, len - 1, postorder, 0, len - 1);
+    }
+
+    TreeNode *buildTreeWithInterval(vector&lt;int&gt; &amp;inorder, int l1, int r1, vector&lt;int&gt; &amp;postorder, int l2, int r2) {
+        if (l1 &gt; r1) {
+            return NULL;
+        }
+
+        TreeNode* head = new TreeNode(postorder[r2]);
+
+        // find length of left child
+        int rootPosition = l1;
+        while (rootPosition &lt;= r1 &amp;&amp; inorder[rootPosition] != postorder[r2]) {
+            rootPosition += 1;
+        }
+        int leftLength = rootPosition - l1;
+
+        // build tree recursily
+        head-&gt;left = buildTreeWithInterval(inorder, l1, rootPosition - 1, postorder, l2, l2 + leftLength - 1);
+        head-&gt;right = buildTreeWithInterval(inorder, rootPosition + 1, r1, postorder, l2 + leftLength, r2 - 1);
+
+        return head;
+    }
+};
+</pre>
+ <h4>
+  <a href="https://oj.leetcode.com/problems/binary-tree-zigzag-level-order-traversal/">
+   Binary Tree Zigzag Level Order Traversal
+  </a>
+ </h4>
+ <p>
+  Do a breadth-first-search in the tree, reverse the value vector for the even level.
+ </p>
+ <pre config="brush:cpp;toolbar:false;">
+class Solution {
+public:
+    vector&lt;vector&lt;int&gt; &gt; zigzagLevelOrder(TreeNode *root) {
+        vector&lt;vector&lt;int&gt; &gt; zigzagLevelElements;
+        vector&lt;int&gt; levelElements;
+
+        if (root == NULL) {
+            return zigzagLevelElements;
+        }
+
+        // bfs the whole tree
+        queue&lt;pair&lt;TreeNode*, int&gt; &gt; q;
+        q.push(make_pair(root, 0));
+
+        int preLevel = 0;
+        while (!q.empty()) {
+            pair&lt;TreeNode*, int&gt; cur = q.front(); q.pop();
+            TreeNode* curNode = cur.first;
+            int curLevel = cur.second;
+
+            if (curLevel != preLevel) {
+                if (preLevel &amp; 1) {
+                    reverse (levelElements.begin(), levelElements.end());
+                }
+                zigzagLevelElements.push_back(levelElements);
+                levelElements.clear();
+                preLevel = curLevel;
+            } 
+            levelElements.push_back(curNode-&gt;val);
+
+            // traverse child node
+            if (curNode-&gt;left) {
+                q.push(make_pair(curNode-&gt;left, curLevel + 1));
+            }
+            if (curNode-&gt;right) {
+                q.push(make_pair(curNode-&gt;right, curLevel + 1));
+            }
+        }
+
+        // last level
+        if (preLevel &amp; 1) {
+            reverse (levelElements.begin(), levelElements.end());
+        }
+        zigzagLevelElements.push_back(levelElements);
+
+        return zigzagLevelElements;
+    }
+};
+</pre>
+ <p>
+  『因为不了解而结婚,因为了解而离婚。』——not by 点点网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=ecfbeaa0-3e17-11e4-a29e-90b11c0ed01e&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>

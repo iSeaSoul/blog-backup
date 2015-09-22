@@ -1,0 +1,151 @@
+<h3>Original Link: <a href=http://iseasoul.diandian.com/post/2010-07-01/18437607>http://iseasoul.diandian.com/post/2010-07-01/18437607</a></h3>
+<article>
+ <h3 data-postname="Pattern Translations">
+  <a href="#" onclick="return false" style="cursor:default;">
+   SRM 474
+  </a>
+ </h3>
+ <p class="date ">
+  1th of July 2010
+ </p>
+ <p class="date " style="margin-top:-1.2em;">
+  <a href="/?tag=%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB" target="_blank">
+   默认分类
+  </a>
+ </p>
+ <!-- 内容页面 全文 -->
+ <p>
+ </p>
+ <p>
+  先截张图，以表达对自己的鄙视。
+ </p>
+ <p>
+  <span>
+   <span class="text-img-holder">
+    <img height="85" src="http://m1.img.srcdd.com/farm3/d/2012/0326/16/C6C9A113C6997A83D0D04A983323C4AF_B500_900_500_85.JPEG" width="500"/>
+   </span>
+   <br>
+   </br>
+  </span>
+ </p>
+ <p>
+  250 RouteIntersection
+ </p>
+ <p>
+  直接按题意，判下重即可
+  <br>
+   注意的是N = 10^9 如果把所有的坐标都保存，是存不下的
+   <br>
+    而改变的坐标最多只有 size = 50，我一上来就写，最后发现，只能重交 = =
+   </br>
+  </br>
+ </p>
+ <pre>set<strong> &lt;</strong>vector<strong>&lt;</strong>int<strong>&gt; &gt;</strong> s<strong>;</strong>
+
+class RouteIntersection<strong> {</strong>
+public<strong>:</strong>
+    string isValid<strong>(</strong>int N<strong>,</strong> vector<strong> &lt;</strong>int<strong>&gt;</strong> coords<strong>,</strong> string moves<strong>)  {</strong> 
+        s<strong>.</strong>clear<strong>();</strong>
+        N<strong> =</strong> coords<strong>.</strong>size<strong>();</strong>
+        vector<strong> &lt;</strong>int<strong>&gt;</strong> now<strong>(</strong>N<strong>);</strong>
+        for<strong> (</strong>int i<strong> =</strong> 0<strong>;</strong> i<strong> &lt;</strong> N<strong>; ++</strong>i<strong>)</strong> now<strong>[</strong>i<strong>] =</strong> 0<strong>;</strong>
+        s<strong>.</strong>insert<strong> (</strong>now<strong>);</strong>
+        bool flag<strong> =</strong><strong> true</strong><strong>;</strong>
+        for<strong> (</strong>int i<strong> =</strong> 0<strong>;</strong> i<strong> &lt;</strong> N<strong>; ++</strong>i<strong>) {</strong>
+            int cnt<strong> = -</strong>1<strong>;</strong>
+            for<strong> (</strong>int j<strong> =</strong> 0<strong>;</strong> j<strong> &lt;</strong> i<strong>; ++</strong>j<strong>) {</strong>
+                if<strong> (</strong>coords<strong>[</strong>i<strong>] ==</strong> coords<strong>[</strong>j<strong>]) {</strong>
+                    cnt<strong> =</strong> j<strong>;</strong>
+                    break<strong>;
+                }
+            }</strong>
+            if<strong> (</strong>cnt<strong> == -</strong>1<strong>)</strong> cnt<strong> =</strong> i<strong>;</strong>
+            now<strong>[</strong>cnt<strong>] +=</strong> moves<strong>[</strong>i<strong>] ==</strong> '+'<strong>?</strong> 1<strong> : -</strong>1<strong>;</strong>
+            if<strong> (</strong>s<strong>.</strong>find<strong>(</strong>now<strong>) !=</strong> s<strong>.</strong>end<strong>()) {</strong>
+                flag<strong> =</strong><strong> false</strong><strong>;</strong>
+                break<strong>;
+            }</strong>
+            s<strong>.</strong>insert<strong> (</strong>now<strong>);
+        }</strong>
+        return flag<strong>?</strong> "VALID"<strong> :</strong> "NOT VALID"<strong>;
+    }
+};</strong>
+
+500 TreesCount</pre>
+ <p>
+  最短路径树的条数
+  <br>
+   其实简单的分析就可以了，一个节点，要么直接与0相连，要么间接的（通过其他的节点），统计出每个节点与0相连方法的数目，然后相乘即为答案
+   <br>
+    而我开始犯了一个很sb的错误，发现错误后，大约10分钟的样子，又不仔细想，最后不出意外的被cha了，稍微修改下就过了
+   </br>
+  </br>
+ </p>
+ <pre>const int inf<strong> = (-</strong>1u<strong>) &gt;&gt;</strong> 1<strong>;</strong>
+const int maxn<strong> =</strong> 50<strong> +</strong> 5<strong>;</strong>
+const int mod<strong> =</strong> 1000000007<strong>;</strong>
+
+int g<strong>[</strong>maxn<strong>][</strong>maxn<strong>],</strong> n<strong>,</strong> dis<strong>[</strong>maxn<strong>];</strong>
+bool v<strong>[</strong>maxn<strong>];</strong>
+
+void dijkstra<strong>() {</strong>
+    for<strong> (</strong>int i<strong> =</strong> 0<strong>;</strong> i<strong> &lt;</strong> n<strong>; ++</strong>i<strong>) {</strong>
+        dis<strong>[</strong>i<strong>] =</strong> g<strong>[</strong>0<strong>][</strong>i<strong>];</strong>
+        v<strong>[</strong>i<strong>] =</strong><strong> false</strong><strong>;
+    }</strong>
+    v<strong>[</strong>0<strong>] =</strong><strong> true</strong><strong>;</strong>
+    for<strong> (</strong>int i<strong> =</strong> 1<strong>,</strong> k<strong>;</strong> i<strong> &lt;</strong> n<strong>; ++</strong>i<strong>) {</strong>
+        int mind<strong> =</strong> inf<strong>;</strong>
+        for<strong> (</strong>int j<strong> =</strong> 0<strong>;</strong> j<strong> &lt;</strong> n<strong>; ++</strong>j<strong>)</strong>
+            if<strong> (!</strong>v<strong>[</strong>j<strong>] &amp;&amp;</strong> dis<strong>[</strong>j<strong>] &lt;</strong> mind<strong>) {</strong>
+                mind<strong> =</strong> dis<strong>[</strong>j<strong>];</strong>
+                k<strong> =</strong> j<strong>;
+            }</strong>
+        if<strong> (</strong>mind<strong> ==</strong> inf<strong>)</strong>
+            return<strong> ;</strong>
+        v<strong>[</strong>k<strong>] =</strong><strong> true</strong><strong>;</strong>
+        for<strong> (</strong>int j<strong> =</strong> 0<strong>;</strong> j<strong> &lt;</strong> n<strong>; ++</strong>j<strong>)</strong>
+            if<strong> (!</strong>v<strong>[</strong>j<strong>] &amp;&amp;</strong> g<strong>[</strong>k<strong>][</strong>j<strong>] !=</strong> inf<strong> &amp;&amp;</strong> dis<strong>[</strong>j<strong>] &gt;</strong> dis<strong>[</strong>k<strong>] +</strong> g<strong>[</strong>k<strong>][</strong>j<strong>])</strong>
+                dis<strong>[</strong>j<strong>] =</strong> dis<strong>[</strong>k<strong>] +</strong> g<strong>[</strong>k<strong>][</strong>j<strong>];
+    }
+}</strong>
+
+class TreesCount<strong> {</strong>
+    public<strong>:</strong>
+        int count<strong>(</strong>vector<strong> &lt;</strong>string<strong>&gt;</strong> graph<strong>)  {</strong> 
+            n<strong> =</strong> graph<strong>.</strong>size<strong>();</strong>
+            for<strong> (</strong>int i<strong> =</strong> 0<strong>;</strong> i<strong> &lt;</strong> n<strong>; ++</strong>i<strong>)</strong> 
+                for<strong> (</strong>int j<strong> =</strong> 0<strong>;</strong> j<strong> &lt;</strong> n<strong>; ++</strong>j<strong>)</strong>
+                    g<strong>[</strong>i<strong>][</strong>j<strong>] =</strong> graph<strong>[</strong>i<strong>][</strong>j<strong>] -</strong> '0'<strong> ==</strong> 0<strong> &amp;&amp;</strong> i<strong> !=</strong> j<strong>?</strong> 
+                        inf<strong> :</strong> graph<strong>[</strong>i<strong>][</strong>j<strong>] -</strong> '0'<strong>;</strong>
+            dijkstra<strong>();</strong>
+            int res<strong> =</strong> 1<strong>;</strong>
+            for<strong> (</strong>int i<strong> =</strong> 1<strong>;</strong> i<strong> &lt;</strong> n<strong>; ++</strong>i<strong>) {</strong>
+                int cnt<strong> =</strong> 0<strong>;</strong>
+                for<strong> (</strong>int j<strong> =</strong> 0<strong>;</strong> j<strong> &lt;</strong> n<strong>; ++</strong>j<strong>)</strong>
+                    if<strong> (</strong>i<strong> !=</strong> j<strong> &amp;&amp;</strong> g<strong>[</strong>j<strong>][</strong>i<strong>] !=</strong> inf<strong> &amp;&amp;</strong> dis<strong>[</strong>j<strong>] +</strong> g<strong>[</strong>j<strong>][</strong>i<strong>] ==</strong> dis<strong>[</strong>i<strong>])
+                        ++</strong>cnt<strong>;</strong>
+                res<strong> = (</strong>long long<strong>)</strong>res<strong> *</strong> cnt<strong> %</strong> mod<strong>;
+            }</strong>
+            return res<strong>;
+        }
+};</strong></pre>
+ <p>
+  点XwU点qJCAI网
+  <a href="http://www.diandian.com/?ref=crawler">
+   点点网
+  </a>
+ </p>
+ <p>
+ </p>
+ <div class="footnotes">
+  <hr>
+   <div id="notes" style="">
+    <a name="jjlnotes">
+    </a>
+    <iframe allowtransparency="true" frameborder="0" height="0" id="diandian_comments" scrolling="no" src="http://www.diandian.com/n/common/comment?feedId=b7692860-78c8-11e1-beaa-782bcb383976&amp;notesTextColor=%23131313&amp;notesLinkColor=%23131313&amp;notesBlockQuoteColor=&amp;notesBlockBgColor=%23ffffff&amp;notesBlockBorderColor=&amp;notesBlockBgOpacity=0&amp;notesOperationLinkColor=&amp;notesEnableBorderRadius=&amp;notesIframeId=" width="530">
+    </iframe>
+   </div>
+  </hr>
+ </div>
+</article>
